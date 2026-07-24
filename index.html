@@ -1,0 +1,369 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Build Your Physique and Powerlifting Total</title>
+
+<!--
+  Kitaan Coaching landing page. One self-contained static file: HTML + CSS + vanilla JS.
+  No framework, no build step, no dependencies. See AIGUIDE.md for the full rundown,
+  the optimizations applied, and copy-paste commands for common edits.
+  House style: no em dashes anywhere in the copy or comments.
+-->
+
+<!-- Inter font. display=swap shows fallback text instantly instead of blank text while loading. -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;800&display=swap" rel="stylesheet">
+<style>
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    padding: 0;
+    background: #fafafa;
+    color: #111111;
+    font-family: 'Inter', Arial, Helvetica, sans-serif;
+    line-height: 1.5;
+  }
+  .wrap {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 60px 20px;
+  }
+  h1 {
+    font-size: clamp(28px, 6vw, 46px);
+    text-align: center;
+    font-weight: 800;
+    letter-spacing: -1px;
+    line-height: 1.15;
+    margin: 0 0 18px 0;
+  }
+  h1 .green { color: #1e8e3e; }
+  h1 .red { color: #d92d20; }
+  .subhead {
+    text-align: center;
+    font-size: clamp(16px, 2.5vw, 19px);
+    font-weight: 500;
+    color: #444444;
+    max-width: 640px;
+    margin: 0 auto 36px auto;
+  }
+  /* VSL video box. Fixed 16/9 aspect-ratio reserves space so the page does not jump
+     when the thumbnail or player loads (avoids layout shift). */
+  .video-wrap {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    overflow: hidden;
+    margin-bottom: 30px;
+    border-radius: 10px;
+    box-shadow: 0 8px 30px rgba(0,0,0,0.12);
+    background: #000000;
+  }
+  .video-wrap iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border: 0;
+  }
+  /* The click-to-play facade: the static thumbnail plus the play button shown before
+     the real YouTube player loads. See loadVSL() in the script. This is the main speed win. */
+  .video-facade {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    padding: 0;
+    border: 0;
+    cursor: pointer;
+    background: #000000;
+  }
+  .video-facade img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+  /* Red YouTube-style play button, drawn entirely in CSS (no image needed). */
+  .play-btn {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 74px;
+    height: 52px;
+    background: #d92d20;
+    border-radius: 12px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.4);
+  }
+  .play-btn::after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-40%, -50%);
+    border-style: solid;
+    border-width: 12px 0 12px 20px;
+    border-color: transparent transparent transparent #ffffff;
+  }
+  .cta-block {
+    text-align: center;
+    margin: 0 auto 55px auto;
+    max-width: 440px;
+  }
+  .cta {
+    display: block;
+    width: 100%;
+    background: #1e8e3e;
+    color: #ffffff;
+    text-align: center;
+    text-decoration: none;
+    font-size: 22px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    padding: 22px;
+    border-radius: 8px;
+    box-shadow: 0 6px 20px rgba(30,142,62,0.35);
+    cursor: pointer;
+  }
+  .cta:hover { background: #17722f; }
+  .cta-note {
+    font-size: 14px;
+    color: #666666;
+    margin: 12px 0 0 0;
+  }
+  .intro {
+    text-align: center;
+    font-size: 19px;
+    font-weight: 500;
+    margin-bottom: 45px;
+  }
+  h2 {
+    font-size: 26px;
+    font-weight: 700;
+    text-align: center;
+    margin: 0 0 5px 0;
+  }
+  .arrow-down {
+    text-align: center;
+    font-size: 26px;
+    color: #1e8e3e;
+    margin: 0 0 20px 0;
+  }
+  section { margin-bottom: 55px; }
+  .image-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 15px;
+  }
+  /* Photos and videos are portrait phone media, so 9/16 aspect-ratio keeps their
+     shape and reserves layout space before they load. */
+  .image-grid img {
+    width: 100%;
+    aspect-ratio: 9 / 16;
+    object-fit: cover;
+    display: block;
+    border-radius: 10px;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.1);
+  }
+  .video-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 15px;
+  }
+  .video-grid video {
+    width: 100%;
+    aspect-ratio: 9 / 16;
+    object-fit: cover;
+    display: block;
+    border-radius: 10px;
+    background: #000000;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.1);
+  }
+  /* Videos 9 to 14 live inside this wrapper, hidden until "Show all 14 videos" is clicked.
+     display:contents makes its children flow into the grid as if the wrapper was not there. */
+  .hidden-videos { display: none; }
+  .hidden-videos.show { display: contents; }
+  .show-more {
+    display: block;
+    margin: 25px auto 0 auto;
+    background: #ffffff;
+    color: #1e8e3e;
+    border: 2px solid #1e8e3e;
+    font-family: inherit;
+    font-size: 16px;
+    font-weight: 700;
+    padding: 14px 28px;
+    border-radius: 8px;
+    cursor: pointer;
+  }
+  .show-more:hover { background: #f0f7f2; }
+  /* Sticky mobile book bar */
+  .sticky-cta {
+    display: none;
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 50;
+    padding: 12px 16px calc(12px + env(safe-area-inset-bottom));
+    background: rgba(250,250,250,0.96);
+    box-shadow: 0 -4px 16px rgba(0,0,0,0.12);
+  }
+  .sticky-cta a {
+    display: block;
+    background: #1e8e3e;
+    color: #ffffff;
+    text-align: center;
+    text-decoration: none;
+    font-size: 19px;
+    font-weight: 700;
+    padding: 16px;
+    border-radius: 8px;
+  }
+  @media (max-width: 640px) {
+    .sticky-cta { display: block; }
+    body { padding-bottom: 84px; }
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <!-- Headline (the offer). Coloured words use the .green / .red spans. -->
+  <h1>How you can <span class="green">build</span> your physique and add <span class="green">40KG</span> to your powerlifting total in <span class="red">180 days</span> or less</h1>
+
+  <!-- Sub-headline: clarifies the offer and softly qualifies who it is for. -->
+  <p class="subhead">For lifters who want to build muscle and add serious kilos to their total, not just one or the other. If you train consistently and want a real plan instead of a quick fix, this is for you.</p>
+
+  <!-- VSL video. Shows the thumbnail image; loadVSL() swaps in the real YouTube player on click. -->
+  <div class="video-wrap" id="vsl">
+    <button class="video-facade" onclick="loadVSL()" aria-label="Play the video">
+      <img src="Assets/youtube_thumb.jpg" alt="Watch the video" fetchpriority="high">
+      <span class="play-btn"></span>
+    </button>
+  </div>
+
+  <!-- Book button. onclick opens Calendly as an on-page popup (openCalendly). The href is a
+       fallback: if JS is off or Calendly fails to load, it just opens the link normally. -->
+  <div class="cta-block">
+    <a class="cta" href="https://calendly.com/kitaanreddy/30min" target="_blank" rel="noopener" onclick="openCalendly(event)">BOOK A CALL</a>
+    <p class="cta-note">Free 30 minute call. No pressure, no obligation.</p>
+  </div>
+
+  <p class="intro">Here is what clients have done. You can do the same.</p>
+
+  <!-- Social proof part 1: before/after photos. WebP versions (tiny). Add captions with real
+       numbers under each img to boost trust. loading="lazy" defers them until scrolled near. -->
+  <section>
+    <h2>Client transformations</h2>
+    <div class="arrow-down">&#8595;</div>
+    <div class="image-grid">
+      <img src="Assets/transformation1.webp" alt="Client transformation 1" loading="lazy">
+      <img src="Assets/transformation2.webp" alt="Client transformation 2" loading="lazy">
+      <img src="Assets/transformation3.webp" alt="Client transformation 3" loading="lazy">
+    </div>
+  </section>
+
+  <!-- Social proof part 2: strength/PR videos.
+       Each video: preload="none" (no download until scrolled near), poster=freeze-frame image,
+       data-src=the real file (swapped into src by the lazy-load script). First 8 show by default;
+       videos 9 to 14 sit in #moreVideos and appear when "Show all 14 videos" is clicked.
+       To reorder which show first, just reorder these lines. -->
+  <section>
+    <h2>Strength results</h2>
+    <div class="arrow-down">&#8595;</div>
+    <div class="video-grid">
+      <video class="lazy-video" controls preload="none" poster="Assets/posters/strength1.jpg" data-src="Assets/strength1.mp4"></video>
+      <video class="lazy-video" controls preload="none" poster="Assets/posters/strength2.jpg" data-src="Assets/strength2.mp4"></video>
+      <video class="lazy-video" controls preload="none" poster="Assets/posters/strength3.jpg" data-src="Assets/strength3.mp4"></video>
+      <video class="lazy-video" controls preload="none" poster="Assets/posters/strength4.jpg" data-src="Assets/strength4.mp4"></video>
+      <video class="lazy-video" controls preload="none" poster="Assets/posters/strength5.jpg" data-src="Assets/strength5.mp4"></video>
+      <video class="lazy-video" controls preload="none" poster="Assets/posters/strength6.jpg" data-src="Assets/strength6.mp4"></video>
+      <video class="lazy-video" controls preload="none" poster="Assets/posters/strength7.jpg" data-src="Assets/strength7.mp4"></video>
+      <video class="lazy-video" controls preload="none" poster="Assets/posters/strength8.jpg" data-src="Assets/strength8.mp4"></video>
+      <div class="hidden-videos" id="moreVideos">
+        <video class="lazy-video" controls preload="none" poster="Assets/posters/strength9.jpg" data-src="Assets/strength9.mp4"></video>
+        <video class="lazy-video" controls preload="none" poster="Assets/posters/strength10.jpg" data-src="Assets/strength10.mp4"></video>
+        <video class="lazy-video" controls preload="none" poster="Assets/posters/strength11.jpg" data-src="Assets/strength11.mp4"></video>
+        <video class="lazy-video" controls preload="none" poster="Assets/posters/strength12.jpg" data-src="Assets/strength12.mp4"></video>
+        <video class="lazy-video" controls preload="none" poster="Assets/posters/strength13.jpg" data-src="Assets/strength13.mp4"></video>
+        <video class="lazy-video" controls preload="none" poster="Assets/posters/strength14.jpg" data-src="Assets/strength14.mp4"></video>
+      </div>
+    </div>
+    <button class="show-more" id="showMore" onclick="showAllVideos()">Show all 14 videos</button>
+  </section>
+
+  <!-- Book button. onclick opens Calendly as an on-page popup (openCalendly). The href is a
+       fallback: if JS is off or Calendly fails to load, it just opens the link normally. -->
+  <div class="cta-block">
+    <a class="cta" href="https://calendly.com/kitaanreddy/30min" target="_blank" rel="noopener" onclick="openCalendly(event)">BOOK A CALL</a>
+    <p class="cta-note">Free 30 minute call. No pressure, no obligation.</p>
+  </div>
+
+</div>
+
+<!-- Sticky book button, shown only on mobile (see the max-width:640px media query) so the
+     call to action is always reachable on the long scroll. -->
+<div class="sticky-cta">
+  <a href="https://calendly.com/kitaanreddy/30min" target="_blank" rel="noopener" onclick="openCalendly(event)">BOOK A CALL</a>
+</div>
+
+<script>
+  // Replace the thumbnail with the real YouTube player, only when clicked.
+  // This is the speed win: the ~1.3MB YouTube player never loads until someone actually
+  // wants to watch. To change the video, swap the video ID (u7myBLOnoXY) here AND regenerate
+  // Assets/youtube_thumb.jpg (see AIGUIDE.md). autoplay=1 makes it start on click.
+  function loadVSL() {
+    var w = document.getElementById("vsl");
+    w.innerHTML = '<iframe src="https://www.youtube-nocookie.com/embed/u7myBLOnoXY?autoplay=1" title="VSL" allow="autoplay; encrypted-media; picture-in-picture; fullscreen" allowfullscreen></iframe>';
+  }
+
+  // Open Calendly as an on-page popup instead of a new tab. Loads Calendly's
+  // widget only on first click, so it costs nothing on initial page load.
+  function openCalendly(e) {
+    if (e) e.preventDefault();
+    var url = "https://calendly.com/kitaanreddy/30min";
+    if (window.Calendly) { window.Calendly.initPopupWidget({ url: url }); return; }
+    if (!document.getElementById("calendly-css")) {
+      var link = document.createElement("link");
+      link.id = "calendly-css";
+      link.rel = "stylesheet";
+      link.href = "https://assets.calendly.com/assets/external/widget.css";
+      document.head.appendChild(link);
+    }
+    var s = document.createElement("script");
+    s.src = "https://assets.calendly.com/assets/external/widget.js";
+    s.onload = function () { window.Calendly.initPopupWidget({ url: url }); };
+    s.onerror = function () { window.open(url, "_blank"); };
+    document.body.appendChild(s);
+  }
+
+  // Reveal videos 9 to 14 and hide the button. The lazy-load observer below still
+  // handles them: they only download once they scroll into view after being revealed.
+  function showAllVideos() {
+    document.getElementById("moreVideos").classList.add("show");
+    document.getElementById("showMore").style.display = "none";
+  }
+
+  // Lazy-load videos. Each .lazy-video starts with no src (just a data-src). When it scrolls
+  // within 300px of the viewport, we copy data-src into src so the browser starts fetching it.
+  // Result: zero video bytes are downloaded on page load.
+  var lazyVideos = document.querySelectorAll(".lazy-video");
+  var observer = new IntersectionObserver(function (entries, obs) {
+    entries.forEach(function (entry) {
+      if (entry.isIntersecting) {
+        var video = entry.target;
+        video.src = video.dataset.src;
+        video.preload = "metadata";
+        obs.unobserve(video);
+      }
+    });
+  }, { rootMargin: "300px" });
+  lazyVideos.forEach(function (video) { observer.observe(video); });
+</script>
+</body>
+</html>
