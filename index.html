@@ -183,7 +183,7 @@
     background: #000000;
     box-shadow: 0 4px 16px rgba(0,0,0,0.1);
   }
-  /* Videos 9 to 14 live inside this wrapper, hidden until "Show all 14 videos" is clicked.
+  /* Videos 9 to 17 live inside this wrapper, hidden until "Show all 17 videos" is clicked.
      display:contents makes its children flow into the grid as if the wrapper was not there. */
   .hidden-videos { display: none; }
   .hidden-videos.show { display: contents; }
@@ -265,13 +265,14 @@
       <img src="Assets/transformation1.webp" alt="Client transformation 1" loading="lazy">
       <img src="Assets/transformation2.webp" alt="Client transformation 2" loading="lazy">
       <img src="Assets/transformation3.webp" alt="Client transformation 3" loading="lazy">
+      <img src="Assets/transformation4.webp" alt="Client transformation 4" loading="lazy">
     </div>
   </section>
 
   <!-- Social proof part 2: strength/PR videos.
        Each video: preload="none" (no download until scrolled near), poster=freeze-frame image,
        data-src=the real file (swapped into src by the lazy-load script). First 8 show by default;
-       videos 9 to 14 sit in #moreVideos and appear when "Show all 14 videos" is clicked.
+       videos 9 to 17 sit in #moreVideos and appear when "Show all 17 videos" is clicked.
        To reorder which show first, just reorder these lines. -->
   <section>
     <h2>Strength results</h2>
@@ -292,9 +293,12 @@
         <video class="lazy-video" controls preload="none" poster="Assets/posters/strength12.jpg" data-src="Assets/strength12.mp4"></video>
         <video class="lazy-video" controls preload="none" poster="Assets/posters/strength13.jpg" data-src="Assets/strength13.mp4"></video>
         <video class="lazy-video" controls preload="none" poster="Assets/posters/strength14.jpg" data-src="Assets/strength14.mp4"></video>
+        <video class="lazy-video" controls preload="none" poster="Assets/posters/strength15.jpg" data-src="Assets/strength15.mp4"></video>
+        <video class="lazy-video" controls preload="none" poster="Assets/posters/strength16.jpg" data-src="Assets/strength16.mp4"></video>
+        <video class="lazy-video" controls preload="none" poster="Assets/posters/strength17.jpg" data-src="Assets/strength17.mp4"></video>
       </div>
     </div>
-    <button class="show-more" id="showMore" onclick="showAllVideos()">Show all 14 videos</button>
+    <button class="show-more" id="showMore" onclick="showAllVideos()">Show all 17 videos</button>
   </section>
 
   <!-- Book button. onclick opens Calendly as an on-page popup (openCalendly). The href is a
@@ -342,7 +346,7 @@
     document.body.appendChild(s);
   }
 
-  // Reveal videos 9 to 14 and hide the button. The lazy-load observer below still
+  // Reveal videos 9 to 17 and hide the button. The lazy-load observer below still
   // handles them: they only download once they scroll into view after being revealed.
   function showAllVideos() {
     document.getElementById("moreVideos").classList.add("show");

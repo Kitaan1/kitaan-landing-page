@@ -9,10 +9,10 @@ Style note for anyone (or any AI) editing the docs or copy: do not use em dashes
 
 ## Files
 - `index.html` is the entire page. All CSS is in the `<style>` block in the head, all JS is in the `<script>` block at the bottom. Edit this one file for almost everything.
-- `Assets/transformation1-3.webp` are the before/after client photos actually used on the page.
-- `Assets/transformation1-3.png` are the ORIGINAL photos, no longer used on the page. Kept as backup only. Safe to ignore or delete.
-- `Assets/strength1-14.mp4` are client strength/PR clips, portrait phone videos (720x1280).
-- `Assets/posters/strength1-14.jpg` are freeze-frame thumbnails shown before each video loads. One per video.
+- `Assets/transformation1-4.webp` are the before/after client photos actually used on the page.
+- `Assets/transformation1-4.png` are the ORIGINAL photos, no longer used on the page. Kept as backup only. Safe to ignore or delete.
+- `Assets/strength1-17.mp4` are client strength/PR clips, portrait phone videos (720x1280).
+- `Assets/posters/strength1-17.jpg` are freeze-frame thumbnails shown before each video loads. One per video.
 - `Assets/youtube_thumb.jpg` is the thumbnail shown for the main VSL video before it is clicked.
 
 ## Page structure (top to bottom)
@@ -20,8 +20,8 @@ Style note for anyone (or any AI) editing the docs or copy: do not use em dashes
 2. VSL video (YouTube, click-to-play)
 3. BOOK A CALL button plus a reassurance line
 4. Social proof intro line
-5. Client transformation photos (3, WebP)
-6. Strength videos (8 shown, 6 more behind a "Show all 14" button)
+5. Client transformation photos (4, WebP)
+6. Strength videos (8 shown, 9 more behind a "Show all 17" button)
 7. Second BOOK A CALL button plus a reassurance line
 8. Sticky BOOK A CALL bar (mobile only, pinned to the bottom of the screen)
 
@@ -57,8 +57,8 @@ These were done deliberately to make the page load fast on mobile without losing
 ### 4. Videos: lazy loading
 - What was done: videos start with `preload="none"` and no real `src`. The real file path is stored in a `data-src` attribute. An IntersectionObserver (at the bottom of the script) swaps `data-src` into `src` only when the video scrolls near the viewport. So on page load, zero video bytes are downloaded. Keep this pattern for any new video: give it `class="lazy-video"`, `preload="none"`, a `poster`, and a `data-src` (not a `src`).
 
-### 5. Only 8 of 14 videos shown by default
-- Too many videos in one grid buries the best ones and adds scroll. The page shows the first 8, with the other 6 inside `<div id="moreVideos">` (hidden by CSS) revealed by a "Show all 14 videos" button. To change which videos show first, reorder the `<video>` lines. The 8 outside the div show, the ones inside it are hidden until the button is clicked.
+### 5. Only 8 of 17 videos shown by default
+- Too many videos in one grid buries the best ones and adds scroll. The page shows the first 8, with the other 9 inside `<div id="moreVideos">` (hidden by CSS) revealed by a "Show all 17 videos" button. To change which videos show first, reorder the `<video>` lines. The 8 outside the div show, the ones inside it are hidden until the button is clicked.
 
 ### 6. Layout stability (no jumping while loading)
 - Every video, photo, and the video box has a fixed `aspect-ratio` in CSS (9/16 for the portrait media, 16/9 for the YouTube box). This reserves the right amount of space before the media loads, so the page does not jump around as things come in. Keep an `aspect-ratio` on any new media.
