@@ -1,6 +1,6 @@
 # Kitaan Coaching Landing Page
 
-A single-page fitness landing page for a powerlifting and physique coaching offer. Goal: get visitors to watch the VSL video and click BOOK A CALL (Calendly). Built for a solo coach, no team.
+A single-page fitness landing page for a powerlifting and physique coaching offer. Goal: get visitors to watch the VSL video and click APPLY NOW, which opens a short application questionnaire that filters out unqualified leads. Built for a solo coach, no team.
 
 ## The one rule: keep it simple and fast
 This is deliberately ONE static HTML file with no framework, no build step, and no dependencies to install. Do not add React, a bundler, npm, or a CSS framework. If a change can be done in plain HTML, CSS, or vanilla JS, do it that way. Simpler and faster always wins here.
@@ -18,16 +18,19 @@ Style note for anyone (or any AI) editing the docs or copy: do not use em dashes
 ## Page structure (top to bottom)
 1. Headline (the offer) plus a sub-headline underneath
 2. VSL video (YouTube, click-to-play)
-3. BOOK A CALL button plus a reassurance line
+3. APPLY NOW button plus a reassurance line
 4. Social proof intro line
 5. Client transformation photos (4, WebP)
 6. Strength videos (8 shown, 19 more behind a "Show all 27" button)
-7. Second BOOK A CALL button plus a reassurance line
-8. Sticky BOOK A CALL bar (mobile only, pinned to the bottom of the screen)
+7. Second APPLY NOW button plus a reassurance line
+8. Sticky APPLY NOW bar (mobile only, pinned to the bottom of the screen)
+9. Application questionnaire (popup, opened by every APPLY NOW button)
 
 ## How the tricky bits work
 - The VSL video is click-to-play on purpose. It shows `youtube_thumb.jpg` with a play button, and the real YouTube player only loads when clicked (the `loadVSL()` function). It is still a normal YouTube embed, just loaded on demand. Keep this pattern.
-- BOOK A CALL opens Calendly as a popup on the page (the `openCalendly()` function), not a new tab. The Calendly widget script only loads on the first click, so it costs nothing on initial page load. Every book button uses this.
+- APPLY NOW opens the application questionnaire as a popup (a native `<dialog id="quiz">`, opened by `openQuiz()`). Every apply button uses this.
+- Questions, in order: goal, how serious, biggest struggle, name, email, phone. Choosing "Something else" for the goal or "Just exploring my options" for seriousness ends on a polite not a fit screen and collects no contact details. These options carry `data-dq="1"` in the HTML. To change what disqualifies someone, add or remove that attribute.
+- Answers are sent as a JSON POST to `FORM_ENDPOINT` at the top of the quiz code in the script block. It MUST be set (Formspree, Web3Forms, a Google Apps Script URL or similar) or submissions show an error and nothing is saved.
 - Videos lazy-load. They only download when you scroll near them (the IntersectionObserver at the bottom of the script). Until then they show their poster image. Keep `preload="none"` on the `<video>` tags.
 
 ## Optimizations already applied (what was done, why, and how to redo it)
@@ -64,10 +67,11 @@ These were done deliberately to make the page load fast on mobile without losing
 - Every video, photo, and the video box has a fixed `aspect-ratio` in CSS (9/16 for the portrait media, 16/9 for the YouTube box). This reserves the right amount of space before the media loads, so the page does not jump around as things come in. Keep an `aspect-ratio` on any new media.
 
 ### 7. Mobile usability
-- The BOOK A CALL buttons are large with generous padding so they are easy to tap. A sticky BOOK A CALL bar appears only on screens 640px wide or less (see the `@media (max-width: 640px)` block) so the call to action is always reachable on the long mobile scroll. The headline uses `clamp()` so it scales down cleanly on small screens instead of overflowing.
+- The APPLY NOW buttons are large with generous padding so they are easy to tap. A sticky APPLY NOW bar appears only on screens 640px wide or less (see the `@media (max-width: 640px)` block) so the call to action is always reachable on the long mobile scroll. The headline uses `clamp()` so it scales down cleanly on small screens instead of overflowing.
 
 ## Common edits, how to do them
-- Change the Calendly link: search for `calendly.com/kitaanreddy/30min` in `index.html` and replace every instance. It appears on all book buttons and once in the JS.
+- Change the questions or answer options: edit the `.quiz-step` blocks inside `<dialog id="quiz">`. If you add or remove a step, update the `QUIZ_STEPS` list in the script too.
+- Change where applications go: set `FORM_ENDPOINT` in the script.
 - Change the VSL video: replace `u7myBLOnoXY` (the YouTube video ID) in the `loadVSL()` function, and regenerate `Assets/youtube_thumb.jpg` (see optimization 1 above).
 - Change the headline colours: edit the `.green` and `.red` spans inside the `<h1>`.
 - Add or remove a strength video: copy an existing `<video>` line and change the number, then generate its poster (see optimization 3). The first 8 show by default, the rest go inside `<div id="moreVideos">`.
@@ -75,10 +79,10 @@ These were done deliberately to make the page load fast on mobile without losing
 - Add a new photo: convert it to WebP first (see optimization 2), then reference the `.webp`.
 
 ## Testing it locally
-Do NOT just double-click `index.html`. YouTube and Calendly break when the page is opened as a `file://` page. Run a local server instead:
+Do NOT just double-click `index.html`. YouTube and the form submission break when the page is opened as a `file://` page. Run a local server instead:
 `python -m http.server 8000`
 then open `http://localhost:8000/index.html`.
 Once hosted on a real domain, everything works normally and the URL is just the clean domain with no `/index.html`.
 
 ## Hosting
-Any static host works and most are free (Cloudflare Pages, Netlify, GitHub Pages). Upload the folder as-is. The file must stay named `index.html` so the domain root loads it automatically. The page needs a live internet connection for the YouTube video, the Calendly popup, and the Inter font (loaded from Google Fonts).
+Any static host works and most are free (Cloudflare Pages, Netlify, GitHub Pages). Upload the folder as-is. The file must stay named `index.html` so the domain root loads it automatically. The page needs a live internet connection for the YouTube video, the form endpoint and the Inter font (loaded from Google Fonts).

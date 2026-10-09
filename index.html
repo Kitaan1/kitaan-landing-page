@@ -201,6 +201,115 @@
     cursor: pointer;
   }
   .show-more:hover { background: #f0f7f2; }
+
+  /* Application questionnaire. A native <dialog> popup: it handles focus, the Escape key and
+     the dimmed backdrop for free. One step is visible at a time (see the quiz script). */
+  .quiz {
+    width: calc(100% - 32px);
+    max-width: 520px;
+    max-height: calc(100% - 32px);
+    margin: auto;
+    padding: 0;
+    border: 0;
+    border-radius: 14px;
+    background: #ffffff;
+    color: #111111;
+    font-family: inherit;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.35);
+    overflow: auto;
+  }
+  .quiz::backdrop { background: rgba(0,0,0,0.6); }
+  .quiz-inner { padding: 28px 24px 26px; }
+  .quiz-close {
+    position: absolute;
+    top: 10px;
+    right: 12px;
+    background: none;
+    border: 0;
+    font-size: 30px;
+    line-height: 1;
+    color: #888888;
+    cursor: pointer;
+    padding: 6px 10px;
+  }
+  .quiz-progress {
+    height: 6px;
+    background: #e8e8e8;
+    border-radius: 3px;
+    overflow: hidden;
+    margin: 6px 36px 26px 0;
+  }
+  .quiz-progress-bar {
+    height: 100%;
+    width: 0;
+    background: #1e8e3e;
+    transition: width 0.25s ease;
+  }
+  .quiz-step { display: none; }
+  .quiz-step.active { display: block; }
+  .quiz-q {
+    font-size: clamp(21px, 5vw, 25px);
+    font-weight: 800;
+    letter-spacing: -0.3px;
+    line-height: 1.25;
+    margin: 0 0 20px 0;
+    text-align: left;
+  }
+  .quiz-options { display: grid; gap: 10px; }
+  .quiz-option {
+    display: block;
+    width: 100%;
+    text-align: left;
+    background: #ffffff;
+    color: #111111;
+    border: 2px solid #d9d9d9;
+    border-radius: 10px;
+    font-family: inherit;
+    font-size: 17px;
+    font-weight: 600;
+    padding: 16px 18px;
+    cursor: pointer;
+  }
+  .quiz-option:hover, .quiz-option:focus-visible { border-color: #1e8e3e; background: #f0f7f2; outline: none; }
+  .quiz-input {
+    display: block;
+    width: 100%;
+    font-family: inherit;
+    font-size: 18px;
+    padding: 16px 18px;
+    border: 2px solid #d9d9d9;
+    border-radius: 10px;
+    margin: 0 0 6px 0;
+  }
+  .quiz-input:focus { border-color: #1e8e3e; outline: none; }
+  .quiz-error { min-height: 20px; margin: 4px 0 12px 0; font-size: 14px; color: #d92d20; }
+  .quiz-next {
+    display: block;
+    width: 100%;
+    background: #1e8e3e;
+    color: #ffffff;
+    border: 0;
+    border-radius: 8px;
+    font-family: inherit;
+    font-size: 18px;
+    font-weight: 700;
+    padding: 16px;
+    cursor: pointer;
+  }
+  .quiz-next:hover { background: #17722f; }
+  .quiz-next:disabled { opacity: 0.6; cursor: default; }
+  .quiz-back {
+    display: block;
+    margin: 14px auto 0 auto;
+    background: none;
+    border: 0;
+    font-family: inherit;
+    font-size: 15px;
+    color: #666666;
+    cursor: pointer;
+    text-decoration: underline;
+  }
+  .quiz-message { font-size: 17px; color: #444444; margin: 0 0 22px 0; }
   /* Sticky mobile book bar */
   .sticky-cta {
     display: none;
@@ -247,11 +356,10 @@
     </button>
   </div>
 
-  <!-- Book button. onclick opens Calendly as an on-page popup (openCalendly). The href is a
-       fallback: if JS is off or Calendly fails to load, it just opens the link normally. -->
+  <!-- Apply button. onclick opens the application questionnaire popup (openQuiz). -->
   <div class="cta-block">
-    <a class="cta" href="https://calendly.com/kitaanreddy/30min" target="_blank" rel="noopener" onclick="openCalendly(event)">BOOK A CALL</a>
-    <p class="cta-note">Free 30 minute call. No pressure, no obligation.</p>
+    <a class="cta" href="#apply" onclick="openQuiz(event)">APPLY NOW</a>
+    <p class="cta-note">Takes about 60 seconds. No pressure, no obligation.</p>
   </div>
 
   <p class="intro">Here is what clients have done. You can do the same.</p>
@@ -311,20 +419,93 @@
     <button class="show-more" id="showMore" onclick="showAllVideos()">Show all 27 videos</button>
   </section>
 
-  <!-- Book button. onclick opens Calendly as an on-page popup (openCalendly). The href is a
-       fallback: if JS is off or Calendly fails to load, it just opens the link normally. -->
+  <!-- Apply button. onclick opens the application questionnaire popup (openQuiz). -->
   <div class="cta-block">
-    <a class="cta" href="https://calendly.com/kitaanreddy/30min" target="_blank" rel="noopener" onclick="openCalendly(event)">BOOK A CALL</a>
-    <p class="cta-note">Free 30 minute call. No pressure, no obligation.</p>
+    <a class="cta" href="#apply" onclick="openQuiz(event)">APPLY NOW</a>
+    <p class="cta-note">Takes about 60 seconds. No pressure, no obligation.</p>
   </div>
 
 </div>
 
-<!-- Sticky book button, shown only on mobile (see the max-width:640px media query) so the
+<!-- Sticky apply button, shown only on mobile (see the max-width:640px media query) so the
      call to action is always reachable on the long scroll. -->
 <div class="sticky-cta">
-  <a href="https://calendly.com/kitaanreddy/30min" target="_blank" rel="noopener" onclick="openCalendly(event)">BOOK A CALL</a>
+  <a href="#apply" onclick="openQuiz(event)">APPLY NOW</a>
 </div>
+
+<!-- Application questionnaire popup. Steps are shown one at a time by the quiz script.
+     Option steps advance on click. The last three steps collect name, email and phone. -->
+<dialog class="quiz" id="quiz" aria-labelledby="quizTitle">
+  <div class="quiz-inner">
+    <button class="quiz-close" type="button" onclick="closeQuiz()" aria-label="Close">&times;</button>
+    <div class="quiz-progress"><div class="quiz-progress-bar" id="quizBar"></div></div>
+
+    <div class="quiz-step" data-step="goal">
+      <h2 class="quiz-q" id="quizTitle">What are you working towards?</h2>
+      <div class="quiz-options">
+        <button class="quiz-option" type="button" data-answer="goal" data-value="Better physique">Building a better physique</button>
+        <button class="quiz-option" type="button" data-answer="goal" data-value="Getting stronger">Getting stronger</button>
+        <button class="quiz-option" type="button" data-answer="goal" data-value="Both">Both, a better physique and getting stronger</button>
+        <button class="quiz-option" type="button" data-answer="goal" data-value="Something else" data-dq="1">Something else</button>
+      </div>
+    </div>
+
+    <div class="quiz-step" data-step="serious">
+      <h2 class="quiz-q">How serious are you about achieving this goal?</h2>
+      <div class="quiz-options">
+        <button class="quiz-option" type="button" data-answer="serious" data-value="Ready to start now">Very serious, I am ready to start now</button>
+        <button class="quiz-option" type="button" data-answer="serious" data-value="Serious, need to prepare">Serious, but I need a few weeks to get set up</button>
+        <button class="quiz-option" type="button" data-answer="serious" data-value="Just exploring" data-dq="1">Just exploring my options</button>
+      </div>
+    </div>
+
+    <div class="quiz-step" data-step="struggle">
+      <h2 class="quiz-q">What have you been struggling with most?</h2>
+      <div class="quiz-options">
+        <button class="quiz-option" type="button" data-answer="struggle" data-value="Training">Training</button>
+        <button class="quiz-option" type="button" data-answer="struggle" data-value="Nutrition">Nutrition</button>
+        <button class="quiz-option" type="button" data-answer="struggle" data-value="Recovery">Recovery</button>
+        <button class="quiz-option" type="button" data-answer="struggle" data-value="A mix of them">A mix of them</button>
+        <button class="quiz-option" type="button" data-answer="struggle" data-value="All of them">All of them</button>
+      </div>
+    </div>
+
+    <div class="quiz-step" data-step="name">
+      <h2 class="quiz-q">What is your name?</h2>
+      <input class="quiz-input" id="quizName" type="text" autocomplete="name" placeholder="Full name" aria-label="Your name">
+      <div class="quiz-error" id="err-name" role="alert"></div>
+      <button class="quiz-next" type="button" onclick="quizNext()">Next</button>
+    </div>
+
+    <div class="quiz-step" data-step="email">
+      <h2 class="quiz-q">What is your email?</h2>
+      <input class="quiz-input" id="quizEmail" type="email" autocomplete="email" placeholder="you@example.com" aria-label="Your email">
+      <div class="quiz-error" id="err-email" role="alert"></div>
+      <button class="quiz-next" type="button" onclick="quizNext()">Next</button>
+    </div>
+
+    <div class="quiz-step" data-step="phone">
+      <h2 class="quiz-q">What is your phone number?</h2>
+      <input class="quiz-input" id="quizPhone" type="tel" autocomplete="tel" placeholder="Mobile number" aria-label="Your phone number">
+      <div class="quiz-error" id="err-phone" role="alert"></div>
+      <button class="quiz-next" id="quizSubmit" type="button" onclick="quizNext()">Submit application</button>
+    </div>
+
+    <div class="quiz-step" data-step="done">
+      <h2 class="quiz-q">Application received</h2>
+      <p class="quiz-message">Thanks, we have your application. We will be in touch soon with your next steps.</p>
+      <button class="quiz-next" type="button" onclick="closeQuiz()">Close</button>
+    </div>
+
+    <div class="quiz-step" data-step="dq">
+      <h2 class="quiz-q">Thanks for your interest</h2>
+      <p class="quiz-message">This program is built for lifters who want to build muscle and add serious kilos to their total, and who are ready to commit. It does not look like the right fit right now, but you are welcome to come back when you are ready.</p>
+      <button class="quiz-next" type="button" onclick="closeQuiz()">Close</button>
+    </div>
+
+    <button class="quiz-back" id="quizBack" type="button" onclick="quizBack()">Back</button>
+  </div>
+</dialog>
 
 <script>
   // Replace the thumbnail with the real YouTube player, only when clicked.
@@ -336,24 +517,132 @@
     w.innerHTML = '<iframe src="https://www.youtube-nocookie.com/embed/u7myBLOnoXY?autoplay=1" title="VSL" allow="autoplay; encrypted-media; picture-in-picture; fullscreen" allowfullscreen></iframe>';
   }
 
-  // Open Calendly as an on-page popup instead of a new tab. Loads Calendly's
-  // widget only on first click, so it costs nothing on initial page load.
-  function openCalendly(e) {
+  // ---- Application questionnaire ----
+  // IMPORTANT: set FORM_ENDPOINT to where applications should be sent (for example a
+  // Formspree, Web3Forms or Google Apps Script URL). It receives a JSON POST with the answers.
+  // While it is empty, submitting shows an error instead of silently losing the lead.
+  var FORM_ENDPOINT = "";
+
+  // Order of the steps a visitor goes through. A step with data-dq="1" on the chosen option
+  // jumps straight to the "dq" (not a fit) screen instead of continuing.
+  var QUIZ_STEPS = ["goal", "serious", "struggle", "name", "email", "phone"];
+  var quizIndex = 0;
+  var quizAnswers = {};
+  var quizSending = false;
+
+  function quizEl() { return document.getElementById("quiz"); }
+  function quizStep(name) { return quizEl().querySelector('[data-step="' + name + '"]'); }
+
+  function showQuizStep(name) {
+    var steps = quizEl().querySelectorAll(".quiz-step");
+    for (var i = 0; i < steps.length; i++) steps[i].classList.remove("active");
+    quizStep(name).classList.add("active");
+    var idx = QUIZ_STEPS.indexOf(name);
+    var finished = idx === -1;
+    document.getElementById("quizBar").style.width = (finished ? (name === "done" ? 100 : 0) : (idx / QUIZ_STEPS.length) * 100) + "%";
+    document.getElementById("quizBack").style.display = (idx > 0) ? "block" : "none";
+    var input = quizStep(name).querySelector("input");
+    if (input) input.focus();
+  }
+
+  function openQuiz(e) {
     if (e) e.preventDefault();
-    var url = "https://calendly.com/kitaanreddy/30min";
-    if (window.Calendly) { window.Calendly.initPopupWidget({ url: url }); return; }
-    if (!document.getElementById("calendly-css")) {
-      var link = document.createElement("link");
-      link.id = "calendly-css";
-      link.rel = "stylesheet";
-      link.href = "https://assets.calendly.com/assets/external/widget.css";
-      document.head.appendChild(link);
+    quizIndex = 0;
+    quizAnswers = {};
+    quizSending = false;
+    var inputs = quizEl().querySelectorAll("input");
+    for (var i = 0; i < inputs.length; i++) inputs[i].value = "";
+    var errs = quizEl().querySelectorAll(".quiz-error");
+    for (var j = 0; j < errs.length; j++) errs[j].textContent = "";
+    document.getElementById("quizSubmit").disabled = false;
+    showQuizStep(QUIZ_STEPS[0]);
+    if (typeof quizEl().showModal === "function") { quizEl().showModal(); }
+    else { quizEl().setAttribute("open", ""); }
+  }
+
+  function closeQuiz() {
+    if (typeof quizEl().close === "function") { quizEl().close(); }
+    else { quizEl().removeAttribute("open"); }
+  }
+
+  function quizBack() {
+    if (quizIndex > 0) { quizIndex--; showQuizStep(QUIZ_STEPS[quizIndex]); }
+  }
+
+  // Option buttons: record the answer, then either advance or end on the "dq" screen.
+  document.addEventListener("click", function (e) {
+    var btn = e.target.closest ? e.target.closest(".quiz-option") : null;
+    if (!btn) return;
+    quizAnswers[btn.dataset.answer] = btn.dataset.value;
+    if (btn.dataset.dq === "1") { showQuizStep("dq"); return; }
+    quizIndex++;
+    showQuizStep(QUIZ_STEPS[quizIndex]);
+  });
+
+  // Enter key on a text step acts like pressing Next.
+  document.addEventListener("keydown", function (e) {
+    if (e.key === "Enter" && e.target.classList && e.target.classList.contains("quiz-input")) {
+      e.preventDefault();
+      quizNext();
     }
-    var s = document.createElement("script");
-    s.src = "https://assets.calendly.com/assets/external/widget.js";
-    s.onload = function () { window.Calendly.initPopupWidget({ url: url }); };
-    s.onerror = function () { window.open(url, "_blank"); };
-    document.body.appendChild(s);
+  });
+
+  function quizError(id, msg) { document.getElementById("err-" + id).textContent = msg; }
+
+  // Validate the current text step, then move on (or submit on the last step).
+  function quizNext() {
+    var step = QUIZ_STEPS[quizIndex];
+    if (step === "name") {
+      var name = document.getElementById("quizName").value.trim();
+      if (name.length < 2) { quizError("name", "Please enter your name."); return; }
+      quizError("name", "");
+      quizAnswers.name = name;
+    } else if (step === "email") {
+      var emailInput = document.getElementById("quizEmail");
+      var email = emailInput.value.trim();
+      if (!email || !emailInput.checkValidity()) { quizError("email", "Please enter a valid email address."); return; }
+      quizError("email", "");
+      quizAnswers.email = email;
+    } else if (step === "phone") {
+      var phone = document.getElementById("quizPhone").value.trim();
+      var digits = phone.replace(/\D/g, "");
+      if (digits.length < 8 || digits.length > 15) { quizError("phone", "Please enter a valid phone number."); return; }
+      quizError("phone", "");
+      quizAnswers.phone = phone;
+      submitQuiz();
+      return;
+    }
+    quizIndex++;
+    showQuizStep(QUIZ_STEPS[quizIndex]);
+  }
+
+  function submitQuiz() {
+    if (quizSending) return;
+    if (!FORM_ENDPOINT) {
+      console.error("FORM_ENDPOINT is not set. Application was not sent.");
+      quizError("phone", "Sorry, something went wrong. Please try again later.");
+      return;
+    }
+    quizSending = true;
+    var submitBtn = document.getElementById("quizSubmit");
+    submitBtn.disabled = true;
+    submitBtn.textContent = "Sending...";
+    quizAnswers.page = location.href;
+    quizAnswers.submitted_at = new Date().toISOString();
+    fetch(FORM_ENDPOINT, {
+      method: "POST",
+      headers: { "Content-Type": "application/json", "Accept": "application/json" },
+      body: JSON.stringify(quizAnswers)
+    }).then(function (res) {
+      if (!res.ok) throw new Error("HTTP " + res.status);
+      showQuizStep("done");
+    }).catch(function () {
+      quizError("phone", "Sorry, something went wrong. Please check your connection and try again.");
+    }).then(function () {
+      quizSending = false;
+      submitBtn.disabled = false;
+      submitBtn.textContent = "Submit application";
+    });
   }
 
   // Reveal videos 9 to 27 and hide the button. The lazy-load observer below still
