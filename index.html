@@ -491,12 +491,6 @@
       <button class="quiz-next" id="quizSubmit" type="button" onclick="quizNext()">Submit application</button>
     </div>
 
-    <div class="quiz-step" data-step="done">
-      <h2 class="quiz-q">Application received</h2>
-      <p class="quiz-message">Thanks, we have your application. We will be in touch soon with your next steps.</p>
-      <button class="quiz-next" type="button" onclick="closeQuiz()">Close</button>
-    </div>
-
     <div class="quiz-step" data-step="dq">
       <h2 class="quiz-q">Thanks for your interest</h2>
       <p class="quiz-message">This program is built for lifters who want to build muscle and add serious kilos to their total, and who are ready to commit. It does not look like the right fit right now, but you are welcome to come back when you are ready.</p>
@@ -517,12 +511,34 @@
     w.innerHTML = '<iframe src="https://www.youtube-nocookie.com/embed/u7myBLOnoXY?autoplay=1" title="VSL" allow="autoplay; encrypted-media; picture-in-picture; fullscreen" allowfullscreen></iframe>';
   }
 
+  // Open Calendly as an on-page popup. Loads Calendly's widget only when first needed, so it
+  // costs nothing on initial page load. Name and email are prefilled from the questionnaire.
+  var CALENDLY_URL = "https://calendly.com/kitaanreddy/30min";
+  function openCalendly(prefill) {
+    var opts = { url: CALENDLY_URL };
+    if (prefill) opts.prefill = prefill;
+    if (window.Calendly) { window.Calendly.initPopupWidget(opts); return; }
+    if (!document.getElementById("calendly-css")) {
+      var link = document.createElement("link");
+      link.id = "calendly-css";
+      link.rel = "stylesheet";
+      link.href = "https://assets.calendly.com/assets/external/widget.css";
+      document.head.appendChild(link);
+    }
+    var s = document.createElement("script");
+    s.src = "https://assets.calendly.com/assets/external/widget.js";
+    s.onload = function () { window.Calendly.initPopupWidget(opts); };
+    s.onerror = function () { window.open(CALENDLY_URL, "_blank"); };
+    document.body.appendChild(s);
+  }
+
   // ---- Application questionnaire ----
   // IMPORTANT: set FORM_ENDPOINT to where applications should be sent (for example a
   // Formspree, Web3Forms or Google Apps Script URL). It receives a JSON POST with the answers.
   // While it is empty, submitting shows an error instead of silently losing the lead.
   var FORM_ENDPOINT = "";
 
+  // Qualified visitors who submit are sent on to book a call (see submitQuiz).
   // Order of the steps a visitor goes through. A step with data-dq="1" on the chosen option
   // jumps straight to the "dq" (not a fit) screen instead of continuing.
   var QUIZ_STEPS = ["goal", "serious", "struggle", "name", "email", "phone"];
@@ -539,7 +555,7 @@
     quizStep(name).classList.add("active");
     var idx = QUIZ_STEPS.indexOf(name);
     var finished = idx === -1;
-    document.getElementById("quizBar").style.width = (finished ? (name === "done" ? 100 : 0) : (idx / QUIZ_STEPS.length) * 100) + "%";
+    document.getElementById("quizBar").style.width = (finished ? 0 : (idx / QUIZ_STEPS.length) * 100) + "%";
     document.getElementById("quizBack").style.display = (idx > 0) ? "block" : "none";
     var input = quizStep(name).querySelector("input");
     if (input) input.focus();
@@ -635,7 +651,9 @@
       body: JSON.stringify(quizAnswers)
     }).then(function (res) {
       if (!res.ok) throw new Error("HTTP " + res.status);
-      showQuizStep("done");
+      // Application saved. Close the questionnaire and open the booking calendar.
+      closeQuiz();
+      openCalendly({ name: quizAnswers.name, email: quizAnswers.email, customAnswers: { a1: quizAnswers.phone } });
     }).catch(function () {
       quizError("phone", "Sorry, something went wrong. Please check your connection and try again.");
     }).then(function () {

@@ -30,7 +30,7 @@ Style note for anyone (or any AI) editing the docs or copy: do not use em dashes
 - The VSL video is click-to-play on purpose. It shows `youtube_thumb.jpg` with a play button, and the real YouTube player only loads when clicked (the `loadVSL()` function). It is still a normal YouTube embed, just loaded on demand. Keep this pattern.
 - APPLY NOW opens the application questionnaire as a popup (a native `<dialog id="quiz">`, opened by `openQuiz()`). Every apply button uses this.
 - Questions, in order: goal, how serious, biggest struggle, name, email, phone. Choosing "Something else" for the goal or "Just exploring my options" for seriousness ends on a polite not a fit screen and collects no contact details. These options carry `data-dq="1"` in the HTML. To change what disqualifies someone, add or remove that attribute.
-- Answers are sent as a JSON POST to `FORM_ENDPOINT` at the top of the quiz code in the script block. It MUST be set (Formspree, Web3Forms, a Google Apps Script URL or similar) or submissions show an error and nothing is saved.
+- Answers are sent as a JSON POST to `FORM_ENDPOINT` at the top of the quiz code in the script block. After a successful submit the questionnaire closes and Calendly opens as a popup (`openCalendly()`, name and email prefilled) so qualified leads can book a time slot. The Calendly link is `CALENDLY_URL` in the script. It MUST be set (Formspree, Web3Forms, a Google Apps Script URL or similar) or submissions show an error and nothing is saved.
 - Videos lazy-load. They only download when you scroll near them (the IntersectionObserver at the bottom of the script). Until then they show their poster image. Keep `preload="none"` on the `<video>` tags.
 
 ## Optimizations already applied (what was done, why, and how to redo it)
@@ -71,6 +71,7 @@ These were done deliberately to make the page load fast on mobile without losing
 
 ## Common edits, how to do them
 - Change the questions or answer options: edit the `.quiz-step` blocks inside `<dialog id="quiz">`. If you add or remove a step, update the `QUIZ_STEPS` list in the script too.
+- Change the Calendly link: edit `CALENDLY_URL` in the script.
 - Change where applications go: set `FORM_ENDPOINT` in the script.
 - Change the VSL video: replace `u7myBLOnoXY` (the YouTube video ID) in the `loadVSL()` function, and regenerate `Assets/youtube_thumb.jpg` (see optimization 1 above).
 - Change the headline colours: edit the `.green` and `.red` spans inside the `<h1>`.
