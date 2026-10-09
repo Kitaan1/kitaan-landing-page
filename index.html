@@ -533,9 +533,9 @@
   }
 
   // ---- Application questionnaire ----
-  // IMPORTANT: set FORM_ENDPOINT to where applications should be sent (for example a
-  // Formspree, Web3Forms or Google Apps Script URL). It receives a JSON POST with the answers.
-  // While it is empty, submitting shows an error instead of silently losing the lead.
+  // IMPORTANT: set FORM_ENDPOINT to the Google Apps Script web app URL that writes applications
+  // into the Leads Google Sheet (setup steps are in AIGUIDE.md). While it is empty, submitting
+  // shows an error instead of silently losing the lead.
   var FORM_ENDPOINT = "";
 
   // Qualified visitors who submit are sent on to book a call (see submitQuiz).
@@ -645,13 +645,15 @@
     submitBtn.textContent = "Sending...";
     quizAnswers.page = location.href;
     quizAnswers.submitted_at = new Date().toISOString();
+    // Apps Script web apps do not answer CORS preflight requests, so this is a "simple" request:
+    // text/plain body and no-cors. The response is opaque, so we can only detect network errors.
     fetch(FORM_ENDPOINT, {
       method: "POST",
-      headers: { "Content-Type": "application/json", "Accept": "application/json" },
+      mode: "no-cors",
+      headers: { "Content-Type": "text/plain;charset=utf-8" },
       body: JSON.stringify(quizAnswers)
-    }).then(function (res) {
-      if (!res.ok) throw new Error("HTTP " + res.status);
-      // Application saved. Close the questionnaire and open the booking calendar.
+    }).then(function () {
+      // Application sent. Close the questionnaire and open the booking calendar.
       closeQuiz();
       openCalendly({ name: quizAnswers.name, email: quizAnswers.email, customAnswers: { a1: quizAnswers.phone } });
     }).catch(function () {
