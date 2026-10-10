@@ -27,7 +27,8 @@ Style note for anyone (or any AI) editing the docs or copy: do not use em dashes
 
 ## How the tricky bits work
 - The VSL video is click-to-play on purpose. It shows `youtube_thumb.jpg` with a play button, and the real YouTube player only loads when clicked (the `loadVSL()` function). It is still a normal YouTube embed, just loaded on demand. Keep this pattern.
-- BOOK A CALL opens Calendly as a popup on the page (the `openCalendly()` function), not a new tab. The Calendly widget script only loads on the first click, so it costs nothing on initial page load. Every book button uses this.
+- BOOK A CALL first opens a short booking quiz (the `openQuiz()` function and the `#quiz` popup at the bottom of the HTML). Q1 is an easy goal question, Q2 and Q3 filter out people who are not training or only want free advice (any option with `data-out` sends them to a "not right now" screen that points to the free video). Then it asks name, phone and email, and opens Calendly with them filled in. The phone goes into Calendly's first custom question (`a1`), so keep "Phone" as the first question on the Calendly event. To change a question, edit its `.q-step` block in the HTML.
+- After the quiz, Calendly opens as a popup on the page (the `openCalendly()` function), not a new tab. The Calendly widget script only loads on the first click, so it costs nothing on initial page load. Every book button uses this.
 - Videos lazy-load. They only download when you scroll near them (the IntersectionObserver at the bottom of the script). Until then they show their poster image. Keep `preload="none"` on the `<video>` tags.
 
 ## Optimizations already applied (what was done, why, and how to redo it)

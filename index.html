@@ -228,6 +228,92 @@
     .sticky-cta { display: block; }
     body { padding-bottom: 84px; }
   }
+  /* Booking quiz popup. Every BOOK A CALL button opens this first (openQuiz). */
+  .quiz {
+    position: fixed;
+    inset: 0;
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 16px;
+    background: rgba(0,0,0,0.6);
+  }
+  .quiz[hidden] { display: none; }
+  .quiz-box {
+    position: relative;
+    width: 100%;
+    max-width: 460px;
+    max-height: 100%;
+    overflow: auto;
+    background: #ffffff;
+    border-radius: 12px;
+    padding: 40px 24px 28px;
+    box-shadow: 0 10px 40px rgba(0,0,0,0.25);
+  }
+  .quiz-close {
+    position: absolute;
+    top: 6px;
+    right: 8px;
+    padding: 4px 10px;
+    background: none;
+    border: 0;
+    font-size: 30px;
+    line-height: 1;
+    color: #888888;
+    cursor: pointer;
+  }
+  .quiz-bar {
+    height: 6px;
+    margin-bottom: 24px;
+    background: #e6efe8;
+    border-radius: 3px;
+    overflow: hidden;
+  }
+  .quiz-bar span {
+    display: block;
+    height: 100%;
+    width: 0;
+    background: #1e8e3e;
+    transition: width 0.2s;
+  }
+  .q-title {
+    font-size: 21px;
+    font-weight: 700;
+    line-height: 1.3;
+    margin: 0 0 18px 0;
+  }
+  .q-text {
+    color: #444444;
+    margin: -8px 0 18px 0;
+  }
+  .q-opt {
+    display: block;
+    width: 100%;
+    margin-bottom: 10px;
+    padding: 15px 16px;
+    text-align: left;
+    font-family: inherit;
+    font-size: 17px;
+    font-weight: 500;
+    color: #111111;
+    background: #ffffff;
+    border: 2px solid #dddddd;
+    border-radius: 8px;
+    cursor: pointer;
+  }
+  .q-opt:hover { border-color: #1e8e3e; background: #f0f7f2; }
+  .q-step input {
+    width: 100%;
+    margin-bottom: 14px;
+    padding: 14px;
+    font-family: inherit;
+    font-size: 18px;
+    border: 2px solid #dddddd;
+    border-radius: 8px;
+  }
+  .q-step input:focus { outline: none; border-color: #1e8e3e; }
+  .q-step .cta { border: 0; font-family: inherit; font-size: 19px; padding: 18px; }
 </style>
 </head>
 <body>
@@ -247,10 +333,10 @@
     </button>
   </div>
 
-  <!-- Book button. onclick opens Calendly as an on-page popup (openCalendly). The href is a
+  <!-- Book button. onclick opens the booking quiz (openQuiz), which then opens Calendly. The href is a
        fallback: if JS is off or Calendly fails to load, it just opens the link normally. -->
   <div class="cta-block">
-    <a class="cta" href="https://calendly.com/kitaanreddy/30min" target="_blank" rel="noopener" onclick="openCalendly(event)">BOOK A CALL</a>
+    <a class="cta" href="https://calendly.com/kitaanreddy/30min" target="_blank" rel="noopener" onclick="openQuiz(event)">BOOK A CALL</a>
     <p class="cta-note">Free 30 minute call. No pressure, no obligation.</p>
   </div>
 
@@ -311,10 +397,10 @@
     <button class="show-more" id="showMore" onclick="showAllVideos()">Show all 27 videos</button>
   </section>
 
-  <!-- Book button. onclick opens Calendly as an on-page popup (openCalendly). The href is a
+  <!-- Book button. onclick opens the booking quiz (openQuiz), which then opens Calendly. The href is a
        fallback: if JS is off or Calendly fails to load, it just opens the link normally. -->
   <div class="cta-block">
-    <a class="cta" href="https://calendly.com/kitaanreddy/30min" target="_blank" rel="noopener" onclick="openCalendly(event)">BOOK A CALL</a>
+    <a class="cta" href="https://calendly.com/kitaanreddy/30min" target="_blank" rel="noopener" onclick="openQuiz(event)">BOOK A CALL</a>
     <p class="cta-note">Free 30 minute call. No pressure, no obligation.</p>
   </div>
 
@@ -323,7 +409,63 @@
 <!-- Sticky book button, shown only on mobile (see the max-width:640px media query) so the
      call to action is always reachable on the long scroll. -->
 <div class="sticky-cta">
-  <a href="https://calendly.com/kitaanreddy/30min" target="_blank" rel="noopener" onclick="openCalendly(event)">BOOK A CALL</a>
+  <a href="https://calendly.com/kitaanreddy/30min" target="_blank" rel="noopener" onclick="openQuiz(event)">BOOK A CALL</a>
+</div>
+
+<!-- Booking quiz. Q1 is an easy click so nobody runs away, Q2 and Q3 filter out people who
+     will never buy (data-out sends them to the "not right now" screen), then name, phone and
+     email, then Calendly opens with those details filled in. -->
+<div class="quiz" id="quiz" hidden role="dialog" aria-modal="true" aria-label="Book a call">
+  <div class="quiz-box">
+    <button class="quiz-close" onclick="closeQuiz()" aria-label="Close">&times;</button>
+    <div class="quiz-bar"><span id="quizBar"></span></div>
+
+    <div class="q-step" data-q="goal">
+      <p class="q-title">What is your main goal right now?</p>
+      <button class="q-opt">Build muscle and size</button>
+      <button class="q-opt">Add kilos to my total</button>
+      <button class="q-opt">Both</button>
+    </div>
+
+    <div class="q-step" data-q="experience" hidden>
+      <p class="q-title">How long have you been lifting consistently?</p>
+      <button class="q-opt">Less than 1 year</button>
+      <button class="q-opt">1 to 3 years</button>
+      <button class="q-opt">3+ years</button>
+      <button class="q-opt" data-out>I am not training right now</button>
+    </div>
+
+    <div class="q-step" data-q="ready" hidden>
+      <p class="q-title">Coaching is a paid program. If we are a good fit, are you ready to invest in it?</p>
+      <button class="q-opt">Yes, I am ready to start now</button>
+      <button class="q-opt">Yes, within the next month</button>
+      <button class="q-opt" data-out>No, I only want free advice</button>
+    </div>
+
+    <form class="q-step" data-q="name" hidden>
+      <p class="q-title">Nice, you sound like a great fit. What is your name?</p>
+      <input name="name" type="text" autocomplete="name" placeholder="Your name" required>
+      <button class="cta" type="submit">NEXT</button>
+    </form>
+
+    <form class="q-step" data-q="phone" hidden>
+      <p class="q-title">What is the best number to reach you on?</p>
+      <input name="phone" type="tel" autocomplete="tel" placeholder="Your phone number" required>
+      <button class="cta" type="submit">NEXT</button>
+    </form>
+
+    <form class="q-step" data-q="email" hidden>
+      <p class="q-title">And your email? Your call details get sent here.</p>
+      <input name="email" type="email" autocomplete="email" placeholder="you@example.com" required>
+      <button class="cta" type="submit">PICK A TIME</button>
+    </form>
+
+    <div class="q-step" data-q="out" hidden>
+      <p class="q-title">Thanks for being honest.</p>
+      <p class="q-text">Coaching is probably not the right fit for you just yet. The free video on this page is the best place to start.</p>
+      <button class="cta" onclick="closeQuiz(); loadVSL(); document.getElementById('vsl').scrollIntoView({ behavior: 'smooth' });">WATCH THE FREE VIDEO</button>
+    </div>
+  </div>
 </div>
 
 <script>
@@ -336,12 +478,69 @@
     w.innerHTML = '<iframe src="https://www.youtube-nocookie.com/embed/u7myBLOnoXY?autoplay=1" title="VSL" allow="autoplay; encrypted-media; picture-in-picture; fullscreen" allowfullscreen></iframe>';
   }
 
+  // Booking quiz. Steps are the .q-step blocks in order; the last one ("out") is the
+  // "not right now" screen for people who will not buy, so it is left out of the count.
+  var quiz = document.getElementById("quiz");
+  var steps = quiz.querySelectorAll(".q-step");
+  var current = 0;
+  var answers = {};
+
+  function openQuiz(e) {
+    if (e) e.preventDefault();
+    answers = {};
+    quiz.querySelectorAll("form").forEach(function (f) { f.reset(); });
+    quiz.hidden = false;
+    document.body.style.overflow = "hidden";
+    showStep(0);
+  }
+
+  function closeQuiz() {
+    quiz.hidden = true;
+    document.body.style.overflow = "";
+  }
+
+  function showStep(i) {
+    current = i;
+    steps.forEach(function (s, n) { s.hidden = n !== i; });
+    document.getElementById("quizBar").style.width = Math.min(i + 1, steps.length - 1) / (steps.length - 1) * 100 + "%";
+    var first = steps[i].querySelector("input, button");
+    if (first) first.focus();
+  }
+
+  // Multiple choice: save the answer, then go to the next question or the "out" screen.
+  quiz.addEventListener("click", function (e) {
+    var opt = e.target.closest(".q-opt");
+    if (!opt) return;
+    answers[steps[current].dataset.q] = opt.textContent;
+    showStep(opt.hasAttribute("data-out") ? steps.length - 1 : current + 1);
+  });
+
+  // Name, phone, email. The browser's own required/email checks run before this fires.
+  quiz.querySelectorAll("form").forEach(function (form) {
+    form.addEventListener("submit", function (e) {
+      e.preventDefault();
+      var input = form.querySelector("input");
+      answers[input.name] = input.value.trim();
+      if (input.name !== "email") { showStep(current + 1); return; }
+      closeQuiz();
+      // a1 fills the FIRST custom question on the Calendly event, so make that question "Phone".
+      openCalendly(null, { name: answers.name, email: answers.email, customAnswers: { a1: answers.phone } });
+    });
+  });
+
+  document.addEventListener("keydown", function (e) {
+    if (e.key === "Escape" && !quiz.hidden) closeQuiz();
+  });
+
   // Open Calendly as an on-page popup instead of a new tab. Loads Calendly's
   // widget only on first click, so it costs nothing on initial page load.
-  function openCalendly(e) {
+  // prefill (optional) is the quiz's name, email and phone, so they do not type them twice.
+  function openCalendly(e, prefill) {
     if (e) e.preventDefault();
     var url = "https://calendly.com/kitaanreddy/30min";
-    if (window.Calendly) { window.Calendly.initPopupWidget({ url: url }); return; }
+    prefill = prefill || {};
+    var fallback = url + "?" + new URLSearchParams({ name: prefill.name || "", email: prefill.email || "", a1: (prefill.customAnswers || {}).a1 || "" });
+    if (window.Calendly) { window.Calendly.initPopupWidget({ url: url, prefill: prefill }); return; }
     if (!document.getElementById("calendly-css")) {
       var link = document.createElement("link");
       link.id = "calendly-css";
@@ -351,8 +550,8 @@
     }
     var s = document.createElement("script");
     s.src = "https://assets.calendly.com/assets/external/widget.js";
-    s.onload = function () { window.Calendly.initPopupWidget({ url: url }); };
-    s.onerror = function () { window.open(url, "_blank"); };
+    s.onload = function () { window.Calendly.initPopupWidget({ url: url, prefill: prefill }); };
+    s.onerror = function () { window.open(fallback, "_blank"); };
     document.body.appendChild(s);
   }
 
