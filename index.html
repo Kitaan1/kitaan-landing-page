@@ -456,6 +456,9 @@
   var steps = quiz.querySelectorAll(".q-step");
   var current = 0;
   var answers = {};
+  // Google Apps Script web app that adds each lead as a row in the "Kitaan Coaching Leads"
+  // Google Sheet (see AIGUIDE.md). Empty means leads are not saved anywhere.
+  var LEADS_URL = "https://script.google.com/macros/s/AKfycbxD4yUZn7M7hmctPI3-hh-MnzsLEoviMbEt2gPfLpj1W696hYq6YdOp_LQdjLuG-1c22Q/exec";
 
   function showStep(i) {
     current = i;
@@ -482,6 +485,8 @@
       var input = form.querySelector("input");
       answers[input.name] = input.value.trim();
       if (input.name !== "email") { showStep(current + 1); return; }
+      // sendBeacon still delivers if they close the tab or Calendly takes over the screen.
+      if (LEADS_URL) navigator.sendBeacon(LEADS_URL, new URLSearchParams(answers));
       // a1 fills the FIRST custom question on the Calendly event, so make that question "Phone".
       openCalendly(null, { name: answers.name, email: answers.email, customAnswers: { a1: answers.phone } });
     });

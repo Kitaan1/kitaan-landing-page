@@ -31,6 +31,24 @@ Style note for anyone (or any AI) editing the docs or copy: do not use em dashes
 - After the quiz, Calendly opens as a popup on the page (the `openCalendly()` function), not a new tab. The Calendly widget script only loads on the first click, so it costs nothing on initial page load. Every book button uses this.
 - Videos lazy-load. They only download when you scroll near them (the IntersectionObserver at the bottom of the script). Until then they show their poster image. Keep `preload="none"` on the `<video>` tags.
 
+## Lead capture (Google Sheet)
+When someone finishes the quiz, the page sends their name, phone, email and quiz answers to the `LEADS_URL` in the script, which adds a row to the "Kitaan Coaching Leads" Google Sheet. This happens before Calendly opens, so leads who never book are still saved. If `LEADS_URL` is empty, nothing is saved.
+
+The sheet has this script under Extensions, Apps Script, deployed as a Web app (Execute as: Me, Who has access: Anyone). The deployment URL goes in `LEADS_URL`:
+
+```js
+function doPost(e) {
+  var p = e.parameter;
+  // The leading ' keeps phone numbers as text (no lost leading 0) and stops formulas.
+  var text = function (v) { return "'" + (v || ""); };
+  SpreadsheetApp.openById("1Fe-f-3hFeaIRXJT7Lo7-j_Dz6ZVGtFveQD-1gADQ9-U").getSheets()[0]
+    .appendRow([new Date(), text(p.name), text(p.phone), text(p.email), text(p.goal), text(p.blocker), text(p.ready)]);
+  return ContentService.createTextOutput("ok");
+}
+```
+
+The URL is public, so anyone who finds it could add junk rows. Fine at this size; if spam ever shows up, add a hidden honeypot field to the quiz and ignore rows where it is filled.
+
 ## Optimizations already applied (what was done, why, and how to redo it)
 These were done deliberately to make the page load fast on mobile without losing quality. If you add new media, apply the same steps so the page stays fast.
 
