@@ -228,41 +228,20 @@
     .sticky-cta { display: block; }
     body { padding-bottom: 84px; }
   }
-  /* Booking quiz popup. Every BOOK A CALL button opens this first (openQuiz). */
+  /* Booking quiz, shown inline under the VSL in place of a book button. */
+  html { scroll-behavior: smooth; }
   .quiz {
-    position: fixed;
-    inset: 0;
-    z-index: 100;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 16px;
-    background: rgba(0,0,0,0.6);
-  }
-  .quiz[hidden] { display: none; }
-  .quiz-box {
-    position: relative;
-    width: 100%;
     max-width: 460px;
-    max-height: 100%;
-    overflow: auto;
+    margin: 0 auto 55px auto;
+    scroll-margin-top: 20px;
+  }
+  .quiz-box {
     background: #ffffff;
     border-radius: 12px;
-    padding: 40px 24px 28px;
-    box-shadow: 0 10px 40px rgba(0,0,0,0.25);
+    padding: 28px 24px;
+    box-shadow: 0 8px 30px rgba(0,0,0,0.12);
   }
-  .quiz-close {
-    position: absolute;
-    top: 6px;
-    right: 8px;
-    padding: 4px 10px;
-    background: none;
-    border: 0;
-    font-size: 30px;
-    line-height: 1;
-    color: #888888;
-    cursor: pointer;
-  }
+  .quiz .cta-note { text-align: center; }
   .quiz-bar {
     height: 6px;
     margin-bottom: 24px;
@@ -333,10 +312,59 @@
     </button>
   </div>
 
-  <!-- Book button. onclick opens the booking quiz (openQuiz), which then opens Calendly. The href is a
-       fallback: if JS is off or Calendly fails to load, it just opens the link normally. -->
-  <div class="cta-block">
-    <a class="cta" href="https://calendly.com/kitaanreddy/30min" target="_blank" rel="noopener" onclick="openQuiz(event)">BOOK A CALL</a>
+  <!-- Booking quiz. Q1 is an easy click so nobody runs away, Q2 and Q3 filter out people who
+       will never buy (data-out sends them to the "not right now" screen), then name, phone and
+       email, then Calendly opens with those details filled in. -->
+  <div class="quiz" id="quiz">
+    <div class="quiz-box">
+      <div class="quiz-bar"><span id="quizBar"></span></div>
+
+      <div class="q-step" data-q="goal">
+        <p class="q-title">What is your main goal right now?</p>
+        <button class="q-opt">Build muscle and size</button>
+        <button class="q-opt">Add kilos to my total</button>
+        <button class="q-opt">Both</button>
+      </div>
+
+      <div class="q-step" data-q="experience" hidden>
+        <p class="q-title">How long have you been lifting consistently?</p>
+        <button class="q-opt">Less than 1 year</button>
+        <button class="q-opt">1 to 3 years</button>
+        <button class="q-opt">3+ years</button>
+        <button class="q-opt" data-out>I am not training right now</button>
+      </div>
+
+      <div class="q-step" data-q="ready" hidden>
+        <p class="q-title">Coaching is a paid program. If we are a good fit, are you ready to invest in it?</p>
+        <button class="q-opt">Yes, I am ready to start now</button>
+        <button class="q-opt">Yes, within the next month</button>
+        <button class="q-opt" data-out>No, I only want free advice</button>
+      </div>
+
+      <form class="q-step" data-q="name" hidden>
+        <p class="q-title">Nice, you sound like a great fit. What is your name?</p>
+        <input name="name" type="text" autocomplete="name" placeholder="Your name" required>
+        <button class="cta" type="submit">NEXT</button>
+      </form>
+
+      <form class="q-step" data-q="phone" hidden>
+        <p class="q-title">What is the best number to reach you on?</p>
+        <input name="phone" type="tel" autocomplete="tel" placeholder="Your phone number" required>
+        <button class="cta" type="submit">NEXT</button>
+      </form>
+
+      <form class="q-step" data-q="email" hidden>
+        <p class="q-title">And your email? Your call details get sent here.</p>
+        <input name="email" type="email" autocomplete="email" placeholder="you@example.com" required>
+        <button class="cta" type="submit">PICK A TIME</button>
+      </form>
+
+      <div class="q-step" data-q="out" hidden>
+        <p class="q-title">Thanks for being honest.</p>
+        <p class="q-text">Coaching is probably not the right fit for you just yet. The free video on this page is the best place to start.</p>
+        <button class="cta" onclick="loadVSL(); document.getElementById('vsl').scrollIntoView({ behavior: 'smooth' });">WATCH THE FREE VIDEO</button>
+      </div>
+    </div>
     <p class="cta-note">Free 30 minute call. No pressure, no obligation.</p>
   </div>
 
@@ -397,10 +425,9 @@
     <button class="show-more" id="showMore" onclick="showAllVideos()">Show all 27 videos</button>
   </section>
 
-  <!-- Book button. onclick opens the booking quiz (openQuiz), which then opens Calendly. The href is a
-       fallback: if JS is off or Calendly fails to load, it just opens the link normally. -->
+  <!-- Book button. Scrolls back up to the booking quiz (#quiz). -->
   <div class="cta-block">
-    <a class="cta" href="https://calendly.com/kitaanreddy/30min" target="_blank" rel="noopener" onclick="openQuiz(event)">BOOK A CALL</a>
+    <a class="cta" href="#quiz">BOOK A CALL</a>
     <p class="cta-note">Free 30 minute call. No pressure, no obligation.</p>
   </div>
 
@@ -409,63 +436,7 @@
 <!-- Sticky book button, shown only on mobile (see the max-width:640px media query) so the
      call to action is always reachable on the long scroll. -->
 <div class="sticky-cta">
-  <a href="https://calendly.com/kitaanreddy/30min" target="_blank" rel="noopener" onclick="openQuiz(event)">BOOK A CALL</a>
-</div>
-
-<!-- Booking quiz. Q1 is an easy click so nobody runs away, Q2 and Q3 filter out people who
-     will never buy (data-out sends them to the "not right now" screen), then name, phone and
-     email, then Calendly opens with those details filled in. -->
-<div class="quiz" id="quiz" hidden role="dialog" aria-modal="true" aria-label="Book a call">
-  <div class="quiz-box">
-    <button class="quiz-close" onclick="closeQuiz()" aria-label="Close">&times;</button>
-    <div class="quiz-bar"><span id="quizBar"></span></div>
-
-    <div class="q-step" data-q="goal">
-      <p class="q-title">What is your main goal right now?</p>
-      <button class="q-opt">Build muscle and size</button>
-      <button class="q-opt">Add kilos to my total</button>
-      <button class="q-opt">Both</button>
-    </div>
-
-    <div class="q-step" data-q="experience" hidden>
-      <p class="q-title">How long have you been lifting consistently?</p>
-      <button class="q-opt">Less than 1 year</button>
-      <button class="q-opt">1 to 3 years</button>
-      <button class="q-opt">3+ years</button>
-      <button class="q-opt" data-out>I am not training right now</button>
-    </div>
-
-    <div class="q-step" data-q="ready" hidden>
-      <p class="q-title">Coaching is a paid program. If we are a good fit, are you ready to invest in it?</p>
-      <button class="q-opt">Yes, I am ready to start now</button>
-      <button class="q-opt">Yes, within the next month</button>
-      <button class="q-opt" data-out>No, I only want free advice</button>
-    </div>
-
-    <form class="q-step" data-q="name" hidden>
-      <p class="q-title">Nice, you sound like a great fit. What is your name?</p>
-      <input name="name" type="text" autocomplete="name" placeholder="Your name" required>
-      <button class="cta" type="submit">NEXT</button>
-    </form>
-
-    <form class="q-step" data-q="phone" hidden>
-      <p class="q-title">What is the best number to reach you on?</p>
-      <input name="phone" type="tel" autocomplete="tel" placeholder="Your phone number" required>
-      <button class="cta" type="submit">NEXT</button>
-    </form>
-
-    <form class="q-step" data-q="email" hidden>
-      <p class="q-title">And your email? Your call details get sent here.</p>
-      <input name="email" type="email" autocomplete="email" placeholder="you@example.com" required>
-      <button class="cta" type="submit">PICK A TIME</button>
-    </form>
-
-    <div class="q-step" data-q="out" hidden>
-      <p class="q-title">Thanks for being honest.</p>
-      <p class="q-text">Coaching is probably not the right fit for you just yet. The free video on this page is the best place to start.</p>
-      <button class="cta" onclick="closeQuiz(); loadVSL(); document.getElementById('vsl').scrollIntoView({ behavior: 'smooth' });">WATCH THE FREE VIDEO</button>
-    </div>
-  </div>
+  <a href="#quiz">BOOK A CALL</a>
 </div>
 
 <script>
@@ -485,27 +456,15 @@
   var current = 0;
   var answers = {};
 
-  function openQuiz(e) {
-    if (e) e.preventDefault();
-    answers = {};
-    quiz.querySelectorAll("form").forEach(function (f) { f.reset(); });
-    quiz.hidden = false;
-    document.body.style.overflow = "hidden";
-    showStep(0);
-  }
-
-  function closeQuiz() {
-    quiz.hidden = true;
-    document.body.style.overflow = "";
-  }
-
   function showStep(i) {
     current = i;
     steps.forEach(function (s, n) { s.hidden = n !== i; });
     document.getElementById("quizBar").style.width = Math.min(i + 1, steps.length - 1) / (steps.length - 1) * 100 + "%";
+    // Not on page load (i is 0 then), or the page would jump down to the quiz.
     var first = steps[i].querySelector("input, button");
-    if (first) first.focus();
+    if (first && i) first.focus();
   }
+  showStep(0);
 
   // Multiple choice: save the answer, then go to the next question or the "out" screen.
   quiz.addEventListener("click", function (e) {
@@ -522,14 +481,9 @@
       var input = form.querySelector("input");
       answers[input.name] = input.value.trim();
       if (input.name !== "email") { showStep(current + 1); return; }
-      closeQuiz();
       // a1 fills the FIRST custom question on the Calendly event, so make that question "Phone".
       openCalendly(null, { name: answers.name, email: answers.email, customAnswers: { a1: answers.phone } });
     });
-  });
-
-  document.addEventListener("keydown", function (e) {
-    if (e.key === "Escape" && !quiz.hidden) closeQuiz();
   });
 
   // Open Calendly as an on-page popup instead of a new tab. Loads Calendly's

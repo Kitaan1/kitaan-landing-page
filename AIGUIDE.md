@@ -18,16 +18,16 @@ Style note for anyone (or any AI) editing the docs or copy: do not use em dashes
 ## Page structure (top to bottom)
 1. Headline (the offer) plus a sub-headline underneath
 2. VSL video (YouTube, click-to-play)
-3. BOOK A CALL button plus a reassurance line
+3. Booking quiz (first question visible straight away) plus a reassurance line
 4. Social proof intro line
 5. Client transformation photos (4, WebP)
 6. Strength videos (8 shown, 19 more behind a "Show all 27" button)
-7. Second BOOK A CALL button plus a reassurance line
-8. Sticky BOOK A CALL bar (mobile only, pinned to the bottom of the screen)
+7. Second BOOK A CALL button (scrolls back up to the quiz) plus a reassurance line
+8. Sticky BOOK A CALL bar (mobile only, pinned to the bottom of the screen, scrolls to the quiz)
 
 ## How the tricky bits work
 - The VSL video is click-to-play on purpose. It shows `youtube_thumb.jpg` with a play button, and the real YouTube player only loads when clicked (the `loadVSL()` function). It is still a normal YouTube embed, just loaded on demand. Keep this pattern.
-- BOOK A CALL first opens a short booking quiz (the `openQuiz()` function and the `#quiz` popup at the bottom of the HTML). Q1 is an easy goal question, Q2 and Q3 filter out people who are not training or only want free advice (any option with `data-out` sends them to a "not right now" screen that points to the free video). Then it asks name, phone and email, and opens Calendly with them filled in. The phone goes into Calendly's first custom question (`a1`), so keep "Phone" as the first question on the Calendly event. To change a question, edit its `.q-step` block in the HTML.
+- The booking quiz (`#quiz`, right under the VSL) sits on the page with its first question already showing, no button to click first. The other BOOK A CALL buttons are plain `href="#quiz"` links that scroll up to it. Q1 is an easy goal question, Q2 and Q3 filter out people who are not training or only want free advice (any option with `data-out` sends them to a "not right now" screen that points to the free video). Then it asks name, phone and email, and opens Calendly with them filled in. The phone goes into Calendly's first custom question (`a1`), so keep "Phone" as the first question on the Calendly event. To change a question, edit its `.q-step` block in the HTML.
 - After the quiz, Calendly opens as a popup on the page (the `openCalendly()` function), not a new tab. The Calendly widget script only loads on the first click, so it costs nothing on initial page load. Every book button uses this.
 - Videos lazy-load. They only download when you scroll near them (the IntersectionObserver at the bottom of the script). Until then they show their poster image. Keep `preload="none"` on the `<video>` tags.
 
@@ -68,7 +68,7 @@ These were done deliberately to make the page load fast on mobile without losing
 - The BOOK A CALL buttons are large with generous padding so they are easy to tap. A sticky BOOK A CALL bar appears only on screens 640px wide or less (see the `@media (max-width: 640px)` block) so the call to action is always reachable on the long mobile scroll. The headline uses `clamp()` so it scales down cleanly on small screens instead of overflowing.
 
 ## Common edits, how to do them
-- Change the Calendly link: search for `calendly.com/kitaanreddy/30min` in `index.html` and replace every instance. It appears on all book buttons and once in the JS.
+- Change the Calendly link: search for `calendly.com/kitaanreddy/30min` in `index.html` and replace every instance. It now appears only once, in the `openCalendly()` function in the JS.
 - Change the VSL video: replace `u7myBLOnoXY` (the YouTube video ID) in the `loadVSL()` function, and regenerate `Assets/youtube_thumb.jpg` (see optimization 1 above).
 - Change the headline colours: edit the `.green` and `.red` spans inside the `<h1>`.
 - Add or remove a strength video: copy an existing `<video>` line and change the number, then generate its poster (see optimization 3). The first 8 show by default, the rest go inside `<div id="moreVideos">`.
