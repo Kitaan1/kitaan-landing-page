@@ -361,7 +361,7 @@
     </button>
   </div>
 
-  <!-- Booking quiz. Q1 is an easy click so nobody runs away, Q2 and Q3 filter out people who
+  <!-- Booking quiz. Q1 is an easy click so nobody runs away, Q2 and Q5 filter out people who
        will never buy (data-out sends them to the "not right now" screen), then name, phone and
        email, then Calendly opens with those details filled in. -->
   <div class="quiz" id="quiz">
@@ -384,6 +384,23 @@
         <button class="q-opt">Not enough time or energy</button>
         <button class="q-opt">All of the above</button>
         <button class="q-opt" data-out>I am not training right now</button>
+      </div>
+
+      <div class="q-step" data-q="tried" hidden>
+        <p class="q-title">What have you tried so far?</p>
+        <button class="q-opt">Followed a free program</button>
+        <button class="q-opt">Made my own program</button>
+        <button class="q-opt">Had a coach before</button>
+        <button class="q-opt">Just starting out</button>
+      </div>
+
+      <!-- Red flag question: nobody is filtered out, but the last answer warns you before the call. -->
+      <div class="q-step" data-q="approach" hidden>
+        <p class="q-title">How do you usually approach a new training program?</p>
+        <button class="q-opt">I give it my all, even if progress takes time</button>
+        <button class="q-opt">I like a clear plan but know it might need adjusting along the way</button>
+        <button class="q-opt">I want something simple I can follow without much thinking</button>
+        <button class="q-opt">I get frustrated if I do not see results fast and usually move on</button>
       </div>
 
       <div class="q-step" data-q="ready" hidden>

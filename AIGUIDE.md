@@ -28,7 +28,7 @@ Style note for anyone (or any AI) editing the docs or copy: do not use em dashes
 
 ## How the tricky bits work
 - The VSL video is click-to-play on purpose. It shows `youtube_thumb.jpg` with a play button, and the real YouTube player only loads when clicked (the `loadVSL()` function). It is still a normal YouTube embed, just loaded on demand. Keep this pattern.
-- The booking quiz (`#quiz`, right under the VSL) sits on the page with its first question already showing, no button to click first. The other BOOK A CALL buttons are plain `href="#quiz"` links that scroll up to it. Q1 is an easy goal question, Q2 and Q3 filter out people who are not training or only want free advice (any option with `data-out` sends them to a "not right now" screen that points to the free video). Then it asks name, phone and email, and opens Calendly with them filled in. The phone goes into Calendly's first custom question (`a1`), so keep "Phone" as the first question on the Calendly event. To change a question, edit its `.q-step` block in the HTML.
+- The booking quiz (`#quiz`, right under the VSL) sits on the page with its first question already showing, no button to click first. The other BOOK A CALL buttons are plain `href="#quiz"` links that scroll up to it. Q1 is an easy goal question, Q3 asks what they have tried so far and Q4 is a red flag question about how they approach a program (neither filters anyone; "I get frustrated if I do not see results fast" is the warning sign to look for in the sheet), Q2 and Q5 filter out people who are not training or only want free advice (any option with `data-out` sends them to a "not right now" screen that points to the free video). Then it asks name, phone and email, and opens Calendly with them filled in. The phone goes into Calendly's first custom question (`a1`), so keep "Phone" as the first question on the Calendly event. To change a question, edit its `.q-step` block in the HTML.
 - After the quiz, Calendly opens as a popup on the page (the `openCalendly()` function), not a new tab. The Calendly widget script only loads on the first click, so it costs nothing on initial page load. Every book button uses this.
 - Videos lazy-load. They only download when you scroll near them (the IntersectionObserver at the bottom of the script). Until then they show their poster image. Keep `preload="none"` on the `<video>` tags.
 
@@ -43,7 +43,7 @@ function doPost(e) {
   // The leading ' keeps phone numbers as text (no lost leading 0) and stops formulas.
   var text = function (v) { return "'" + (v || ""); };
   SpreadsheetApp.openById("1Fe-f-3hFeaIRXJT7Lo7-j_Dz6ZVGtFveQD-1gADQ9-U").getSheets()[0]
-    .appendRow([new Date(), text(p.name), text(p.phone), text(p.email), text(p.goal), text(p.blocker), text(p.ready)]);
+    .appendRow([new Date(), text(p.name), text(p.phone), text(p.email), text(p.goal), text(p.blocker), text(p.ready), text(p.tried), text(p.approach)]);
   return ContentService.createTextOutput("ok");
 }
 ```
