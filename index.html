@@ -228,6 +228,55 @@
     .sticky-cta { display: block; }
     body { padding-bottom: 84px; }
   }
+  /* "How it works" offer list: one card per thing the client gets, green tick drawn in CSS. */
+  .offer-sub {
+    text-align: center;
+    font-size: 17px;
+    color: #555555;
+    margin: 0 0 24px 0;
+  }
+  .offer-grid {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 14px;
+  }
+  .offer-grid li {
+    display: flex;
+    gap: 14px;
+    align-items: flex-start;
+    background: #ffffff;
+    border-radius: 12px;
+    padding: 20px;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.06);
+  }
+  .offer-grid li::before {
+    content: "\2713";
+    flex: none;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: #1e8e3e;
+    color: #ffffff;
+    font-weight: 800;
+    font-size: 17px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .offer-grid h3 {
+    margin: 2px 0 4px 0;
+    font-size: 19px;
+    font-weight: 700;
+    line-height: 1.3;
+  }
+  .offer-grid p {
+    margin: 0;
+    font-size: 16px;
+    color: #555555;
+  }
   /* Booking quiz, shown inline under the VSL in place of a book button. */
   html { scroll-behavior: smooth; }
   .quiz {
@@ -370,6 +419,24 @@
     </div>
     <p class="cta-note">Free 30 minute call. No pressure, no obligation.</p>
   </div>
+
+  <!-- How it works: everything included in coaching. One <li> per item, edit the text freely. -->
+  <section>
+    <h2>How it works</h2>
+    <p class="offer-sub">Everything you get when you join</p>
+    <ul class="offer-grid">
+      <li><div><h3>Custom programming that fits your life</h3><p>Training built around your schedule, your gym and your energy.</p></div></li>
+      <li><div><h3>Nutrition that fits your life</h3><p>Weight and calorie tracking with a flexible protocol, not some restrictive meal plan.</p></div></li>
+      <li><div><h3>Strength and mobility routine</h3><p>Stay strong, move well and keep injuries away.</p></div></li>
+      <li><div><h3>Weekly 1:1 calls with me</h3><p>We review your progress and plan your week together.</p></div></li>
+      <li><div><h3>Weekly program adjustments</h3><p>Your plan changes as you progress, so you never stall.</p></div></li>
+      <li><div><h3>24/7 access to my phone number</h3><p>Questions answered fast, no waiting for your next check in.</p></div></li>
+      <li><div><h3>Client group chat</h3><p>Train alongside people chasing the same goals as you.</p></div></li>
+      <li><div><h3>Weekly group calls</h3><p>Live coaching and Q&amp;A with the whole group.</p></div></li>
+      <li><div><h3>Skool community and learning modules</h3><p>Learn the why behind everything, at your own pace.</p></div></li>
+      <li><div><h3>Support and accountability</h3><p>Someone in your corner every week, so you actually hit your goals.</p></div></li>
+    </ul>
+  </section>
 
   <p class="intro">Here is what clients have done. You can do the same.</p>
 
