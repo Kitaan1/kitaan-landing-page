@@ -9,9 +9,8 @@ Style note for anyone (or any AI) editing the docs or copy: do not use em dashes
 
 ## Files
 - `index.html` is the entire page. All CSS is in the `<style>` block in the head, all JS is in the `<script>` block at the bottom. Edit this one file for almost everything.
-- `Assets/transformation1-4.webp` are the before/after client photos actually used on the page.
 - `Assets/transformation1-4.png` are the ORIGINAL photos, no longer used on the page. Kept as backup only. Safe to ignore or delete.
-- `Assets/ba-NAME.webp` are the before/after photos (800x800, before on the left, after on the right, cropped tight on the body). `physique-shredded.webp`, `transformation3.webp` and `transformation4.webp` are the other physique photos. `transformation1.webp` and `transformation2.webp` are no longer shown (Toby's and Max's before/afters were replaced by sharper versions).
+- `Assets/ba-NAME.webp` are the before/after photos (800x800, before on the left, after on the right, cropped tight on the body). `transformation1-4.webp` are no longer shown (Toby's and Max's before/afters were replaced by sharper versions).
 - `Assets/strength1-45.mp4` are client strength/PR clips, portrait phone videos (720x1280 or smaller). 28 to 45 are captioned Instagram story clips, compressed with `ffmpeg -i IN -vf "scale='min(720,iw)':-2" -c:v libx264 -crf 28 -preset slow -pix_fmt yuv420p -c:a aac -b:a 64k -movflags +faststart OUT`.
 - `Assets/posters/strength1-45.jpg` are freeze-frame thumbnails shown before each video loads. One per video.
 - `Assets/youtube_thumb.jpg` is the thumbnail shown for the main VSL video before it is clicked.
@@ -23,7 +22,7 @@ Style note for anyone (or any AI) editing the docs or copy: do not use em dashes
 4. How it works: a card list of everything included in coaching (edit the `<li>` items in the `.offer-grid`)
 5. Social proof intro line
 6. Client results: text cards per client with stats and written testimonial. Photos for them are ready in `Assets/result-NAME.webp` (600x750, before/after pairs joined) but not shown yet
-7. Physique transformations: all before/afters together first (5 square tiles), then other physique photos (3, 9:16)
+7. Physique transformations: 6 before/after square tiles
 8. Strength videos (8 shown, 37 more behind a "Show all 45" button)
 9. Second BOOK A CALL button (scrolls back up to the quiz) plus a reassurance line
 10. Sticky BOOK A CALL bar (mobile only, pinned to the bottom of the screen, scrolls to the quiz)

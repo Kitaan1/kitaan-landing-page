@@ -154,27 +154,11 @@
     margin: 0 0 20px 0;
   }
   section { margin-bottom: 55px; }
-  .image-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-    gap: 15px;
-  }
-  /* Photos and videos are portrait phone media, so 9/16 aspect-ratio keeps their
-     shape and reserves layout space before they load. */
-  .image-grid img {
-    width: 100%;
-    aspect-ratio: 9 / 16;
-    object-fit: cover;
-    display: block;
-    border-radius: 10px;
-    box-shadow: 0 4px 16px rgba(0,0,0,0.1);
-  }
   /* Before/after photos: square tiles, before on the left, after on the right. */
   .ba-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
     gap: 15px;
-    margin-bottom: 15px;
   }
   .ba-grid img {
     width: 100%;
@@ -185,6 +169,8 @@
     border-radius: 10px;
     box-shadow: 0 4px 16px rgba(0,0,0,0.1);
   }
+  /* Videos are portrait phone clips, so 9/16 aspect-ratio keeps their shape and
+     reserves layout space before they load. */
   .video-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
@@ -546,9 +532,8 @@
     </div>
   </section>
 
-  <!-- Physique results: all the before/afters together first (Assets/ba-NAME.webp, 800x800 squares,
-       before left, after right), then other physique photos (9:16). loading="lazy" defers them
-       until scrolled near. -->
+  <!-- Physique results: before/after transformations only (Assets/ba-NAME.webp, 800x800 squares,
+       before left, after right). loading="lazy" defers them until scrolled near. -->
   <section>
     <h2>Physique transformations</h2>
     <div class="arrow-down">&#8595;</div>
@@ -558,11 +543,7 @@
       <img src="Assets/ba-ig.webp" alt="Client before and after" loading="lazy" width="800" height="800">
       <img src="Assets/ba-xiang.webp" alt="Xiang before and after" loading="lazy" width="800" height="800">
       <img src="Assets/ba-evan.webp" alt="Evan before and after" loading="lazy" width="800" height="800">
-    </div>
-    <div class="image-grid">
-      <img src="Assets/physique-shredded.webp" alt="Client shredded and ready to compete" loading="lazy">
-      <img src="Assets/transformation3.webp" alt="Client physique update" loading="lazy">
-      <img src="Assets/transformation4.webp" alt="Client physique check-in" loading="lazy">
+      <img src="Assets/ba-client6.webp" alt="Client before and after" loading="lazy" width="800" height="800">
     </div>
   </section>
 
