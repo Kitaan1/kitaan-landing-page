@@ -183,7 +183,7 @@
     background: #000000;
     box-shadow: 0 4px 16px rgba(0,0,0,0.1);
   }
-  /* Videos 9 to 27 live inside this wrapper, hidden until "Show all 27 videos" is clicked.
+  /* Videos after the first 8 live inside this wrapper, hidden until "Show all 45 videos" is clicked.
      display:contents makes its children flow into the grid as if the wrapper was not there. */
   .hidden-videos { display: none; }
   .hidden-videos.show { display: contents; }
@@ -509,16 +509,6 @@
         <ul class="stats"><li>85kg &rarr; 70kg</li><li>&minus;15kg in under 10 months</li></ul>
         <blockquote>&ldquo;At the start of my journey I was 85kg, from Kitaan's tutelage, he curated and adapted a workout plan allowing me to drop to 70kg and feel better than I ever have before, in less than 10 months. More than that Kitaan remained positive through low training sessions as well as always willing to hear my progress and give advice. I could not recommend a better person to be coached by.&rdquo;</blockquote>
       </article>
-      <article class="result">
-        <h3>Evan</h3>
-        <p class="tag">8 week physique transformation</p>
-        <ul class="stats"><li>Full physique transformation in 8 weeks</li></ul>
-      </article>
-      <article class="result">
-        <h3>Toby G.</h3>
-        <p class="tag">8 weeks of coaching</p>
-        <ul class="stats"><li>Squat 80 &rarr; 115kg</li><li>Bench 90 &rarr; 100kg</li><li>Deadlift 100 &rarr; 155kg</li></ul>
-      </article>
       <article class="result wide">
         <h3>Maddox B.</h3>
         <p class="tag">16 years old</p>
@@ -540,37 +530,61 @@
     </div>
   </section>
 
-  <!-- Social proof part 1: before/after photos. WebP versions (tiny). Add captions with real
-       numbers under each img to boost trust. loading="lazy" defers them until scrolled near. -->
+  <!-- Physique results: before/after transformations first, then other physique photos. All WebP,
+       9:16 (before/after pairs from the old site are stacked, before on top). loading="lazy" defers
+       them until scrolled near. -->
   <section>
-    <h2>Client transformations</h2>
+    <h2>Physique transformations</h2>
     <div class="arrow-down">&#8595;</div>
     <div class="image-grid">
-      <img src="Assets/transformation1.webp" alt="Client transformation 1" loading="lazy">
-      <img src="Assets/transformation2.webp" alt="Client transformation 2" loading="lazy">
-      <img src="Assets/transformation3.webp" alt="Client transformation 3" loading="lazy">
-      <img src="Assets/transformation4.webp" alt="Client transformation 4" loading="lazy">
+      <img src="Assets/transformation-ig.webp" alt="Client physique transformation" loading="lazy">
+      <img src="Assets/transformation1.webp" alt="Client transformation while powerlifting" loading="lazy">
+      <img src="Assets/transformation2.webp" alt="Client physique transformation" loading="lazy">
+      <img src="Assets/transformation-xiang.webp" alt="Xiang before and after" loading="lazy">
+      <img src="Assets/transformation-evan.webp" alt="Evan before and after" loading="lazy">
+      <img src="Assets/transformation-toby.webp" alt="Toby before and after" loading="lazy">
+      <img src="Assets/physique-shredded.webp" alt="Client shredded and ready to compete" loading="lazy">
+      <img src="Assets/transformation3.webp" alt="Client physique update" loading="lazy">
+      <img src="Assets/transformation4.webp" alt="Client physique check-in" loading="lazy">
     </div>
   </section>
 
   <!-- Social proof part 2: strength/PR videos.
        Each video: preload="none" (no download until scrolled near), poster=freeze-frame image,
-       data-src=the real file (swapped into src by the lazy-load script). First 8 show by default;
-       videos 9 to 27 sit in #moreVideos and appear when "Show all 27 videos" is clicked.
-       To reorder which show first, just reorder these lines. -->
+       data-src=the real file (swapped into src by the lazy-load script). The first 8 lines show by
+       default (the captioned Instagram clips, strength28 to 35); the rest sit in #moreVideos and
+       appear when "Show all 45 videos" is clicked. To reorder which show first, reorder these lines. -->
   <section>
     <h2>Strength results</h2>
     <div class="arrow-down">&#8595;</div>
     <div class="video-grid">
-      <video class="lazy-video" controls preload="none" poster="Assets/posters/strength1.jpg" data-src="Assets/strength1.mp4"></video>
-      <video class="lazy-video" controls preload="none" poster="Assets/posters/strength2.jpg" data-src="Assets/strength2.mp4"></video>
-      <video class="lazy-video" controls preload="none" poster="Assets/posters/strength3.jpg" data-src="Assets/strength3.mp4"></video>
-      <video class="lazy-video" controls preload="none" poster="Assets/posters/strength4.jpg" data-src="Assets/strength4.mp4"></video>
-      <video class="lazy-video" controls preload="none" poster="Assets/posters/strength5.jpg" data-src="Assets/strength5.mp4"></video>
-      <video class="lazy-video" controls preload="none" poster="Assets/posters/strength6.jpg" data-src="Assets/strength6.mp4"></video>
-      <video class="lazy-video" controls preload="none" poster="Assets/posters/strength7.jpg" data-src="Assets/strength7.mp4"></video>
-      <video class="lazy-video" controls preload="none" poster="Assets/posters/strength8.jpg" data-src="Assets/strength8.mp4"></video>
+      <video class="lazy-video" controls preload="none" poster="Assets/posters/strength28.jpg" data-src="Assets/strength28.mp4"></video>
+      <video class="lazy-video" controls preload="none" poster="Assets/posters/strength29.jpg" data-src="Assets/strength29.mp4"></video>
+      <video class="lazy-video" controls preload="none" poster="Assets/posters/strength30.jpg" data-src="Assets/strength30.mp4"></video>
+      <video class="lazy-video" controls preload="none" poster="Assets/posters/strength31.jpg" data-src="Assets/strength31.mp4"></video>
+      <video class="lazy-video" controls preload="none" poster="Assets/posters/strength32.jpg" data-src="Assets/strength32.mp4"></video>
+      <video class="lazy-video" controls preload="none" poster="Assets/posters/strength33.jpg" data-src="Assets/strength33.mp4"></video>
+      <video class="lazy-video" controls preload="none" poster="Assets/posters/strength34.jpg" data-src="Assets/strength34.mp4"></video>
+      <video class="lazy-video" controls preload="none" poster="Assets/posters/strength35.jpg" data-src="Assets/strength35.mp4"></video>
       <div class="hidden-videos" id="moreVideos">
+        <video class="lazy-video" controls preload="none" poster="Assets/posters/strength36.jpg" data-src="Assets/strength36.mp4"></video>
+        <video class="lazy-video" controls preload="none" poster="Assets/posters/strength37.jpg" data-src="Assets/strength37.mp4"></video>
+        <video class="lazy-video" controls preload="none" poster="Assets/posters/strength38.jpg" data-src="Assets/strength38.mp4"></video>
+        <video class="lazy-video" controls preload="none" poster="Assets/posters/strength39.jpg" data-src="Assets/strength39.mp4"></video>
+        <video class="lazy-video" controls preload="none" poster="Assets/posters/strength40.jpg" data-src="Assets/strength40.mp4"></video>
+        <video class="lazy-video" controls preload="none" poster="Assets/posters/strength41.jpg" data-src="Assets/strength41.mp4"></video>
+        <video class="lazy-video" controls preload="none" poster="Assets/posters/strength42.jpg" data-src="Assets/strength42.mp4"></video>
+        <video class="lazy-video" controls preload="none" poster="Assets/posters/strength43.jpg" data-src="Assets/strength43.mp4"></video>
+        <video class="lazy-video" controls preload="none" poster="Assets/posters/strength44.jpg" data-src="Assets/strength44.mp4"></video>
+        <video class="lazy-video" controls preload="none" poster="Assets/posters/strength45.jpg" data-src="Assets/strength45.mp4"></video>
+        <video class="lazy-video" controls preload="none" poster="Assets/posters/strength1.jpg" data-src="Assets/strength1.mp4"></video>
+        <video class="lazy-video" controls preload="none" poster="Assets/posters/strength2.jpg" data-src="Assets/strength2.mp4"></video>
+        <video class="lazy-video" controls preload="none" poster="Assets/posters/strength3.jpg" data-src="Assets/strength3.mp4"></video>
+        <video class="lazy-video" controls preload="none" poster="Assets/posters/strength4.jpg" data-src="Assets/strength4.mp4"></video>
+        <video class="lazy-video" controls preload="none" poster="Assets/posters/strength5.jpg" data-src="Assets/strength5.mp4"></video>
+        <video class="lazy-video" controls preload="none" poster="Assets/posters/strength6.jpg" data-src="Assets/strength6.mp4"></video>
+        <video class="lazy-video" controls preload="none" poster="Assets/posters/strength7.jpg" data-src="Assets/strength7.mp4"></video>
+        <video class="lazy-video" controls preload="none" poster="Assets/posters/strength8.jpg" data-src="Assets/strength8.mp4"></video>
         <video class="lazy-video" controls preload="none" poster="Assets/posters/strength9.jpg" data-src="Assets/strength9.mp4"></video>
         <video class="lazy-video" controls preload="none" poster="Assets/posters/strength10.jpg" data-src="Assets/strength10.mp4"></video>
         <video class="lazy-video" controls preload="none" poster="Assets/posters/strength11.jpg" data-src="Assets/strength11.mp4"></video>
@@ -592,7 +606,7 @@
         <video class="lazy-video" controls preload="none" poster="Assets/posters/strength27.jpg" data-src="Assets/strength27.mp4"></video>
       </div>
     </div>
-    <button class="show-more" id="showMore" onclick="showAllVideos()">Show all 27 videos</button>
+    <button class="show-more" id="showMore" onclick="showAllVideos()">Show all 45 videos</button>
   </section>
 
   <!-- Book button. Scrolls back up to the booking quiz (#quiz). -->
@@ -684,7 +698,7 @@
     document.body.appendChild(s);
   }
 
-  // Reveal videos 9 to 27 and hide the button. The lazy-load observer below still
+  // Reveal the rest of the videos and hide the button. The lazy-load observer below still
   // handles them: they only download once they scroll into view after being revealed.
   function showAllVideos() {
     document.getElementById("moreVideos").classList.add("show");
