@@ -20,12 +20,13 @@ Style note for anyone (or any AI) editing the docs or copy: do not use em dashes
 2. VSL video (YouTube, click-to-play)
 3. Booking quiz (first question visible straight away) plus a reassurance line
 4. How it works: a card list of everything included in coaching (edit the `<li>` items in the `.offer-grid`)
-5. Social proof intro line
-6. Client results: text cards per client with stats and written testimonial. Photos for them are ready in `Assets/result-NAME.webp` (600x750, before/after pairs joined) but not shown yet
-7. Physique transformations: 6 before/after square tiles
-8. Strength videos (8 shown, 37 more behind a "Show all 45" button)
-9. Second BOOK A CALL button (scrolls back up to the quiz) plus a reassurance line
-10. Sticky BOOK A CALL bar (mobile only, pinned to the bottom of the screen, scrolls to the quiz)
+5. FAQ: click-to-open answers to the objections that come up on sales calls (`.faq`, native `<details>`, no JS)
+6. Social proof intro line
+7. Client results: text cards per client with stats and written testimonial. Photos for them are ready in `Assets/result-NAME.webp` (600x750, before/after pairs joined) but not shown yet
+8. Physique transformations: 6 before/after square tiles
+9. Strength videos (8 shown, 37 more behind a "Show all 45" button)
+10. Second BOOK A CALL button (scrolls back up to the quiz) plus a reassurance line
+11. Sticky BOOK A CALL bar (mobile only, pinned to the bottom of the screen, scrolls to the quiz)
 
 ## How the tricky bits work
 - The VSL video is click-to-play on purpose. It shows `youtube_thumb.jpg` with a play button, and the real YouTube player only loads when clicked (the `loadVSL()` function). It is still a normal YouTube embed, just loaded on demand. Keep this pattern.

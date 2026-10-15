@@ -279,6 +279,40 @@
     font-size: 16px;
     color: #555555;
   }
+  /* FAQ: native <details> accordion, one question per card, + turns into a minus when open. */
+  .faq { display: grid; gap: 10px; }
+  .faq details {
+    background: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.06);
+  }
+  .faq summary {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 16px;
+    padding: 18px 20px;
+    font-size: 18px;
+    font-weight: 700;
+    cursor: pointer;
+    list-style: none;
+  }
+  .faq summary::-webkit-details-marker { display: none; }
+  .faq summary::after {
+    content: "+";
+    flex: none;
+    font-size: 26px;
+    font-weight: 500;
+    line-height: 1;
+    color: #1e8e3e;
+  }
+  .faq details[open] summary::after { content: "\2212"; }
+  .faq details p {
+    margin: 0;
+    padding: 0 20px 18px 20px;
+    font-size: 16px;
+    color: #444444;
+  }
   /* Client results: text cards. Two columns on desktop; cards with a quote (.wide) take a full row. */
   .results {
     display: grid;
@@ -495,6 +529,75 @@
       <li><div><h3>Skool community and learning modules</h3><p>Learn the why behind everything, at your own pace.</p></div></li>
       <li><div><h3>Support and accountability</h3><p>Someone in your corner every week, so you actually hit your goals.</p></div></li>
     </ul>
+  </section>
+
+  <!-- FAQ: the objections that come up on sales calls, answered the way Kitaan answers them.
+       One <details> per question; edit the text freely. -->
+  <section>
+    <h2>Questions you might have</h2>
+    <p class="offer-sub">Everything people usually ask on the call</p>
+    <div class="faq">
+      <details>
+        <summary>Is this online or in person?</summary>
+        <p>Fully online. You train at your own gym, on your own schedule. You film your sets and send them to me, I give you feedback the same day, and we have a 1:1 call every week. You can message me any time, before, during or after a session.</p>
+      </details>
+      <details>
+        <summary>How is this different from a PT at my gym?</summary>
+        <p>A PT sees you for an hour or two a week and usually changes your workout every session, so you never build on anything. I write your program, track every set you do and tell you exactly what weight to lift next week, so you keep getting stronger. You also get nutrition, a weekly call and 24/7 access to me, usually for less than a gym PT costs.</p>
+      </details>
+      <details>
+        <summary>I am really busy. Will I have time for this?</summary>
+        <p>This is built for people with a full plate. You train 3 to 4 times a week, with sessions under an hour, slotted around your work and uni times. If something comes up and you cannot make a session, we move it to another day that week. No guilt, no starting over.</p>
+      </details>
+      <details>
+        <summary>What if my schedule changes week to week?</summary>
+        <p>That is normal and we plan for it. Tell me what your week looks like and I adjust the plan. Your program is reviewed and updated every week anyway.</p>
+      </details>
+      <details>
+        <summary>Do I have to follow a strict meal plan?</summary>
+        <p>No. You track your weight and calories with an app like MyFitnessPal and I build around the food you already eat, including eating out. No boring, rigid meal plans and no expensive &ldquo;clean&rdquo; food required.</p>
+      </details>
+      <details>
+        <summary>I am a beginner and not confident in the gym. Is this for me?</summary>
+        <p>Yes. We start light and focus on form first. You send me videos of your sets and I correct your technique as you go, so you always know exactly what to do when you walk in. No guessing.</p>
+      </details>
+      <details>
+        <summary>I only have access to a small or home gym. Is that enough?</summary>
+        <p>Usually, yes. When you start, you send me a quick video of your gym and I build the program around the equipment you actually have.</p>
+      </details>
+      <details>
+        <summary>I have an injury or sore joints. Can I still do this?</summary>
+        <p>Yes. Tell me about it on the call and I program around it. Every client also gets a full stretching and mobility routine, with video demos, to keep joints healthy and help prevent new injuries.</p>
+      </details>
+      <details>
+        <summary>Do I have to be a powerlifter?</summary>
+        <p>No. Most clients just want to look better and get stronger. If you do want to compete, I can get you ready for that too.</p>
+      </details>
+      <details>
+        <summary>How much does it cost?</summary>
+        <p>Don't worry about that. I have plans and support options to fit every budget, including monthly payments. We'll find the one that works for you on your free call.</p>
+      </details>
+      <details>
+        <summary>How long do I need to sign up for?</summary>
+        <p>Most clients stay 6 to 12 months, because that is how long real change takes. The goal is not to keep you forever. It is to teach you enough that you can coach yourself for life.</p>
+      </details>
+      <details>
+        <summary>What if I do not get results?</summary>
+        <p>We set a clear goal together on your call. If you follow the program and do not get there in the time we agree, you get your money back. That is how confident I am in it.</p>
+      </details>
+      <details>
+        <summary>I have had a bad experience with a PT or coach before.</summary>
+        <p>That is fair, and it is why the free call exists. You can see exactly how I work before paying anything, and every client result on this page is a real client of mine.</p>
+      </details>
+      <details>
+        <summary>I am under 18. Can I join?</summary>
+        <p>Yes. A parent or guardian just needs to sign a consent form before we start. They are welcome to join the call too.</p>
+      </details>
+      <details>
+        <summary>Can a parent or partner join the call?</summary>
+        <p>Of course. If someone else helps you make the decision, bring them along so they can ask their questions too.</p>
+      </details>
+    </div>
   </section>
 
   <p class="intro">Here is what clients have done. You can do the same.</p>
