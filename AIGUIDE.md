@@ -21,7 +21,7 @@ Style note for anyone (or any AI) editing the docs or copy: do not use em dashes
 3. Booking quiz (first question visible straight away) plus a reassurance line
 4. How it works: a card list of everything included in coaching (edit the `<li>` items in the `.offer-grid`)
 5. Social proof intro line
-6. Client results: one card per client with photo, stats and written testimonial (`Assets/result-NAME.webp`, 600x750, before/after pairs joined into one image)
+6. Client results: text cards per client with stats and written testimonial. Photos for them are ready in `Assets/result-NAME.webp` (600x750, before/after pairs joined) but not shown yet
 7. Client transformation photos (4, WebP)
 8. Strength videos (8 shown, 19 more behind a "Show all 27" button)
 9. Second BOOK A CALL button (scrolls back up to the quiz) plus a reassurance line

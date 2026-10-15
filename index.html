@@ -277,28 +277,19 @@
     font-size: 16px;
     color: #555555;
   }
-  /* Client results: photo left, name, stats and quote right. Photos are 4/5 so the card
-     reserves its space before they load. */
-  .results { display: grid; gap: 14px; }
-  .result {
+  /* Client results: text cards. Two columns on desktop; cards with a quote (.wide) take a full row. */
+  .results {
     display: grid;
-    grid-template-columns: 130px minmax(0, 1fr);
-    gap: 16px;
-    align-items: start;
-    align-content: start;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 14px;
+  }
+  .result {
     background: #ffffff;
     border-radius: 12px;
-    padding: 14px;
+    padding: 18px 20px;
     box-shadow: 0 4px 16px rgba(0,0,0,0.06);
   }
-  .result img {
-    width: 100%;
-    height: auto;
-    aspect-ratio: 4 / 5;
-    object-fit: cover;
-    display: block;
-    border-radius: 8px;
-  }
+  .result.wide { grid-column: 1 / -1; }
   .result h3 { margin: 0; font-size: 19px; font-weight: 700; }
   .result .tag {
     margin: 0 0 8px 0;
@@ -324,13 +315,8 @@
     background: #f0f7f2;
     border-radius: 999px;
   }
-  .result blockquote { grid-column: 1 / -1; margin: 0; font-size: 15px; color: #444444; }
-  /* Desktop: quote sits beside the photo instead of under it. */
-  @media (min-width: 641px) {
-    .result { grid-template-columns: 190px minmax(0, 1fr); padding: 18px; }
-    .result img { grid-row: span 2; }
-    .result blockquote { grid-column: 2; margin-top: -8px; }
-  }
+  .result blockquote { margin: 0; font-size: 15px; color: #444444; }
+  .stats:last-child { margin-bottom: 0; }
   /* Booking quiz, shown inline under the VSL in place of a book button. */
   html { scroll-behavior: smooth; }
   .quiz {
@@ -511,61 +497,43 @@
 
   <p class="intro">Here is what clients have done. You can do the same.</p>
 
-  <!-- Client results: one <article> per client. Photos are Assets/result-NAME.webp
-       (600x750, before/after pairs joined into one image). -->
+  <!-- Client results: one <article> per client, text only for now. Add class="wide" to a card
+       with a quote so it takes the full row. Photos are ready in Assets/result-NAME.webp. -->
   <section>
     <h2>Client results</h2>
     <div class="arrow-down">&#8595;</div>
     <div class="results">
-      <article class="result">
-        <img src="Assets/result-xiang.webp" alt="Xiang P. client result" loading="lazy" width="600" height="750">
-        <div>
-          <h3>Xiang P.</h3>
-          <p class="tag">Body recomposition</p>
-          <ul class="stats"><li>85kg &rarr; 70kg</li><li>&minus;15kg in under 10 months</li></ul>
-        </div>
+      <article class="result wide">
+        <h3>Xiang P.</h3>
+        <p class="tag">Body recomposition</p>
+        <ul class="stats"><li>85kg &rarr; 70kg</li><li>&minus;15kg in under 10 months</li></ul>
         <blockquote>&ldquo;At the start of my journey I was 85kg, from Kitaan's tutelage, he curated and adapted a workout plan allowing me to drop to 70kg and feel better than I ever have before, in less than 10 months. More than that Kitaan remained positive through low training sessions as well as always willing to hear my progress and give advice. I could not recommend a better person to be coached by.&rdquo;</blockquote>
       </article>
       <article class="result">
-        <img src="Assets/result-evan.webp" alt="Evan client result" loading="lazy" width="600" height="750">
-        <div>
-          <h3>Evan</h3>
-          <p class="tag">8 week physique transformation</p>
-          <ul class="stats"><li>Full physique transformation in 8 weeks</li></ul>
-        </div>
+        <h3>Evan</h3>
+        <p class="tag">8 week physique transformation</p>
+        <ul class="stats"><li>Full physique transformation in 8 weeks</li></ul>
       </article>
       <article class="result">
-        <img src="Assets/result-toby.webp" alt="Toby G. client result" loading="lazy" width="600" height="750">
-        <div>
-          <h3>Toby G.</h3>
-          <p class="tag">8 weeks of coaching</p>
-          <ul class="stats"><li>Squat 80 &rarr; 115kg</li><li>Bench 90 &rarr; 100kg</li><li>Deadlift 100 &rarr; 155kg</li></ul>
-        </div>
+        <h3>Toby G.</h3>
+        <p class="tag">8 weeks of coaching</p>
+        <ul class="stats"><li>Squat 80 &rarr; 115kg</li><li>Bench 90 &rarr; 100kg</li><li>Deadlift 100 &rarr; 155kg</li></ul>
       </article>
-      <article class="result">
-        <img src="Assets/result-maddox.webp" alt="Maddox B. client result" loading="lazy" width="600" height="750">
-        <div>
-          <h3>Maddox B.</h3>
-          <p class="tag">16 years old</p>
-          <ul class="stats"><li>Squat 150 &rarr; 180kg</li><li>Deadlift 200 &rarr; 240kg</li></ul>
-        </div>
+      <article class="result wide">
+        <h3>Maddox B.</h3>
+        <p class="tag">16 years old</p>
+        <ul class="stats"><li>Squat 150 &rarr; 180kg</li><li>Deadlift 200 &rarr; 240kg</li></ul>
         <blockquote>&ldquo;Kitaan has been an excellent coach since the day we started, he spent hours making me a personalised program, not recycling like most coaches, taking into account all my injuries also. He's helped retrain my pec after months of pec strain, help my knees, going with a big 50kg squat PR in one month, 50kg on deadlifts in two months while maintaining my strength throughout injuries while cutting, seeming so unrealistic for me. He's also been an amazing person emotionally with great motivation, teaching me mindset, stretches and overall better health with nutrition. I would easily say he's the best coach I've had and will most definitely take me to nationals, guiding me back on to my powerlifting path among others. Overall just amazing coaching, real effort and care and also being an amazing companion.&rdquo;</blockquote>
       </article>
       <article class="result">
-        <img src="Assets/result-max.webp" alt="Max D. client result" loading="lazy" width="600" height="750">
-        <div>
-          <h3>Max D.</h3>
-          <p class="tag">1st place, qualified for Nationals</p>
-          <ul class="stats"><li>Squat 140 &rarr; 200kg</li><li>Bench 100 &rarr; 120kg</li><li>Deadlift 140 &rarr; 220kg</li><li>540kg total</li></ul>
-        </div>
+        <h3>Max D.</h3>
+        <p class="tag">1st place, qualified for Nationals</p>
+        <ul class="stats"><li>Squat 140 &rarr; 200kg</li><li>Bench 100 &rarr; 120kg</li><li>Deadlift 140 &rarr; 220kg</li><li>540kg total</li></ul>
       </article>
       <article class="result">
-        <img src="Assets/result-yash.webp" alt="Yash G. client result" loading="lazy" width="600" height="750">
-        <div>
-          <h3>Yash G.</h3>
-          <p class="tag">8 weeks of coaching</p>
-          <ul class="stats"><li>Bench 70 &rarr; 82.5kg</li><li>+12.5kg in 8 weeks</li></ul>
-        </div>
+        <h3>Yash G.</h3>
+        <p class="tag">8 weeks of coaching</p>
+        <ul class="stats"><li>Bench 70 &rarr; 82.5kg</li><li>+12.5kg in 8 weeks</li></ul>
       </article>
     </div>
   </section>
