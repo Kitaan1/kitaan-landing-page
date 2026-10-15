@@ -169,6 +169,22 @@
     border-radius: 10px;
     box-shadow: 0 4px 16px rgba(0,0,0,0.1);
   }
+  /* Before/after photos: square tiles, before on the left, after on the right. */
+  .ba-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 15px;
+    margin-bottom: 15px;
+  }
+  .ba-grid img {
+    width: 100%;
+    height: auto;
+    aspect-ratio: 1 / 1;
+    object-fit: cover;
+    display: block;
+    border-radius: 10px;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.1);
+  }
   .video-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
@@ -530,19 +546,20 @@
     </div>
   </section>
 
-  <!-- Physique results: before/after transformations first, then other physique photos. All WebP,
-       9:16 (before/after pairs from the old site are stacked, before on top). loading="lazy" defers
-       them until scrolled near. -->
+  <!-- Physique results: all the before/afters together first (Assets/ba-NAME.webp, 800x800 squares,
+       before left, after right), then other physique photos (9:16). loading="lazy" defers them
+       until scrolled near. -->
   <section>
     <h2>Physique transformations</h2>
     <div class="arrow-down">&#8595;</div>
+    <div class="ba-grid">
+      <img src="Assets/ba-toby.webp" alt="Toby before and after" loading="lazy" width="800" height="800">
+      <img src="Assets/ba-max.webp" alt="Max before and after" loading="lazy" width="800" height="800">
+      <img src="Assets/ba-ig.webp" alt="Client before and after" loading="lazy" width="800" height="800">
+      <img src="Assets/ba-xiang.webp" alt="Xiang before and after" loading="lazy" width="800" height="800">
+      <img src="Assets/ba-evan.webp" alt="Evan before and after" loading="lazy" width="800" height="800">
+    </div>
     <div class="image-grid">
-      <img src="Assets/transformation-ig.webp" alt="Client physique transformation" loading="lazy">
-      <img src="Assets/transformation1.webp" alt="Client transformation while powerlifting" loading="lazy">
-      <img src="Assets/transformation2.webp" alt="Client physique transformation" loading="lazy">
-      <img src="Assets/transformation-xiang.webp" alt="Xiang before and after" loading="lazy">
-      <img src="Assets/transformation-evan.webp" alt="Evan before and after" loading="lazy">
-      <img src="Assets/transformation-toby.webp" alt="Toby before and after" loading="lazy">
       <img src="Assets/physique-shredded.webp" alt="Client shredded and ready to compete" loading="lazy">
       <img src="Assets/transformation3.webp" alt="Client physique update" loading="lazy">
       <img src="Assets/transformation4.webp" alt="Client physique check-in" loading="lazy">
