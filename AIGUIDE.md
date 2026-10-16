@@ -19,12 +19,12 @@ Style note for anyone (or any AI) editing the docs or copy: do not use em dashes
 1. Headline (the offer) plus a sub-headline underneath
 2. VSL video (YouTube, click-to-play)
 3. Booking quiz (first question visible straight away) plus a reassurance line
-4. How it works: a card list of everything included in coaching (edit the `<li>` items in the `.offer-grid`)
-5. FAQ: click-to-open answers to the objections that come up on sales calls (`.faq`, native `<details>`, no JS)
-6. Social proof intro line
-7. Client results: text cards per client with stats and written testimonial. Photos for them are ready in `Assets/result-NAME.webp` (600x750, before/after pairs joined) but not shown yet
-8. Physique transformations: 6 before/after square tiles
-9. Strength videos (8 shown, 37 more behind a "Show all 45" button)
+4. Social proof intro line, then client results: text cards per client with stats and written testimonial. Photos for them are ready in `Assets/result-NAME.webp` (600x750, before/after pairs joined) but not shown yet
+5. Physique transformations: 6 before/after square tiles
+6. Is this for you?: "This is for you if" and "This is not for you if" cards (`.fit-grid`)
+7. How it works: a card list of everything included in coaching (edit the `<li>` items in the `.offer-grid`)
+8. Strength videos (8 shown, 37 more behind a "Show all 45" button)
+9. FAQ: click-to-open answers to the objections that come up on sales calls (`.faq`, native `<details>`, no JS)
 10. Second BOOK A CALL button (scrolls back up to the quiz) plus a reassurance line
 11. Sticky BOOK A CALL bar (mobile only, pinned to the bottom of the screen, scrolls to the quiz)
 

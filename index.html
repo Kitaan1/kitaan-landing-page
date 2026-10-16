@@ -279,6 +279,43 @@
     font-size: 16px;
     color: #555555;
   }
+  /* Who this is for / not for: two cards, green ticks and red crosses. */
+  .fit-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 14px;
+  }
+  .fit-card {
+    background: #ffffff;
+    border-radius: 12px;
+    padding: 22px 22px 10px 22px;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.06);
+  }
+  .fit-card h3 { margin: 0 0 14px 0; font-size: 20px; font-weight: 800; }
+  .fit-yes h3 { color: #1e8e3e; }
+  .fit-no h3 { color: #d92d20; }
+  .fit-card ul { list-style: none; margin: 0; padding: 0; }
+  .fit-card li {
+    display: flex;
+    gap: 12px;
+    align-items: flex-start;
+    margin-bottom: 14px;
+    font-size: 17px;
+  }
+  .fit-card li::before {
+    flex: none;
+    width: 26px;
+    height: 26px;
+    border-radius: 50%;
+    color: #ffffff;
+    font-weight: 800;
+    font-size: 15px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .fit-yes li::before { content: "\2713"; background: #1e8e3e; }
+  .fit-no li::before { content: "\2715"; background: #d92d20; }
   /* FAQ: native <details> accordion, one question per card, + turns into a minus when open. */
   .faq { display: grid; gap: 10px; }
   .faq details {
@@ -513,6 +550,84 @@
     <p class="cta-note">Free 30 minute call. No pressure, no obligation.</p>
   </div>
 
+  <p class="intro">Here is what clients have done. You can do the same.</p>
+
+  <!-- Client results: one <article> per client, text only for now. Add class="wide" to a card
+       with a quote so it takes the full row. Photos are ready in Assets/result-NAME.webp. -->
+  <section>
+    <h2>Client results</h2>
+    <div class="arrow-down">&#8595;</div>
+    <div class="results">
+      <article class="result wide">
+        <h3>Xiang P.</h3>
+        <p class="tag">Body recomposition</p>
+        <ul class="stats"><li>85kg &rarr; 70kg</li><li>&minus;15kg in under 10 months</li></ul>
+        <blockquote>&ldquo;At the start of my journey I was 85kg, from Kitaan's tutelage, he curated and adapted a workout plan allowing me to drop to 70kg and feel better than I ever have before, in less than 10 months. More than that Kitaan remained positive through low training sessions as well as always willing to hear my progress and give advice. I could not recommend a better person to be coached by.&rdquo;</blockquote>
+      </article>
+      <article class="result wide">
+        <h3>Maddox B.</h3>
+        <p class="tag">16 years old</p>
+        <ul class="stats"><li>Squat 150 &rarr; 180kg</li><li>Deadlift 200 &rarr; 240kg</li></ul>
+        <blockquote>&ldquo;Kitaan has been an excellent coach since the day we started, he spent hours making me a personalised program, not recycling like most coaches, taking into account all my injuries also. He's helped retrain my pec after months of pec strain, help my knees, going with a big 50kg squat PR in one month, 50kg on deadlifts in two months while maintaining my strength throughout injuries while cutting, seeming so unrealistic for me. He's also been an amazing person emotionally with great motivation, teaching me mindset, stretches and overall better health with nutrition. I would easily say he's the best coach I've had and will most definitely take me to nationals, guiding me back on to my powerlifting path among others. Overall just amazing coaching, real effort and care and also being an amazing companion.&rdquo;</blockquote>
+      </article>
+      <article class="result wide">
+        <h3>Max D.</h3>
+        <p class="tag">1st place, qualified for Nationals</p>
+        <ul class="stats"><li>Squat 140 &rarr; 200kg</li><li>Bench 100 &rarr; 120kg</li><li>Deadlift 140 &rarr; 220kg</li><li>540kg total</li></ul>
+        <blockquote>&ldquo;Kitaan is an amazing and friendly coach who took me from being a total beginner to winning my first powerlifting meet and qualifying to compete at APA nationals in under 12 months. He spent hours meticulously crafting a training program which combined my personal preferences with his specialised training methodology. He taught me how to perfect my technique, ensuring that I performed all lifts as optimally as possible. Additionally, his mindset and positive attitude motivated me to push my limits and achieve great results. Ultimately, Kitaan is an extremely proficient coach who puts the utmost effort into his clients.&rdquo;</blockquote>
+      </article>
+      <article class="result wide">
+        <h3>Yash G.</h3>
+        <p class="tag">8 weeks of coaching</p>
+        <ul class="stats"><li>Bench 70 &rarr; 82.5kg</li><li>+12.5kg in 8 weeks</li></ul>
+        <blockquote>&ldquo;Before my coaching, I slacked off a lot in my gym, wasn't getting the results I needed because of no proper plan, my bench press was really bad I could only rep 50kgs for 4-5 reps with 70kg being my pr. I'm currently in a much better state, my strength and hypertrophy has significantly improved with me repping 70kg for 6-7 reps while my bench press pr is 82.5kgs. However I was busy with university and work and was getting sick the last 2 months so progress recently has been stagnated, but growing once again. I recommend Kitaan, he helps a lot by constantly asking you questions on your preferences while also trying to understand your goal and concerns and then makes a plan which is quite effective. He also emphasises diet and tracking calories based on different goals. Overall, he is really helpful at all stages of your fitness journey.&rdquo;</blockquote>
+      </article>
+    </div>
+  </section>
+
+  <!-- Physique results: before/after transformations only (Assets/ba-NAME.webp, 800x800 squares,
+       before left, after right). loading="lazy" defers them until scrolled near. -->
+  <section>
+    <h2>Physique transformations</h2>
+    <div class="arrow-down">&#8595;</div>
+    <div class="ba-grid">
+      <img src="Assets/ba-toby.webp" alt="Toby before and after" loading="lazy" width="800" height="800">
+      <img src="Assets/ba-max.webp" alt="Max before and after" loading="lazy" width="800" height="800">
+      <img src="Assets/ba-ig.webp" alt="Client before and after" loading="lazy" width="800" height="800">
+      <img src="Assets/ba-xiang.webp" alt="Xiang before and after" loading="lazy" width="800" height="800">
+      <img src="Assets/ba-evan.webp" alt="Evan before and after" loading="lazy" width="800" height="800">
+      <img src="Assets/ba-client6.webp" alt="Client before and after" loading="lazy" width="800" height="800">
+    </div>
+  </section>
+
+  <!-- Who this is for / not for. Ticks and crosses are drawn in CSS (.fit-yes / .fit-no). -->
+  <section>
+    <h2>Is this for you?</h2>
+    <div class="arrow-down">&#8595;</div>
+    <div class="fit-grid">
+      <div class="fit-card fit-yes">
+        <h3>This is for you if</h3>
+        <ul>
+          <li>You work a 9 to 5 or study, have a full plate, and still want to look and feel your best</li>
+          <li>You want to build a physique people notice and get stronger at the same time</li>
+          <li>You can train 3 to 4 times a week</li>
+          <li>You are ready to follow a plan, track your food and send me your sets</li>
+          <li>You want someone in your corner keeping you accountable</li>
+        </ul>
+      </div>
+      <div class="fit-card fit-no">
+        <h3>This is not for you if</h3>
+        <ul>
+          <li>You want a quick fix or a 30 day shred</li>
+          <li>You are not willing to track your food or film your sets</li>
+          <li>You are only looking for free tips</li>
+          <li>You are not open to feedback or changing what you do</li>
+          <li>You are not ready to start in the next month</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
   <!-- How it works: everything included in coaching. One <li> per item, edit the text freely. -->
   <section>
     <h2>How it works</h2>
@@ -529,6 +644,66 @@
       <li><div><h3>Skool community and learning modules</h3><p>Learn the why behind everything, at your own pace.</p></div></li>
       <li><div><h3>Support and accountability</h3><p>Someone in your corner every week, so you actually hit your goals.</p></div></li>
     </ul>
+  </section>
+
+  <!-- Social proof part 2: strength/PR videos.
+       Each video: preload="none" (no download until scrolled near), poster=freeze-frame image,
+       data-src=the real file (swapped into src by the lazy-load script). The first 8 lines show by
+       default (the captioned Instagram clips, strength28 to 35); the rest sit in #moreVideos and
+       appear when "Show all 45 videos" is clicked. To reorder which show first, reorder these lines. -->
+  <section>
+    <h2>Strength results</h2>
+    <div class="arrow-down">&#8595;</div>
+    <div class="video-grid">
+      <video class="lazy-video" controls preload="none" poster="Assets/posters/strength28.jpg" data-src="Assets/strength28.mp4"></video>
+      <video class="lazy-video" controls preload="none" poster="Assets/posters/strength29.jpg" data-src="Assets/strength29.mp4"></video>
+      <video class="lazy-video" controls preload="none" poster="Assets/posters/strength30.jpg" data-src="Assets/strength30.mp4"></video>
+      <video class="lazy-video" controls preload="none" poster="Assets/posters/strength31.jpg" data-src="Assets/strength31.mp4"></video>
+      <video class="lazy-video" controls preload="none" poster="Assets/posters/strength32.jpg" data-src="Assets/strength32.mp4"></video>
+      <video class="lazy-video" controls preload="none" poster="Assets/posters/strength33.jpg" data-src="Assets/strength33.mp4"></video>
+      <video class="lazy-video" controls preload="none" poster="Assets/posters/strength34.jpg" data-src="Assets/strength34.mp4"></video>
+      <video class="lazy-video" controls preload="none" poster="Assets/posters/strength35.jpg" data-src="Assets/strength35.mp4"></video>
+      <div class="hidden-videos" id="moreVideos">
+        <video class="lazy-video" controls preload="none" poster="Assets/posters/strength36.jpg" data-src="Assets/strength36.mp4"></video>
+        <video class="lazy-video" controls preload="none" poster="Assets/posters/strength37.jpg" data-src="Assets/strength37.mp4"></video>
+        <video class="lazy-video" controls preload="none" poster="Assets/posters/strength38.jpg" data-src="Assets/strength38.mp4"></video>
+        <video class="lazy-video" controls preload="none" poster="Assets/posters/strength39.jpg" data-src="Assets/strength39.mp4"></video>
+        <video class="lazy-video" controls preload="none" poster="Assets/posters/strength40.jpg" data-src="Assets/strength40.mp4"></video>
+        <video class="lazy-video" controls preload="none" poster="Assets/posters/strength41.jpg" data-src="Assets/strength41.mp4"></video>
+        <video class="lazy-video" controls preload="none" poster="Assets/posters/strength42.jpg" data-src="Assets/strength42.mp4"></video>
+        <video class="lazy-video" controls preload="none" poster="Assets/posters/strength43.jpg" data-src="Assets/strength43.mp4"></video>
+        <video class="lazy-video" controls preload="none" poster="Assets/posters/strength44.jpg" data-src="Assets/strength44.mp4"></video>
+        <video class="lazy-video" controls preload="none" poster="Assets/posters/strength45.jpg" data-src="Assets/strength45.mp4"></video>
+        <video class="lazy-video" controls preload="none" poster="Assets/posters/strength1.jpg" data-src="Assets/strength1.mp4"></video>
+        <video class="lazy-video" controls preload="none" poster="Assets/posters/strength2.jpg" data-src="Assets/strength2.mp4"></video>
+        <video class="lazy-video" controls preload="none" poster="Assets/posters/strength3.jpg" data-src="Assets/strength3.mp4"></video>
+        <video class="lazy-video" controls preload="none" poster="Assets/posters/strength4.jpg" data-src="Assets/strength4.mp4"></video>
+        <video class="lazy-video" controls preload="none" poster="Assets/posters/strength5.jpg" data-src="Assets/strength5.mp4"></video>
+        <video class="lazy-video" controls preload="none" poster="Assets/posters/strength6.jpg" data-src="Assets/strength6.mp4"></video>
+        <video class="lazy-video" controls preload="none" poster="Assets/posters/strength7.jpg" data-src="Assets/strength7.mp4"></video>
+        <video class="lazy-video" controls preload="none" poster="Assets/posters/strength8.jpg" data-src="Assets/strength8.mp4"></video>
+        <video class="lazy-video" controls preload="none" poster="Assets/posters/strength9.jpg" data-src="Assets/strength9.mp4"></video>
+        <video class="lazy-video" controls preload="none" poster="Assets/posters/strength10.jpg" data-src="Assets/strength10.mp4"></video>
+        <video class="lazy-video" controls preload="none" poster="Assets/posters/strength11.jpg" data-src="Assets/strength11.mp4"></video>
+        <video class="lazy-video" controls preload="none" poster="Assets/posters/strength12.jpg" data-src="Assets/strength12.mp4"></video>
+        <video class="lazy-video" controls preload="none" poster="Assets/posters/strength13.jpg" data-src="Assets/strength13.mp4"></video>
+        <video class="lazy-video" controls preload="none" poster="Assets/posters/strength14.jpg" data-src="Assets/strength14.mp4"></video>
+        <video class="lazy-video" controls preload="none" poster="Assets/posters/strength15.jpg" data-src="Assets/strength15.mp4"></video>
+        <video class="lazy-video" controls preload="none" poster="Assets/posters/strength16.jpg" data-src="Assets/strength16.mp4"></video>
+        <video class="lazy-video" controls preload="none" poster="Assets/posters/strength17.jpg" data-src="Assets/strength17.mp4"></video>
+        <video class="lazy-video" controls preload="none" poster="Assets/posters/strength18.jpg" data-src="Assets/strength18.mp4"></video>
+        <video class="lazy-video" controls preload="none" poster="Assets/posters/strength19.jpg" data-src="Assets/strength19.mp4"></video>
+        <video class="lazy-video" controls preload="none" poster="Assets/posters/strength20.jpg" data-src="Assets/strength20.mp4"></video>
+        <video class="lazy-video" controls preload="none" poster="Assets/posters/strength21.jpg" data-src="Assets/strength21.mp4"></video>
+        <video class="lazy-video" controls preload="none" poster="Assets/posters/strength22.jpg" data-src="Assets/strength22.mp4"></video>
+        <video class="lazy-video" controls preload="none" poster="Assets/posters/strength23.jpg" data-src="Assets/strength23.mp4"></video>
+        <video class="lazy-video" controls preload="none" poster="Assets/posters/strength24.jpg" data-src="Assets/strength24.mp4"></video>
+        <video class="lazy-video" controls preload="none" poster="Assets/posters/strength25.jpg" data-src="Assets/strength25.mp4"></video>
+        <video class="lazy-video" controls preload="none" poster="Assets/posters/strength26.jpg" data-src="Assets/strength26.mp4"></video>
+        <video class="lazy-video" controls preload="none" poster="Assets/posters/strength27.jpg" data-src="Assets/strength27.mp4"></video>
+      </div>
+    </div>
+    <button class="show-more" id="showMore" onclick="showAllVideos()">Show all 45 videos</button>
   </section>
 
   <!-- FAQ: the objections that come up on sales calls, answered the way Kitaan answers them.
@@ -598,116 +773,6 @@
         <p>Of course. If your partner helps you make big decisions, bring them along so they can ask their questions too.</p>
       </details>
     </div>
-  </section>
-
-  <p class="intro">Here is what clients have done. You can do the same.</p>
-
-  <!-- Client results: one <article> per client, text only for now. Add class="wide" to a card
-       with a quote so it takes the full row. Photos are ready in Assets/result-NAME.webp. -->
-  <section>
-    <h2>Client results</h2>
-    <div class="arrow-down">&#8595;</div>
-    <div class="results">
-      <article class="result wide">
-        <h3>Xiang P.</h3>
-        <p class="tag">Body recomposition</p>
-        <ul class="stats"><li>85kg &rarr; 70kg</li><li>&minus;15kg in under 10 months</li></ul>
-        <blockquote>&ldquo;At the start of my journey I was 85kg, from Kitaan's tutelage, he curated and adapted a workout plan allowing me to drop to 70kg and feel better than I ever have before, in less than 10 months. More than that Kitaan remained positive through low training sessions as well as always willing to hear my progress and give advice. I could not recommend a better person to be coached by.&rdquo;</blockquote>
-      </article>
-      <article class="result wide">
-        <h3>Maddox B.</h3>
-        <p class="tag">16 years old</p>
-        <ul class="stats"><li>Squat 150 &rarr; 180kg</li><li>Deadlift 200 &rarr; 240kg</li></ul>
-        <blockquote>&ldquo;Kitaan has been an excellent coach since the day we started, he spent hours making me a personalised program, not recycling like most coaches, taking into account all my injuries also. He's helped retrain my pec after months of pec strain, help my knees, going with a big 50kg squat PR in one month, 50kg on deadlifts in two months while maintaining my strength throughout injuries while cutting, seeming so unrealistic for me. He's also been an amazing person emotionally with great motivation, teaching me mindset, stretches and overall better health with nutrition. I would easily say he's the best coach I've had and will most definitely take me to nationals, guiding me back on to my powerlifting path among others. Overall just amazing coaching, real effort and care and also being an amazing companion.&rdquo;</blockquote>
-      </article>
-      <article class="result wide">
-        <h3>Max D.</h3>
-        <p class="tag">1st place, qualified for Nationals</p>
-        <ul class="stats"><li>Squat 140 &rarr; 200kg</li><li>Bench 100 &rarr; 120kg</li><li>Deadlift 140 &rarr; 220kg</li><li>540kg total</li></ul>
-        <blockquote>&ldquo;Kitaan is an amazing and friendly coach who took me from being a total beginner to winning my first powerlifting meet and qualifying to compete at APA nationals in under 12 months. He spent hours meticulously crafting a training program which combined my personal preferences with his specialised training methodology. He taught me how to perfect my technique, ensuring that I performed all lifts as optimally as possible. Additionally, his mindset and positive attitude motivated me to push my limits and achieve great results. Ultimately, Kitaan is an extremely proficient coach who puts the utmost effort into his clients.&rdquo;</blockquote>
-      </article>
-      <article class="result wide">
-        <h3>Yash G.</h3>
-        <p class="tag">8 weeks of coaching</p>
-        <ul class="stats"><li>Bench 70 &rarr; 82.5kg</li><li>+12.5kg in 8 weeks</li></ul>
-        <blockquote>&ldquo;Before my coaching, I slacked off a lot in my gym, wasn't getting the results I needed because of no proper plan, my bench press was really bad I could only rep 50kgs for 4-5 reps with 70kg being my pr. I'm currently in a much better state, my strength and hypertrophy has significantly improved with me repping 70kg for 6-7 reps while my bench press pr is 82.5kgs. However I was busy with university and work and was getting sick the last 2 months so progress recently has been stagnated, but growing once again. I recommend Kitaan, he helps a lot by constantly asking you questions on your preferences while also trying to understand your goal and concerns and then makes a plan which is quite effective. He also emphasises diet and tracking calories based on different goals. Overall, he is really helpful at all stages of your fitness journey.&rdquo;</blockquote>
-      </article>
-    </div>
-  </section>
-
-  <!-- Physique results: before/after transformations only (Assets/ba-NAME.webp, 800x800 squares,
-       before left, after right). loading="lazy" defers them until scrolled near. -->
-  <section>
-    <h2>Physique transformations</h2>
-    <div class="arrow-down">&#8595;</div>
-    <div class="ba-grid">
-      <img src="Assets/ba-toby.webp" alt="Toby before and after" loading="lazy" width="800" height="800">
-      <img src="Assets/ba-max.webp" alt="Max before and after" loading="lazy" width="800" height="800">
-      <img src="Assets/ba-ig.webp" alt="Client before and after" loading="lazy" width="800" height="800">
-      <img src="Assets/ba-xiang.webp" alt="Xiang before and after" loading="lazy" width="800" height="800">
-      <img src="Assets/ba-evan.webp" alt="Evan before and after" loading="lazy" width="800" height="800">
-      <img src="Assets/ba-client6.webp" alt="Client before and after" loading="lazy" width="800" height="800">
-    </div>
-  </section>
-
-  <!-- Social proof part 2: strength/PR videos.
-       Each video: preload="none" (no download until scrolled near), poster=freeze-frame image,
-       data-src=the real file (swapped into src by the lazy-load script). The first 8 lines show by
-       default (the captioned Instagram clips, strength28 to 35); the rest sit in #moreVideos and
-       appear when "Show all 45 videos" is clicked. To reorder which show first, reorder these lines. -->
-  <section>
-    <h2>Strength results</h2>
-    <div class="arrow-down">&#8595;</div>
-    <div class="video-grid">
-      <video class="lazy-video" controls preload="none" poster="Assets/posters/strength28.jpg" data-src="Assets/strength28.mp4"></video>
-      <video class="lazy-video" controls preload="none" poster="Assets/posters/strength29.jpg" data-src="Assets/strength29.mp4"></video>
-      <video class="lazy-video" controls preload="none" poster="Assets/posters/strength30.jpg" data-src="Assets/strength30.mp4"></video>
-      <video class="lazy-video" controls preload="none" poster="Assets/posters/strength31.jpg" data-src="Assets/strength31.mp4"></video>
-      <video class="lazy-video" controls preload="none" poster="Assets/posters/strength32.jpg" data-src="Assets/strength32.mp4"></video>
-      <video class="lazy-video" controls preload="none" poster="Assets/posters/strength33.jpg" data-src="Assets/strength33.mp4"></video>
-      <video class="lazy-video" controls preload="none" poster="Assets/posters/strength34.jpg" data-src="Assets/strength34.mp4"></video>
-      <video class="lazy-video" controls preload="none" poster="Assets/posters/strength35.jpg" data-src="Assets/strength35.mp4"></video>
-      <div class="hidden-videos" id="moreVideos">
-        <video class="lazy-video" controls preload="none" poster="Assets/posters/strength36.jpg" data-src="Assets/strength36.mp4"></video>
-        <video class="lazy-video" controls preload="none" poster="Assets/posters/strength37.jpg" data-src="Assets/strength37.mp4"></video>
-        <video class="lazy-video" controls preload="none" poster="Assets/posters/strength38.jpg" data-src="Assets/strength38.mp4"></video>
-        <video class="lazy-video" controls preload="none" poster="Assets/posters/strength39.jpg" data-src="Assets/strength39.mp4"></video>
-        <video class="lazy-video" controls preload="none" poster="Assets/posters/strength40.jpg" data-src="Assets/strength40.mp4"></video>
-        <video class="lazy-video" controls preload="none" poster="Assets/posters/strength41.jpg" data-src="Assets/strength41.mp4"></video>
-        <video class="lazy-video" controls preload="none" poster="Assets/posters/strength42.jpg" data-src="Assets/strength42.mp4"></video>
-        <video class="lazy-video" controls preload="none" poster="Assets/posters/strength43.jpg" data-src="Assets/strength43.mp4"></video>
-        <video class="lazy-video" controls preload="none" poster="Assets/posters/strength44.jpg" data-src="Assets/strength44.mp4"></video>
-        <video class="lazy-video" controls preload="none" poster="Assets/posters/strength45.jpg" data-src="Assets/strength45.mp4"></video>
-        <video class="lazy-video" controls preload="none" poster="Assets/posters/strength1.jpg" data-src="Assets/strength1.mp4"></video>
-        <video class="lazy-video" controls preload="none" poster="Assets/posters/strength2.jpg" data-src="Assets/strength2.mp4"></video>
-        <video class="lazy-video" controls preload="none" poster="Assets/posters/strength3.jpg" data-src="Assets/strength3.mp4"></video>
-        <video class="lazy-video" controls preload="none" poster="Assets/posters/strength4.jpg" data-src="Assets/strength4.mp4"></video>
-        <video class="lazy-video" controls preload="none" poster="Assets/posters/strength5.jpg" data-src="Assets/strength5.mp4"></video>
-        <video class="lazy-video" controls preload="none" poster="Assets/posters/strength6.jpg" data-src="Assets/strength6.mp4"></video>
-        <video class="lazy-video" controls preload="none" poster="Assets/posters/strength7.jpg" data-src="Assets/strength7.mp4"></video>
-        <video class="lazy-video" controls preload="none" poster="Assets/posters/strength8.jpg" data-src="Assets/strength8.mp4"></video>
-        <video class="lazy-video" controls preload="none" poster="Assets/posters/strength9.jpg" data-src="Assets/strength9.mp4"></video>
-        <video class="lazy-video" controls preload="none" poster="Assets/posters/strength10.jpg" data-src="Assets/strength10.mp4"></video>
-        <video class="lazy-video" controls preload="none" poster="Assets/posters/strength11.jpg" data-src="Assets/strength11.mp4"></video>
-        <video class="lazy-video" controls preload="none" poster="Assets/posters/strength12.jpg" data-src="Assets/strength12.mp4"></video>
-        <video class="lazy-video" controls preload="none" poster="Assets/posters/strength13.jpg" data-src="Assets/strength13.mp4"></video>
-        <video class="lazy-video" controls preload="none" poster="Assets/posters/strength14.jpg" data-src="Assets/strength14.mp4"></video>
-        <video class="lazy-video" controls preload="none" poster="Assets/posters/strength15.jpg" data-src="Assets/strength15.mp4"></video>
-        <video class="lazy-video" controls preload="none" poster="Assets/posters/strength16.jpg" data-src="Assets/strength16.mp4"></video>
-        <video class="lazy-video" controls preload="none" poster="Assets/posters/strength17.jpg" data-src="Assets/strength17.mp4"></video>
-        <video class="lazy-video" controls preload="none" poster="Assets/posters/strength18.jpg" data-src="Assets/strength18.mp4"></video>
-        <video class="lazy-video" controls preload="none" poster="Assets/posters/strength19.jpg" data-src="Assets/strength19.mp4"></video>
-        <video class="lazy-video" controls preload="none" poster="Assets/posters/strength20.jpg" data-src="Assets/strength20.mp4"></video>
-        <video class="lazy-video" controls preload="none" poster="Assets/posters/strength21.jpg" data-src="Assets/strength21.mp4"></video>
-        <video class="lazy-video" controls preload="none" poster="Assets/posters/strength22.jpg" data-src="Assets/strength22.mp4"></video>
-        <video class="lazy-video" controls preload="none" poster="Assets/posters/strength23.jpg" data-src="Assets/strength23.mp4"></video>
-        <video class="lazy-video" controls preload="none" poster="Assets/posters/strength24.jpg" data-src="Assets/strength24.mp4"></video>
-        <video class="lazy-video" controls preload="none" poster="Assets/posters/strength25.jpg" data-src="Assets/strength25.mp4"></video>
-        <video class="lazy-video" controls preload="none" poster="Assets/posters/strength26.jpg" data-src="Assets/strength26.mp4"></video>
-        <video class="lazy-video" controls preload="none" poster="Assets/posters/strength27.jpg" data-src="Assets/strength27.mp4"></video>
-      </div>
-    </div>
-    <button class="show-more" id="showMore" onclick="showAllVideos()">Show all 45 videos</button>
   </section>
 
   <!-- Book button. Scrolls back up to the booking quiz (#quiz). -->
