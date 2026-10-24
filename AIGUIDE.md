@@ -60,7 +60,7 @@ These were done deliberately to make the page load fast on mobile without losing
 - What was done: instead of embedding the live player, the page shows a static image of the video (`Assets/youtube_thumb.jpg`) with a red play button drawn in CSS. The real YouTube iframe is only injected into the page when the visitor clicks it, via the `loadVSL()` function. It is still a genuine YouTube embed.
 - How the thumbnail was made: downloaded from YouTube's own thumbnail URL for the video.
   `curl -o Assets/youtube_thumb.jpg "https://img.youtube.com/vi/sxCRSgIqZc8/maxresdefault.jpg"`
-  (Replace `sxCRSgIqZc8` with the new video ID if the video changes. If `maxresdefault.jpg` does not exist for a video, use `hqdefault.jpg` instead.)
+  (Replace `sxCRSgIqZc8` with the new video ID if the video changes. When you replace the thumbnail, bump the `?v=` number on its `<img src>` in `index.html` so browsers do not keep showing the old cached one. If `maxresdefault.jpg` does not exist for a video, use `hqdefault.jpg` instead.)
 
 ### 2. Photos: converted from PNG to WebP
 - Problem: the original PNG photos were 730KB to 920KB each. That is heavy, especially on mobile data.
