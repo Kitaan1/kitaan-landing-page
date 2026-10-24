@@ -59,8 +59,8 @@ These were done deliberately to make the page load fast on mobile without losing
 - Problem: a normal embedded YouTube player downloads roughly 1.3MB of scripts on page load, before anyone even presses play. On mobile that is a major slowdown, and slow pages lose bookings.
 - What was done: instead of embedding the live player, the page shows a static image of the video (`Assets/youtube_thumb.jpg`) with a red play button drawn in CSS. The real YouTube iframe is only injected into the page when the visitor clicks it, via the `loadVSL()` function. It is still a genuine YouTube embed.
 - How the thumbnail was made: downloaded from YouTube's own thumbnail URL for the video.
-  `curl -o Assets/youtube_thumb.jpg "https://img.youtube.com/vi/u7myBLOnoXY/maxresdefault.jpg"`
-  (Replace `u7myBLOnoXY` with the new video ID if the video changes. If `maxresdefault.jpg` does not exist for a video, use `hqdefault.jpg` instead.)
+  `curl -o Assets/youtube_thumb.jpg "https://img.youtube.com/vi/gMZzzWzrr0A/maxresdefault.jpg"`
+  (Replace `gMZzzWzrr0A` with the new video ID if the video changes. If `maxresdefault.jpg` does not exist for a video, use `hqdefault.jpg` instead.)
 
 ### 2. Photos: converted from PNG to WebP
 - Problem: the original PNG photos were 730KB to 920KB each. That is heavy, especially on mobile data.
@@ -90,7 +90,7 @@ These were done deliberately to make the page load fast on mobile without losing
 
 ## Common edits, how to do them
 - Change the Calendly link: search for `calendly.com/kitaanreddy/30min` in `index.html` and replace every instance. It now appears only once, in the `openCalendly()` function in the JS.
-- Change the VSL video: replace `u7myBLOnoXY` (the YouTube video ID) in the `loadVSL()` function, and regenerate `Assets/youtube_thumb.jpg` (see optimization 1 above).
+- Change the VSL video: replace `gMZzzWzrr0A` (the YouTube video ID) in the `loadVSL()` function, and regenerate `Assets/youtube_thumb.jpg` (see optimization 1 above).
 - Change the headline colours: edit the `.green` and `.red` spans inside the `<h1>`.
 - Add or remove a strength video: copy an existing `<video>` line and change the number, then generate its poster (see optimization 3). The first 8 show by default, the rest go inside `<div id="moreVideos">`.
 - Add photo captions: add a caption element under each `<img>` in the image grid. Specific numbers (timeframe, kg gained) are the most persuasive.
