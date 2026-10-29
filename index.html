@@ -841,6 +841,7 @@ src="https://www.facebook.com/tr?id=2108190136470078&ev=PageView&noscript=1"
     var opt = e.target.closest(".q-opt");
     if (!opt) return;
     answers[steps[current].dataset.q] = opt.textContent;
+    if (steps[current].dataset.q === "goal" && window.fbq) fbq("trackCustom", "QuizStart");
     showStep(opt.hasAttribute("data-out") ? steps.length - 1 : current + 1);
   });
 
@@ -853,6 +854,7 @@ src="https://www.facebook.com/tr?id=2108190136470078&ev=PageView&noscript=1"
       if (input.name !== "email") { showStep(current + 1); return; }
       // sendBeacon still delivers if they close the tab or Calendly takes over the screen.
       if (LEADS_URL) navigator.sendBeacon(LEADS_URL, new URLSearchParams(answers));
+      if (window.fbq) fbq("track", "Lead");
       // a1 fills the FIRST custom question on the Calendly event, so make that question "Phone".
       openCalendly(null, { name: answers.name, email: answers.email, customAnswers: { a1: answers.phone } });
     });
@@ -903,6 +905,13 @@ src="https://www.facebook.com/tr?id=2108190136470078&ev=PageView&noscript=1"
     });
   }, { rootMargin: "300px" });
   lazyVideos.forEach(function (video) { observer.observe(video); });
+
+  // Meta Pixel: fire Schedule when Calendly confirms a booking.
+  window.addEventListener("message", function (e) {
+    if (e.origin === "https://calendly.com" && e.data && e.data.event === "calendly.event_scheduled") {
+      if (window.fbq) fbq("track", "Schedule");
+    }
+  });
 </script>
 </body>
 </html>
