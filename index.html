@@ -492,7 +492,7 @@ src="https://www.facebook.com/tr?id=2108190136470078&ev=PageView&noscript=1"
   </div>
 
   <!-- Booking quiz. Q1 is an easy click so nobody runs away, Q2 and Q5 filter out people who
-       will never buy (data-out sends them to the "not right now" screen), then name, phone and
+       will never buy (data-out sends them to the "not right now" screen), Q6 stops under-18s, then name, phone and
        email, then Calendly opens with those details filled in. -->
   <div class="quiz" id="quiz">
     <div class="quiz-box">
@@ -540,6 +540,13 @@ src="https://www.facebook.com/tr?id=2108190136470078&ev=PageView&noscript=1"
         <button class="q-opt" data-out>Just looking for free tips for now</button>
       </div>
 
+      <!-- Age gate: comes before any personal details, so under-18s never reach the form. -->
+      <div class="q-step" data-q="age" hidden>
+        <p class="q-title">Are you 18 or over?</p>
+        <button class="q-opt">Yes, I am 18 or over</button>
+        <button class="q-opt" data-out>No, I am under 18</button>
+      </div>
+
       <form class="q-step" data-q="name" hidden>
         <p class="q-title">Nice, you sound like a great fit. What is your name?</p>
         <input name="name" type="text" autocomplete="name" placeholder="Your name" required>
@@ -583,7 +590,7 @@ src="https://www.facebook.com/tr?id=2108190136470078&ev=PageView&noscript=1"
       </article>
       <article class="result wide">
         <h3>Maddox B.</h3>
-        <p class="tag">16 years old</p>
+        <p class="tag">Powerlifting</p>
         <ul class="stats"><li>Squat 150 &rarr; 180kg</li><li>Deadlift 200 &rarr; 240kg</li></ul>
         <blockquote>&ldquo;Kitaan has been an excellent coach since the day we started, he spent hours making me a personalised program, not recycling like most coaches, taking into account all my injuries also. He's helped retrain my pec after months of pec strain, help my knees, going with a big 50kg squat PR in one month, 50kg on deadlifts in two months while maintaining my strength throughout injuries while cutting, seeming so unrealistic for me. He's also been an amazing person emotionally with great motivation, teaching me mindset, stretches and overall better health with nutrition. I would easily say he's the best coach I've had and will most definitely take me to nationals, guiding me back on to my powerlifting path among others. Overall just amazing coaching, real effort and care and also being an amazing companion.&rdquo;</blockquote>
       </article>
