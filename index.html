@@ -561,9 +561,8 @@ fbq('track', 'PageView');
 
   <!-- Booking quiz, a small decision tree. data-next on a step is where it goes next; data-next on
        an answer overrides that (this is the branching). data-a saves the answer under a shared name.
-       Route: goal > goal detail (skipped for "All of the above") > blocker > tried > coach gap (only if
-       they had a coach) > days > approach > ready > commit > age > personal result > name > phone > email >
-       Calendly. "out" and "out-age" are the not-right-now screens. No contact details are asked for
+       Route: goal > blocker > tried > approach > ready > commit > age > personal result > name > phone >
+       email > Calendly. Kept to big-picture questions on purpose; the detail is for the call. "out" and "out-age" are the not-right-now screens. No contact details are asked for
        until after the age check, and nothing is sent until the email step. -->
   <div class="quiz" id="quiz">
     <div class="quiz-box">
@@ -573,31 +572,10 @@ fbq('track', 'PageView');
 
       <div class="q-step" data-q="goal" data-next="blocker">
         <p class="q-title">What is your #1 goal for the next 180 days?</p>
-        <button class="q-opt" data-next="physique">Better physique</button>
-        <button class="q-opt" data-next="strength">More strength</button>
-        <button class="q-opt" data-next="health">Better health</button>
-        <button class="q-opt" data-next="blocker">All of the above</button>
-      </div>
-
-      <div class="q-step" data-q="physique" data-a="goalDetail" data-next="blocker" hidden>
-        <p class="q-title">What do you want to change most?</p>
-        <button class="q-opt">Build muscle</button>
-        <button class="q-opt">Lose fat</button>
-        <button class="q-opt">Both</button>
-      </div>
-
-      <div class="q-step" data-q="strength" data-a="goalDetail" data-next="blocker" hidden>
-        <p class="q-title">What are you training for?</p>
-        <button class="q-opt">Bigger squat, bench and deadlift</button>
-        <button class="q-opt">Compete in powerlifting</button>
-        <button class="q-opt">General strength</button>
-      </div>
-
-      <div class="q-step" data-q="health" data-a="goalDetail" data-next="blocker" hidden>
-        <p class="q-title">What matters most to you?</p>
-        <button class="q-opt">More energy</button>
-        <button class="q-opt">Feeling better in my body</button>
-        <button class="q-opt">Building a long term habit</button>
+        <button class="q-opt">Better physique</button>
+        <button class="q-opt">More strength</button>
+        <button class="q-opt">Better health</button>
+        <button class="q-opt">All of the above</button>
       </div>
 
       <div class="q-step" data-q="blocker" data-next="tried" hidden>
@@ -610,33 +588,15 @@ fbq('track', 'PageView');
         <button class="q-opt" data-next="out">I am not training right now</button>
       </div>
 
-      <div class="q-step" data-q="tried" data-next="days" hidden>
+      <div class="q-step" data-q="tried" data-next="approach" hidden>
         <p class="q-title">What have you tried so far?</p>
         <button class="q-opt">Followed a free program</button>
         <button class="q-opt">Made my own program</button>
-        <button class="q-opt" data-next="coachGap">Had a coach before</button>
+        <button class="q-opt">Had a coach before</button>
         <button class="q-opt">Just starting out</button>
       </div>
 
-      <div class="q-step" data-q="coachGap" data-next="days" hidden>
-        <p class="q-title">What was missing last time?</p>
-        <button class="q-opt">The program was not personalised</button>
-        <button class="q-opt">Not enough feedback</button>
-        <button class="q-opt">It cost too much for what I got</button>
-        <button class="q-opt">I stopped following it</button>
-      </div>
-
-      <div class="q-step" data-q="days" data-next="approach" hidden>
-        <p class="q-title">How many days a week can you realistically train?</p>
-        <button class="q-opt">1 day</button>
-        <button class="q-opt">2 days</button>
-        <button class="q-opt">3 days</button>
-        <button class="q-opt">4 days</button>
-        <button class="q-opt">5 or more days</button>
-        <button class="q-opt" data-next="out">I cannot commit to any right now</button>
-      </div>
-
-      <!-- Red flag question: nobody is filtered out, but the last answer warns you before the call. -->
+      <!-- The last answer (gives up when results are slow) ends the quiz. -->
       <div class="q-step" data-q="approach" data-next="ready" hidden>
         <p class="q-title">How do you usually approach a new training program?</p>
         <button class="q-opt">I give it my all, even if progress takes time</button>
@@ -652,10 +612,10 @@ fbq('track', 'PageView');
         <button class="q-opt" data-next="out">Just looking for free tips for now</button>
       </div>
 
-      <!-- Matches the 3 or 6 month terms and the "This is not for you if" list. Only "yes" continues,
+      <!-- Matches the "This is not for you if" list. Only "yes" continues,
            so the answer is not sent to the sheet. -->
       <div class="q-step" data-q="commit" data-next="age" hidden>
-        <p class="q-title">Coaching runs for at least 3 months, and you track your food and film your main sets so I can coach you properly. Are you in?</p>
+        <p class="q-title">To coach you properly, I need you to track your food and film your main sets. Are you in?</p>
         <button class="q-opt">Yes, I am in</button>
         <button class="q-opt" data-next="out">No, that is not for me right now</button>
       </div>
@@ -1027,16 +987,11 @@ fbq('track', 'PageView');
 
   // Personal result: one line for each thing they told us. Keep these to what the page already promises.
   var PLAN_LINES = {
-    goalDetail: {
-      "Build muscle": "Training and calories set up to build muscle",
-      "Lose fat": "A flexible calorie target to lose fat while keeping your strength",
-      "Both": "Training and calories set up to lose fat and build muscle",
-      "Bigger squat, bench and deadlift": "A strength program for your squat, bench and deadlift, updated every week",
-      "Compete in powerlifting": "A powerlifting program built around your lifts and your competition goal",
-      "General strength": "A strength program built around your gym and your week",
-      "More energy": "Training and recovery planned around your energy",
-      "Feeling better in my body": "Training, food and mobility work planned to help you feel better",
-      "Building a long term habit": "A simple routine built to fit your life long term"
+    goal: {
+      "Better physique": "Training and calories set up to build muscle and lose fat",
+      "More strength": "A strength program for your squat, bench and deadlift, updated every week",
+      "Better health": "Training, food and recovery planned to help you feel better",
+      "All of the above": "A plan covering your physique, strength and health"
     },
     blocker: {
       "Training": "A custom program, so you always know exactly what to do",
@@ -1044,26 +999,12 @@ fbq('track', 'PageView');
       "Recovery": "A stretching and mobility routine, with weekly adjustments to your plan",
       "Not enough time or energy": "Sessions under an hour, slotted around your work",
       "All of the above": "One plan covering your training, food and recovery"
-    },
-    coachGap: {
-      "The program was not personalised": "A program built for you, not recycled from someone else",
-      "Not enough feedback": "You film your sets and I review them",
-      "It cost too much for what I got": "Plan options to fit your budget, which we can go through on the call",
-      "I stopped following it": "Weekly 1:1 calls to keep you accountable"
-    },
-    days: {
-      "1 day": "A program built around 1 session a week",
-      "2 days": "A program built around 2 sessions a week",
-      "3 days": "A program built around 3 sessions a week",
-      "4 days": "A program built around 4 sessions a week",
-      "5 or more days": "A program that makes the most of your training days"
     }
   };
   function buildResult() {
     var plan = document.getElementById("quizPlan");
     plan.textContent = "";
-    var lines = [answers.goal === "All of the above" ? "A plan covering your physique, strength and health" : ""];
-    ["goalDetail", "blocker", "coachGap", "days"].forEach(function (key) { lines.push(PLAN_LINES[key][answers[key]]); });
+    var lines = [PLAN_LINES.goal[answers.goal], PLAN_LINES.blocker[answers.blocker], "Regular check-ins, with every workout reviewed"];
     lines.forEach(function (text) {
       if (!text) return;
       var li = document.createElement("li");
