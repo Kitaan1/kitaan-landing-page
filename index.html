@@ -483,10 +483,7 @@
     cursor: pointer;
   }
   .q-back[hidden] { display: none; }
-  .q-plan { margin: 0 0 16px 0; padding: 0 0 0 20px; }
-  .q-plan li { margin-bottom: 8px; }
-  .q-proof { margin: 0 0 18px 0; padding: 12px 14px; background: #f0f7f2; border-radius: 8px; font-size: 15px; }
-  .q-go, .q-reopen { width: 100%; border: 0; font-family: inherit; cursor: pointer; }
+  .q-reopen { width: 100%; border: 0; font-family: inherit; cursor: pointer; }
   .q-title {
     font-size: 21px;
     font-weight: 700;
@@ -561,7 +558,7 @@ fbq('track', 'PageView');
 
   <!-- Booking quiz, a small decision tree. data-next on a step is where it goes next; data-next on
        an answer overrides that (this is the branching). data-a saves the answer under a shared name.
-       Route: goal > blocker > tried > approach > ready > age > personal result > name > phone >
+       Route: goal > blocker > tried > approach > ready > age > name > phone >
        email > Calendly. Kept to big-picture questions on purpose; the detail is for the call. "out" and "out-age" are the not-right-now screens. No contact details are asked for
        until after the age check, and nothing is sent until the email step. -->
   <div class="quiz" id="quiz">
@@ -613,18 +610,10 @@ fbq('track', 'PageView');
       </div>
 
       <!-- Age gate: comes before any personal details, so under-18s never reach the form. -->
-      <div class="q-step" data-q="age" data-next="result" hidden>
+      <div class="q-step" data-q="age" data-next="name" hidden>
         <p class="q-title">Are you 18 or over?</p>
         <button class="q-opt">Yes, I am 18 or over</button>
         <button class="q-opt" data-next="out-age">No, I am under 18</button>
-      </div>
-
-      <!-- Personal result: filled in by buildResult() from their answers. -->
-      <div class="q-step" data-q="result" data-next="name" hidden>
-        <p class="q-title">Here is where I would start with you</p>
-        <ul class="q-plan" id="quizPlan"></ul>
-        <p class="q-proof" id="quizProof"></p>
-        <button class="cta q-go" type="button">BOOK MY FREE CALL</button>
       </div>
 
       <form class="q-step" data-q="name" data-next="phone" hidden>
@@ -954,7 +943,6 @@ fbq('track', 'PageView');
   function showStep(step) {
     current = step;
     quiz.querySelectorAll(".q-step").forEach(function (s) { s.hidden = s !== step; });
-    if (step.dataset.q === "result") buildResult();
     quizBack.hidden = !trail.length || step.hasAttribute("data-noback");
     // Progress: steps done against steps done plus the shortest route from here.
     var left = 0;
@@ -977,43 +965,12 @@ fbq('track', 'PageView');
     showStep(previous);
   });
 
-  // Personal result: one line for each thing they told us. Keep these to what the page already promises.
-  var PLAN_LINES = {
-    goal: {
-      "Better physique": "Training and calories set up to build muscle and lose fat",
-      "More strength": "A strength program for your squat, bench and deadlift, updated every week",
-      "Better health": "Training, food and recovery planned to help you feel better",
-      "All of the above": "A plan covering your physique, strength and health"
-    },
-    blocker: {
-      "Training": "A custom program, so you always know exactly what to do",
-      "Nutrition": "Flexible calorie tracking around the food you already eat",
-      "Recovery": "A stretching and mobility routine, with weekly adjustments to your plan",
-      "Not enough time or energy": "Sessions under an hour, slotted around your work",
-      "All of the above": "One plan covering your training, food and recovery"
-    }
-  };
-  function buildResult() {
-    var plan = document.getElementById("quizPlan");
-    plan.textContent = "";
-    var lines = [PLAN_LINES.goal[answers.goal], PLAN_LINES.blocker[answers.blocker], "Regular check-ins, with every workout reviewed"];
-    lines.forEach(function (text) {
-      if (!text) return;
-      var li = document.createElement("li");
-      li.textContent = text;
-      plan.appendChild(li);
-    });
-    document.getElementById("quizProof").textContent = (answers.goal === "More strength"
-      ? "Max D. went from total beginner to winning a first powerlifting meet in under 12 months."
-      : "Xiang P. went from 85kg to 70kg in under 10 months.") + " Individual results vary.";
-  }
-
   // Multiple choice: save the answer, then follow the answer's own route or the step's route.
   quiz.addEventListener("click", function (e) {
     if (e.target.closest(".q-reopen")) { openCalendly(null, calendlyPrefill); return; }
-    var opt = e.target.closest(".q-opt, .q-go");
+    var opt = e.target.closest(".q-opt");
     if (!opt) return;
-    if (opt.classList.contains("q-opt")) answers[answerKey(current)] = opt.textContent;
+    answers[answerKey(current)] = opt.textContent;
     if (current.dataset.q === "goal" && !quizStarted) {
       quizStarted = true;
       if (window.fbq) fbq("trackCustom", "QuizStart");
