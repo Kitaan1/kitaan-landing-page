@@ -6,17 +6,20 @@
 <title>Build Your Physique and Strength</title>
 
 <!--
-  Kitaan Coaching landing page. One self-contained static file: HTML + CSS + vanilla JS.
+  Kitaan Reddy landing page. One self-contained static file: HTML + CSS + vanilla JS.
   No framework, no build step, no dependencies. See AIGUIDE.md for the full rundown,
   the optimizations applied, and copy-paste commands for common edits.
   House style: no em dashes anywhere in the copy or comments.
 -->
 
-<!-- Inter font. display=swap shows fallback text instantly instead of blank text while loading. -->
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;800&display=swap" rel="stylesheet">
 <style>
+  /* Inter is served from this site, not Google, so visitors' IP addresses are not sent to Google on load. */
+  @font-face {
+    font-family: 'Inter';
+    src: url('Assets/fonts/inter-latin.woff2') format('woff2');
+    font-weight: 400 800;
+    font-display: swap;
+  }
   * { box-sizing: border-box; }
   body {
     margin: 0;
@@ -230,6 +233,55 @@
     .sticky-cta { display: block; }
     body { padding-bottom: 84px; }
   }
+  /* Legal footer, tracking notice and the consent line under the quiz email box. */
+  .site-footer {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 0 20px 40px;
+    text-align: center;
+    font-size: 14px;
+    color: #555555;
+  }
+  .site-footer p { margin: 0 0 8px; }
+  .site-footer a, .q-consent a, .track-notice a { color: #17692e; }
+  .q-consent { font-size: 13px; color: #555555; margin: 12px 0 0; text-align: center; }
+  .track-notice {
+    position: fixed;
+    left: 12px;
+    right: 12px;
+    bottom: 12px;
+    z-index: 60;
+    max-width: 560px;
+    margin: 0 auto;
+    padding: 12px 14px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    background: #ffffff;
+    border-radius: 10px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+    font-size: 13px;
+    line-height: 1.4;
+  }
+  .track-notice[hidden] { display: none; }
+  .track-notice p { margin: 0; flex: 1; }
+  .track-notice button {
+    border: 0;
+    border-radius: 8px;
+    padding: 10px 16px;
+    background: #1e8e3e;
+    color: #ffffff;
+    font: inherit;
+    font-weight: 700;
+    cursor: pointer;
+  }
+  .track-notice .decline { background: #e8e8e8; color: #111111; }
+  @media (max-width: 640px) {
+    .track-notice { flex-wrap: wrap; }
+    .track-notice p { flex-basis: 100%; }
+    .track-notice button { flex: 1; }
+    .track-notice { bottom: calc(84px + env(safe-area-inset-bottom)); }
+  }
   /* "How it works" offer list: one card per thing the client gets, green tick drawn in CSS. */
   .offer-sub {
     text-align: center;
@@ -418,6 +470,23 @@
     background: #1e8e3e;
     transition: width 0.2s;
   }
+  .q-kicker { margin: 0 0 12px 0; font-size: 14px; font-weight: 700; color: #17692e; text-align: center; }
+  .q-back {
+    display: block;
+    margin: -12px 0 14px 0;
+    padding: 4px 0;
+    background: none;
+    border: 0;
+    font: inherit;
+    font-size: 14px;
+    color: #555555;
+    cursor: pointer;
+  }
+  .q-back[hidden] { display: none; }
+  .q-plan { margin: 0 0 16px 0; padding: 0 0 0 20px; }
+  .q-plan li { margin-bottom: 8px; }
+  .q-proof { margin: 0 0 18px 0; padding: 12px 14px; background: #f0f7f2; border-radius: 8px; font-size: 15px; }
+  .q-go, .q-reopen { width: 100%; border: 0; font-family: inherit; cursor: pointer; }
   .q-title {
     font-size: 21px;
     font-weight: 700;
@@ -456,8 +525,9 @@
   .q-step input:focus { outline: none; border-color: #1e8e3e; }
   .q-step .cta { border: 0; font-family: inherit; font-size: 19px; padding: 18px; }
 </style>
-<!-- Meta Pixel Code -->
+<!-- Meta Pixel Code: only runs after the visitor accepts on the tracking banner (see loadPixel callers). -->
 <script>
+function loadPixel() {
 !function(f,b,e,v,n,t,s)
 {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
 n.callMethod.apply(n,arguments):n.queue.push(arguments)};
@@ -468,10 +538,8 @@ s.parentNode.insertBefore(t,s)}(window, document,'script',
 'https://connect.facebook.net/en_US/fbevents.js');
 fbq('init', '2108190136470078');
 fbq('track', 'PageView');
+}
 </script>
-<noscript><img height="1" width="1" style="display:none"
-src="https://www.facebook.com/tr?id=2108190136470078&ev=PageView&noscript=1"
-/></noscript>
 <!-- End Meta Pixel Code -->
 </head>
 <body>
@@ -486,46 +554,89 @@ src="https://www.facebook.com/tr?id=2108190136470078&ev=PageView&noscript=1"
   <!-- VSL video. Shows the thumbnail image; loadVSL() swaps in the real YouTube player on click. -->
   <div class="video-wrap" id="vsl">
     <button class="video-facade" onclick="loadVSL()" aria-label="Play the video">
-      <img src="Assets/youtube_thumb.jpg?v=2" alt="Watch the video" fetchpriority="high">
+      <img src="Assets/youtube_thumb.jpg?v=3" alt="Watch the video" fetchpriority="high">
       <span class="play-btn"></span>
     </button>
   </div>
 
-  <!-- Booking quiz. Q1 is an easy click so nobody runs away, Q2 and Q5 filter out people who
-       will never buy (data-out sends them to the "not right now" screen), Q6 stops under-18s, then name, phone and
-       email, then Calendly opens with those details filled in. -->
+  <!-- Booking quiz, a small decision tree. data-next on a step is where it goes next; data-next on
+       an answer overrides that (this is the branching). data-a saves the answer under a shared name.
+       Route: goal > goal detail (skipped for "All of the above") > blocker > tried > coach gap (only if
+       they had a coach) > days > approach > ready > age > personal result > name > phone > email >
+       Calendly. "out" and "out-age" are the not-right-now screens. No contact details are asked for
+       until after the age check, and nothing is sent until the email step. -->
   <div class="quiz" id="quiz">
     <div class="quiz-box">
+      <p class="q-kicker">See if we are a fit. Takes about 1 minute.</p>
       <div class="quiz-bar"><span id="quizBar"></span></div>
+      <button type="button" class="q-back" id="quizBack" hidden>&larr; Back</button>
 
-      <div class="q-step" data-q="goal">
+      <div class="q-step" data-q="goal" data-next="blocker">
         <p class="q-title">What is your #1 goal for the next 180 days?</p>
-        <button class="q-opt">Better physique</button>
-        <button class="q-opt">More strength</button>
-        <button class="q-opt">Better health</button>
-        <button class="q-opt">All of the above</button>
+        <button class="q-opt" data-next="physique">Better physique</button>
+        <button class="q-opt" data-next="strength">More strength</button>
+        <button class="q-opt" data-next="health">Better health</button>
+        <button class="q-opt" data-next="blocker">All of the above</button>
       </div>
 
-      <div class="q-step" data-q="blocker" hidden>
+      <div class="q-step" data-q="physique" data-a="goalDetail" data-next="blocker" hidden>
+        <p class="q-title">What do you want to change most?</p>
+        <button class="q-opt">Build muscle</button>
+        <button class="q-opt">Lose fat</button>
+        <button class="q-opt">Both</button>
+      </div>
+
+      <div class="q-step" data-q="strength" data-a="goalDetail" data-next="blocker" hidden>
+        <p class="q-title">What are you training for?</p>
+        <button class="q-opt">Bigger squat, bench and deadlift</button>
+        <button class="q-opt">Compete in powerlifting</button>
+        <button class="q-opt">General strength</button>
+      </div>
+
+      <div class="q-step" data-q="health" data-a="goalDetail" data-next="blocker" hidden>
+        <p class="q-title">What matters most to you?</p>
+        <button class="q-opt">More energy</button>
+        <button class="q-opt">Feeling better in my body</button>
+        <button class="q-opt">Building a long term habit</button>
+      </div>
+
+      <div class="q-step" data-q="blocker" data-next="tried" hidden>
         <p class="q-title">What is holding you back the most right now?</p>
         <button class="q-opt">Training</button>
         <button class="q-opt">Nutrition</button>
         <button class="q-opt">Recovery</button>
         <button class="q-opt">Not enough time or energy</button>
         <button class="q-opt">All of the above</button>
-        <button class="q-opt" data-out>I am not training right now</button>
+        <button class="q-opt" data-next="out">I am not training right now</button>
       </div>
 
-      <div class="q-step" data-q="tried" hidden>
+      <div class="q-step" data-q="tried" data-next="days" hidden>
         <p class="q-title">What have you tried so far?</p>
         <button class="q-opt">Followed a free program</button>
         <button class="q-opt">Made my own program</button>
-        <button class="q-opt">Had a coach before</button>
+        <button class="q-opt" data-next="coachGap">Had a coach before</button>
         <button class="q-opt">Just starting out</button>
       </div>
 
+      <div class="q-step" data-q="coachGap" data-next="days" hidden>
+        <p class="q-title">What was missing last time?</p>
+        <button class="q-opt">The program was not personalised</button>
+        <button class="q-opt">Not enough feedback</button>
+        <button class="q-opt">It cost too much for what I got</button>
+        <button class="q-opt">I stopped following it</button>
+      </div>
+
+      <div class="q-step" data-q="days" data-next="approach" hidden>
+        <p class="q-title">How many days a week can you realistically train?</p>
+        <button class="q-opt">1 to 2 days</button>
+        <button class="q-opt">3 days</button>
+        <button class="q-opt">4 days</button>
+        <button class="q-opt">5 or more days</button>
+        <button class="q-opt" data-next="out">I cannot commit to any right now</button>
+      </div>
+
       <!-- Red flag question: nobody is filtered out, but the last answer warns you before the call. -->
-      <div class="q-step" data-q="approach" hidden>
+      <div class="q-step" data-q="approach" data-next="ready" hidden>
         <p class="q-title">How do you usually approach a new training program?</p>
         <button class="q-opt">I give it my all, even if progress takes time</button>
         <button class="q-opt">I like a clear plan but know it might need adjusting along the way</button>
@@ -533,27 +644,35 @@ src="https://www.facebook.com/tr?id=2108190136470078&ev=PageView&noscript=1"
         <button class="q-opt">I get frustrated if I do not see results fast and usually move on</button>
       </div>
 
-      <div class="q-step" data-q="ready" hidden>
+      <div class="q-step" data-q="ready" data-next="age" hidden>
         <p class="q-title">If we are a good fit, how soon would you want to start?</p>
         <button class="q-opt">Right away</button>
         <button class="q-opt">Within the next month</button>
-        <button class="q-opt" data-out>Just looking for free tips for now</button>
+        <button class="q-opt" data-next="out">Just looking for free tips for now</button>
       </div>
 
       <!-- Age gate: comes before any personal details, so under-18s never reach the form. -->
-      <div class="q-step" data-q="age" hidden>
+      <div class="q-step" data-q="age" data-next="result" hidden>
         <p class="q-title">Are you 18 or over?</p>
         <button class="q-opt">Yes, I am 18 or over</button>
-        <button class="q-opt" data-out>No, I am under 18</button>
+        <button class="q-opt" data-next="out-age">No, I am under 18</button>
       </div>
 
-      <form class="q-step" data-q="name" hidden>
+      <!-- Personal result: filled in by buildResult() from their answers. -->
+      <div class="q-step" data-q="result" data-next="name" hidden>
+        <p class="q-title">Here is where I would start with you</p>
+        <ul class="q-plan" id="quizPlan"></ul>
+        <p class="q-proof" id="quizProof"></p>
+        <button class="cta q-go" type="button">BOOK MY FREE CALL</button>
+      </div>
+
+      <form class="q-step" data-q="name" data-next="phone" hidden>
         <p class="q-title">Nice, you sound like a great fit. What is your name?</p>
         <input name="name" type="text" autocomplete="name" placeholder="Your name" required>
         <button class="cta" type="submit">NEXT</button>
       </form>
 
-      <form class="q-step" data-q="phone" hidden>
+      <form class="q-step" data-q="phone" data-next="email" hidden>
         <p class="q-title">What is the best number to reach you on?</p>
         <input name="phone" type="tel" autocomplete="tel" placeholder="Your phone number" required>
         <button class="cta" type="submit">NEXT</button>
@@ -563,11 +682,30 @@ src="https://www.facebook.com/tr?id=2108190136470078&ev=PageView&noscript=1"
         <p class="q-title">And your email? Your call details get sent here.</p>
         <input name="email" type="email" autocomplete="email" placeholder="you@example.com" required>
         <button class="cta" type="submit">PICK A TIME</button>
+        <p class="q-consent">By tapping PICK A TIME, you agree to us using your details to contact you about your call, as explained in our <a href="privacy.html" target="_blank" rel="noopener">Privacy Policy</a>.</p>
       </form>
 
-      <div class="q-step" data-q="out" hidden>
+      <!-- Shown behind the Calendly popup, so closing it does not lose the lead. -->
+      <div class="q-step" data-q="booking" data-end data-noback hidden>
+        <p class="q-title">Last step: pick a time</p>
+        <p class="q-text">Your calendar should be open. If you closed it, tap below to open it again.</p>
+        <button class="cta q-reopen" type="button">OPEN THE CALENDAR</button>
+      </div>
+
+      <div class="q-step" data-q="booked" data-end data-noback hidden>
+        <p class="q-title">Your call is booked</p>
+        <p class="q-text">Check your email for the details and add the call to your calendar. If a partner helps you make big decisions, bring them along. Come with any questions you have.</p>
+      </div>
+
+      <div class="q-step" data-q="out" data-end hidden>
         <p class="q-title">Thanks for being honest.</p>
         <p class="q-text">Coaching is probably not the right fit for you just yet. The free video on this page is the best place to start.</p>
+        <button class="cta" onclick="loadVSL(); document.getElementById('vsl').scrollIntoView({ behavior: 'smooth' });">WATCH THE FREE VIDEO</button>
+      </div>
+
+      <div class="q-step" data-q="out-age" data-end data-noback hidden>
+        <p class="q-title">Thanks for being honest.</p>
+        <p class="q-text">Coaching is for people aged 18 or over, so we cannot book you a call. You are welcome to watch the free video on this page.</p>
         <button class="cta" onclick="loadVSL(); document.getElementById('vsl').scrollIntoView({ behavior: 'smooth' });">WATCH THE FREE VIDEO</button>
       </div>
     </div>
@@ -807,6 +945,20 @@ src="https://www.facebook.com/tr?id=2108190136470078&ev=PageView&noscript=1"
 
 </div>
 
+<!-- Legal footer: business details and links to the separate legal pages. -->
+<footer class="site-footer">
+  <p>Results vary and are not guaranteed. Coaching is general fitness guidance, not medical advice.</p>
+  <p>&copy; 2026 Kitaan Reddy. ABN 38 808 734 344. <a href="mailto:kitaanreddybusiness@gmail.com">kitaanreddybusiness@gmail.com</a></p>
+  <p><a href="privacy.html">Privacy Policy</a> &middot; <a href="terms.html">Terms and Refunds</a> &middot; <a href="#" id="trackSettings">Tracking choices</a></p>
+</footer>
+
+<!-- Tracking banner: the Meta Pixel stays off until the visitor presses Accept. -->
+<div class="track-notice" id="trackNotice" role="region" aria-label="Tracking choices" hidden>
+  <p>Can we use the Meta Pixel to measure our ads and show them to people who may be interested? It shares data with Meta. See our <a href="privacy.html">Privacy Policy</a>.</p>
+  <button type="button" class="decline" id="trackDecline">Decline</button>
+  <button type="button" id="trackAccept">Accept</button>
+</div>
+
 <!-- Sticky book button, shown only on mobile (see the max-width:640px media query) so the
      call to action is always reachable on the long scroll. -->
 <div class="sticky-cta">
@@ -816,40 +968,114 @@ src="https://www.facebook.com/tr?id=2108190136470078&ev=PageView&noscript=1"
 <script>
   // Replace the thumbnail with the real YouTube player, only when clicked.
   // This is the speed win: the ~1.3MB YouTube player never loads until someone actually
-  // wants to watch. To change the video, swap the video ID (sxCRSgIqZc8) here AND regenerate
+  // wants to watch. To change the video, swap the video ID (Ol21tPFc6KI) here AND regenerate
   // Assets/youtube_thumb.jpg (see AIGUIDE.md). autoplay=1 makes it start on click.
   function loadVSL() {
     var w = document.getElementById("vsl");
-    w.innerHTML = '<iframe src="https://www.youtube-nocookie.com/embed/sxCRSgIqZc8?autoplay=1" title="VSL" allow="autoplay; encrypted-media; picture-in-picture; fullscreen" allowfullscreen></iframe>';
+    w.innerHTML = '<iframe src="https://www.youtube-nocookie.com/embed/Ol21tPFc6KI?autoplay=1" title="VSL" allow="autoplay; encrypted-media; picture-in-picture; fullscreen" allowfullscreen></iframe>';
   }
 
-  // Booking quiz. Steps are the .q-step blocks in order; the last one ("out") is the
-  // "not right now" screen for people who will not buy, so it is left out of the count.
+  // Booking quiz. See the comment above the quiz HTML for how the tree is wired.
   var quiz = document.getElementById("quiz");
-  var steps = quiz.querySelectorAll(".q-step");
-  var current = 0;
+  var quizBack = document.getElementById("quizBack");
+  var current = null;   // The step on screen.
+  var trail = [];       // Steps taken to get here, for the back button and the progress bar.
   var answers = {};
+  var quizStarted = false;
+  var calendlyPrefill = null;
   // Google Apps Script web app that adds each lead as a row in the "Kitaan Coaching Leads"
   // Google Sheet (see AIGUIDE.md). Empty means leads are not saved anywhere.
   var LEADS_URL = "https://script.google.com/macros/s/AKfycbxD4yUZn7M7hmctPI3-hh-MnzsLEoviMbEt2gPfLpj1W696hYq6YdOp_LQdjLuG-1c22Q/exec";
 
-  function showStep(i) {
-    current = i;
-    steps.forEach(function (s, n) { s.hidden = n !== i; });
-    document.getElementById("quizBar").style.width = Math.min(i + 1, steps.length - 1) / (steps.length - 1) * 100 + "%";
-    // Not on page load (i is 0 then), or the page would jump down to the quiz.
-    var first = steps[i].querySelector("input, button");
-    if (first && i) first.focus();
-  }
-  showStep(0);
+  function stepNamed(name) { return quiz.querySelector('.q-step[data-q="' + name + '"]'); }
+  function answerKey(step) { return step.dataset.a || step.dataset.q; }
 
-  // Multiple choice: save the answer, then go to the next question or the "out" screen.
+  function showStep(step) {
+    current = step;
+    quiz.querySelectorAll(".q-step").forEach(function (s) { s.hidden = s !== step; });
+    if (step.dataset.q === "result") buildResult();
+    quizBack.hidden = !trail.length || step.hasAttribute("data-noback");
+    // Progress: steps done against steps done plus the shortest route from here.
+    var left = 0;
+    for (var s = step; s.dataset.next; s = stepNamed(s.dataset.next)) left++;
+    var pct = step.hasAttribute("data-end") ? 100 : (trail.length + 1) / (trail.length + left + 2) * 100;
+    document.getElementById("quizBar").style.width = pct + "%";
+    // Not on page load (trail is empty then), or the page would jump down to the quiz.
+    var first = step.querySelector("input, button");
+    if (first && trail.length) first.focus();
+  }
+  function goTo(name) {
+    trail.push(current);
+    showStep(stepNamed(name));
+  }
+  showStep(stepNamed("goal"));
+
+  quizBack.addEventListener("click", function () {
+    var previous = trail.pop();
+    delete answers[answerKey(previous)];
+    showStep(previous);
+  });
+
+  // Personal result: one line for each thing they told us. Keep these to what the page already promises.
+  var PLAN_LINES = {
+    goalDetail: {
+      "Build muscle": "Training and calories set up to build muscle",
+      "Lose fat": "A flexible calorie target to lose fat while keeping your strength",
+      "Both": "Training and calories set up to lose fat and build muscle",
+      "Bigger squat, bench and deadlift": "A strength program for your squat, bench and deadlift, updated every week",
+      "Compete in powerlifting": "A powerlifting program built around your lifts and your competition goal",
+      "General strength": "A strength program built around your gym and your week",
+      "More energy": "Training and recovery planned around your energy",
+      "Feeling better in my body": "Training, food and mobility work planned to help you feel better",
+      "Building a long term habit": "A simple routine built to fit your life long term"
+    },
+    blocker: {
+      "Training": "A custom program, so you always know exactly what to do",
+      "Nutrition": "Flexible calorie tracking around the food you already eat",
+      "Recovery": "A stretching and mobility routine, with weekly adjustments to your plan",
+      "Not enough time or energy": "Sessions under an hour, slotted around your work",
+      "All of the above": "One plan covering your training, food and recovery"
+    },
+    coachGap: {
+      "The program was not personalised": "A program built for you, not recycled from someone else",
+      "Not enough feedback": "You film your sets and I review them",
+      "It cost too much for what I got": "Plan options to fit your budget, which we can go through on the call",
+      "I stopped following it": "Weekly 1:1 calls to keep you accountable"
+    },
+    days: {
+      "1 to 2 days": "A program built around 1 to 2 sessions a week",
+      "3 days": "A program built around 3 sessions a week",
+      "4 days": "A program built around 4 sessions a week",
+      "5 or more days": "A program that makes the most of your training days"
+    }
+  };
+  function buildResult() {
+    var plan = document.getElementById("quizPlan");
+    plan.textContent = "";
+    var lines = [answers.goal === "All of the above" ? "A plan covering your physique, strength and health" : ""];
+    ["goalDetail", "blocker", "coachGap", "days"].forEach(function (key) { lines.push(PLAN_LINES[key][answers[key]]); });
+    lines.forEach(function (text) {
+      if (!text) return;
+      var li = document.createElement("li");
+      li.textContent = text;
+      plan.appendChild(li);
+    });
+    document.getElementById("quizProof").textContent = (answers.goal === "More strength"
+      ? "Max D. went from total beginner to winning a first powerlifting meet in under 12 months."
+      : "Xiang P. went from 85kg to 70kg in under 10 months.") + " Individual results vary.";
+  }
+
+  // Multiple choice: save the answer, then follow the answer's own route or the step's route.
   quiz.addEventListener("click", function (e) {
-    var opt = e.target.closest(".q-opt");
+    if (e.target.closest(".q-reopen")) { openCalendly(null, calendlyPrefill); return; }
+    var opt = e.target.closest(".q-opt, .q-go");
     if (!opt) return;
-    answers[steps[current].dataset.q] = opt.textContent;
-    if (steps[current].dataset.q === "goal" && window.fbq) fbq("trackCustom", "QuizStart");
-    showStep(opt.hasAttribute("data-out") ? steps.length - 1 : current + 1);
+    if (opt.classList.contains("q-opt")) answers[answerKey(current)] = opt.textContent;
+    if (current.dataset.q === "goal" && !quizStarted) {
+      quizStarted = true;
+      if (window.fbq) fbq("trackCustom", "QuizStart");
+    }
+    goTo(opt.dataset.next || current.dataset.next);
   });
 
   // Name, phone, email. The browser's own required/email checks run before this fires.
@@ -858,12 +1084,14 @@ src="https://www.facebook.com/tr?id=2108190136470078&ev=PageView&noscript=1"
       e.preventDefault();
       var input = form.querySelector("input");
       answers[input.name] = input.value.trim();
-      if (input.name !== "email") { showStep(current + 1); return; }
+      if (input.name !== "email") { goTo(form.dataset.next); return; }
       // sendBeacon still delivers if they close the tab or Calendly takes over the screen.
       if (LEADS_URL) navigator.sendBeacon(LEADS_URL, new URLSearchParams(answers));
       if (window.fbq) fbq("track", "Lead");
       // a1 fills the FIRST custom question on the Calendly event, so make that question "Phone".
-      openCalendly(null, { name: answers.name, email: answers.email, customAnswers: { a1: answers.phone } });
+      calendlyPrefill = { name: answers.name, email: answers.email, customAnswers: { a1: answers.phone } };
+      goTo("booking");
+      openCalendly(null, calendlyPrefill);
     });
   });
 
@@ -913,10 +1141,34 @@ src="https://www.facebook.com/tr?id=2108190136470078&ev=PageView&noscript=1"
   }, { rootMargin: "300px" });
   lazyVideos.forEach(function (video) { observer.observe(video); });
 
+  // Tracking choice. No choice saved (or storage blocked) means the pixel stays off and the banner shows.
+  var trackNotice = document.getElementById("trackNotice");
+  var trackChoice = null;
+  try { trackChoice = localStorage.getItem("trackChoice"); } catch (err) {}
+  if (trackChoice === "yes") loadPixel();
+  trackNotice.hidden = !!trackChoice;
+  function saveTrackChoice(choice) {
+    try { localStorage.setItem("trackChoice", choice); } catch (err) {}
+    trackNotice.hidden = true;
+  }
+  document.getElementById("trackAccept").addEventListener("click", function () {
+    saveTrackChoice("yes");
+    loadPixel();
+  });
+  document.getElementById("trackDecline").addEventListener("click", function () {
+    saveTrackChoice("no");
+    if (window.fbq) location.reload(); // Only a reload stops a pixel that is already running.
+  });
+  document.getElementById("trackSettings").addEventListener("click", function (e) {
+    e.preventDefault();
+    trackNotice.hidden = false;
+  });
+
   // Meta Pixel: fire Schedule when Calendly confirms a booking.
   window.addEventListener("message", function (e) {
     if (e.origin === "https://calendly.com" && e.data && e.data.event === "calendly.event_scheduled") {
       if (window.fbq) fbq("track", "Schedule");
+      showStep(stepNamed("booked"));
     }
   });
 </script>

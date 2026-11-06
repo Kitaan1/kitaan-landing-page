@@ -1,4 +1,4 @@
-# Kitaan Coaching Landing Page
+# Kitaan Reddy Landing Page
 
 A single-page fitness landing page for a powerlifting and physique coaching offer. Goal: get visitors to watch the VSL video and click BOOK A CALL (Calendly). Built for a solo coach, no team.
 
@@ -9,6 +9,9 @@ Style note for anyone (or any AI) editing the docs or copy: do not use em dashes
 
 ## Files
 - `index.html` is the entire page. All CSS is in the `<style>` block in the head, all JS is in the `<script>` block at the bottom. Edit this one file for almost everything.
+- `privacy.html` and `terms.html` are the legal pages, linked from the footer and the quiz. Update them if the tools, data collected, contract or refund terms change.
+- `Assets/fonts/inter-latin.woff2` is the self-hosted Inter font. Do not go back to loading it from Google Fonts.
+- The Meta Pixel only loads after a visitor presses Accept on the tracking banner (`loadPixel()`). Do not move it back to running on page load.
 - `Assets/transformation1-4.png` are the ORIGINAL photos, no longer used on the page. Kept as backup only. Safe to ignore or delete.
 - `Assets/ba-NAME.webp` are the before/after photos (800x800, before on the left, after on the right, cropped tight on the body). `transformation1-4.webp` are no longer shown (Toby's and Max's before/afters were replaced by sharper versions).
 - `Assets/strength1-45.mp4` are client strength/PR clips, portrait phone videos (720x1280 or smaller). 28 to 45 are captioned Instagram story clips, compressed with `ffmpeg -i IN -vf "scale='min(720,iw)':-2" -c:v libx264 -crf 28 -preset slow -pix_fmt yuv420p -c:a aac -b:a 64k -movflags +faststart OUT`.
@@ -30,7 +33,7 @@ Style note for anyone (or any AI) editing the docs or copy: do not use em dashes
 
 ## How the tricky bits work
 - The VSL video is click-to-play on purpose. It shows `youtube_thumb.jpg` with a play button, and the real YouTube player only loads when clicked (the `loadVSL()` function). It is still a normal YouTube embed, just loaded on demand. Keep this pattern.
-- The booking quiz (`#quiz`, right under the VSL) sits on the page with its first question already showing, no button to click first. The other BOOK A CALL buttons are plain `href="#quiz"` links that scroll up to it. Q1 is an easy goal question, Q3 asks what they have tried so far and Q4 is a red flag question about how they approach a program (neither filters anyone; "I get frustrated if I do not see results fast" is the warning sign to look for in the sheet), Q2 and Q5 filter out people who are not training or only want free advice (any option with `data-out` sends them to a "not right now" screen that points to the free video). Then it asks name, phone and email, and opens Calendly with them filled in. The phone goes into Calendly's first custom question (`a1`), so keep "Phone" as the first question on the Calendly event. To change a question, edit its `.q-step` block in the HTML.
+- The booking quiz (`#quiz`, right under the VSL) sits on the page with its first question already showing, no button to click first. The other BOOK A CALL buttons are plain `href="#quiz"` links that scroll up to it. The quiz is a small decision tree: `data-next` on a step or answer sets where it goes next, so answers branch into follow-up questions, then a personal result screen (`buildResult()`), then name, phone and email, which opens Calendly. The comment above the quiz in `index.html` has the full route.
 - After the quiz, Calendly opens as a popup on the page (the `openCalendly()` function), not a new tab. The Calendly widget script only loads on the first click, so it costs nothing on initial page load. Every book button uses this.
 - Videos lazy-load. They only download when you scroll near them (the IntersectionObserver at the bottom of the script). Until then they show their poster image. Keep `preload="none"` on the `<video>` tags.
 
@@ -45,7 +48,7 @@ function doPost(e) {
   // The leading ' keeps phone numbers as text (no lost leading 0) and stops formulas.
   var text = function (v) { return "'" + (v || ""); };
   SpreadsheetApp.openById("1Fe-f-3hFeaIRXJT7Lo7-j_Dz6ZVGtFveQD-1gADQ9-U").getSheets()[0]
-    .appendRow([new Date(), text(p.name), text(p.phone), text(p.email), text(p.goal), text(p.blocker), text(p.ready), text(p.tried), text(p.approach)]);
+    .appendRow([new Date(), text(p.name), text(p.phone), text(p.email), text(p.goal), text(p.blocker), text(p.ready), text(p.tried), text(p.approach), text(p.goalDetail), text(p.coachGap), text(p.days)]);
   return ContentService.createTextOutput("ok");
 }
 ```
@@ -59,8 +62,8 @@ These were done deliberately to make the page load fast on mobile without losing
 - Problem: a normal embedded YouTube player downloads roughly 1.3MB of scripts on page load, before anyone even presses play. On mobile that is a major slowdown, and slow pages lose bookings.
 - What was done: instead of embedding the live player, the page shows a static image of the video (`Assets/youtube_thumb.jpg`) with a red play button drawn in CSS. The real YouTube iframe is only injected into the page when the visitor clicks it, via the `loadVSL()` function. It is still a genuine YouTube embed.
 - How the thumbnail was made: downloaded from YouTube's own thumbnail URL for the video.
-  `curl -o Assets/youtube_thumb.jpg "https://img.youtube.com/vi/sxCRSgIqZc8/maxresdefault.jpg"`
-  (Replace `sxCRSgIqZc8` with the new video ID if the video changes. When you replace the thumbnail, bump the `?v=` number on its `<img src>` in `index.html` so browsers do not keep showing the old cached one. If `maxresdefault.jpg` does not exist for a video, use `hqdefault.jpg` instead.)
+  `curl -o Assets/youtube_thumb.jpg "https://img.youtube.com/vi/Ol21tPFc6KI/maxresdefault.jpg"`
+  (Replace `Ol21tPFc6KI` with the new video ID if the video changes. When you replace the thumbnail, bump the `?v=` number on its `<img src>` in `index.html` so browsers do not keep showing the old cached one. If `maxresdefault.jpg` does not exist for a video, use `hqdefault.jpg` instead.)
 
 ### 2. Photos: converted from PNG to WebP
 - Problem: the original PNG photos were 730KB to 920KB each. That is heavy, especially on mobile data.
@@ -90,7 +93,7 @@ These were done deliberately to make the page load fast on mobile without losing
 
 ## Common edits, how to do them
 - Change the Calendly link: search for `calendly.com/kitaanreddy/30min` in `index.html` and replace every instance. It now appears only once, in the `openCalendly()` function in the JS.
-- Change the VSL video: replace `sxCRSgIqZc8` (the YouTube video ID) in the `loadVSL()` function, and regenerate `Assets/youtube_thumb.jpg` (see optimization 1 above).
+- Change the VSL video: replace `Ol21tPFc6KI` (the YouTube video ID) in the `loadVSL()` function, and regenerate `Assets/youtube_thumb.jpg` (see optimization 1 above).
 - Change the headline colours: edit the `.green` and `.red` spans inside the `<h1>`.
 - Add or remove a strength video: copy an existing `<video>` line and change the number, then generate its poster (see optimization 3). The first 8 show by default, the rest go inside `<div id="moreVideos">`.
 - Add photo captions: add a caption element under each `<img>` in the image grid. Specific numbers (timeframe, kg gained) are the most persuasive.
