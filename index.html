@@ -562,7 +562,7 @@ fbq('track', 'PageView');
   <!-- Booking quiz, a small decision tree. data-next on a step is where it goes next; data-next on
        an answer overrides that (this is the branching). data-a saves the answer under a shared name.
        Route: goal > goal detail (skipped for "All of the above") > blocker > tried > coach gap (only if
-       they had a coach) > days > approach > ready > age > personal result > name > phone > email >
+       they had a coach) > days > approach > ready > commit > age > personal result > name > phone > email >
        Calendly. "out" and "out-age" are the not-right-now screens. No contact details are asked for
        until after the age check, and nothing is sent until the email step. -->
   <div class="quiz" id="quiz">
@@ -645,11 +645,19 @@ fbq('track', 'PageView');
         <button class="q-opt" data-next="out">I get frustrated if I do not see results fast and usually move on</button>
       </div>
 
-      <div class="q-step" data-q="ready" data-next="age" hidden>
+      <div class="q-step" data-q="ready" data-next="commit" hidden>
         <p class="q-title">If we are a good fit, how soon would you want to start?</p>
         <button class="q-opt">Right away</button>
         <button class="q-opt">Within the next month</button>
         <button class="q-opt" data-next="out">Just looking for free tips for now</button>
+      </div>
+
+      <!-- Matches the 3 or 6 month terms and the "This is not for you if" list. Only "yes" continues,
+           so the answer is not sent to the sheet. -->
+      <div class="q-step" data-q="commit" data-next="age" hidden>
+        <p class="q-title">Coaching runs for at least 3 months, and you track your food and film your main sets so I can coach you properly. Are you in?</p>
+        <button class="q-opt">Yes, I am in</button>
+        <button class="q-opt" data-next="out">No, that is not for me right now</button>
       </div>
 
       <!-- Age gate: comes before any personal details, so under-18s never reach the form. -->
