@@ -11,7 +11,7 @@ Style note for anyone (or any AI) editing the docs or copy: do not use em dashes
 - `index.html` is the entire page. All CSS is in the `<style>` block in the head, all JS is in the `<script>` block at the bottom. Edit this one file for almost everything.
 - `privacy.html` and `terms.html` are the legal pages, linked from the footer and the quiz. Update them if the tools, data collected, contract or refund terms change.
 - `Assets/fonts/inter-latin.woff2` is the self-hosted Inter font. Do not go back to loading it from Google Fonts.
-- The Meta Pixel only loads after a visitor presses Accept on the tracking banner (`loadPixel()`). Do not move it back to running on page load.
+- The Meta Pixel (`loadPixel()`) runs on page load for most visitors, with an opt-out under Tracking choices in the footer. Visitors from the EU, EEA, UK and Switzerland (`CONSENT_COUNTRIES`, country from Cloudflare's `/cdn-cgi/trace`) see the Accept/Decline banner first and the pixel stays off until they Accept. A saved choice always wins. If the country lookup fails, the banner shows.
 - `Assets/transformation1-4.png` are the ORIGINAL photos, no longer used on the page. Kept as backup only. Safe to ignore or delete.
 - `Assets/ba-NAME.webp` are the before/after photos (800x800, before on the left, after on the right, cropped tight on the body). `transformation1-4.webp` are no longer shown (Toby's and Max's before/afters were replaced by sharper versions).
 - `Assets/strength1-45.mp4` are client strength/PR clips, portrait phone videos (720x1280 or smaller). 28 to 45 are captioned Instagram story clips, compressed with `ffmpeg -i IN -vf "scale='min(720,iw)':-2" -c:v libx264 -crf 28 -preset slow -pix_fmt yuv420p -c:a aac -b:a 64k -movflags +faststart OUT`.

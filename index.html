@@ -522,7 +522,7 @@
   .q-step input:focus { outline: none; border-color: #1e8e3e; }
   .q-step .cta { border: 0; font-family: inherit; font-size: 19px; padding: 18px; }
 </style>
-<!-- Meta Pixel Code: only runs after the visitor accepts on the tracking banner (see loadPixel callers). -->
+<!-- Meta Pixel Code: runs straight away outside Europe; EU/EEA/UK/Swiss visitors must press Accept first (see the tracking script at the bottom). -->
 <script>
 function loadPixel() {
 !function(f,b,e,v,n,t,s)
@@ -899,10 +899,11 @@ fbq('track', 'PageView');
 <footer class="site-footer">
   <p>Results vary and are not guaranteed. Coaching is general fitness guidance, not medical advice.</p>
   <p>&copy; 2026 Kitaan Reddy. ABN 38 808 734 344. <a href="mailto:kitaanreddybusiness@gmail.com">kitaanreddybusiness@gmail.com</a></p>
+  <p>We use the Meta Pixel to measure our ads. You can turn it off under Tracking choices.</p>
   <p><a href="privacy.html">Privacy Policy</a> &middot; <a href="terms.html">Terms and Refunds</a> &middot; <a href="#" id="trackSettings">Tracking choices</a></p>
 </footer>
 
-<!-- Tracking banner: the Meta Pixel stays off until the visitor presses Accept. -->
+<!-- Tracking banner: shown to EU/EEA/UK/Swiss visitors before the pixel runs, and to anyone who taps Tracking choices. -->
 <div class="track-notice" id="trackNotice" role="region" aria-label="Tracking choices" hidden>
   <p>Can we use the Meta Pixel to measure our ads and show them to people who may be interested? It shares data with Meta. See our <a href="privacy.html">Privacy Policy</a>.</p>
   <button type="button" class="decline" id="trackDecline">Decline</button>
@@ -1041,12 +1042,21 @@ fbq('track', 'PageView');
   }, { rootMargin: "300px" });
   lazyVideos.forEach(function (video) { observer.observe(video); });
 
-  // Tracking choice. No choice saved (or storage blocked) means the pixel stays off and the banner shows.
+  // Tracking choice. A saved choice always wins. With no choice, Europe (where the law needs consent
+  // first) gets the banner and everyone else gets the pixel straight away, with the footer opt-out.
+  // Country comes from Cloudflare's /cdn-cgi/trace ("loc=AU"); if that fails, show the banner to be safe.
+  var CONSENT_COUNTRIES = "AT BE BG HR CY CZ DK EE FI FR DE GR HU IE IT LV LT LU MT NL PL PT RO SK SI ES SE IS LI NO GB CH".split(" ");
   var trackNotice = document.getElementById("trackNotice");
   var trackChoice = null;
   try { trackChoice = localStorage.getItem("trackChoice"); } catch (err) {}
   if (trackChoice === "yes") loadPixel();
-  trackNotice.hidden = !!trackChoice;
+  if (!trackChoice) {
+    fetch("/cdn-cgi/trace").then(function (r) { return r.text(); }).then(function (text) {
+      var country = (text.match(/^loc=([A-Z]{2})$/m) || [])[1];
+      if (!country || CONSENT_COUNTRIES.indexOf(country) !== -1) trackNotice.hidden = false;
+      else loadPixel();
+    }).catch(function () { trackNotice.hidden = false; });
+  }
   function saveTrackChoice(choice) {
     try { localStorage.setItem("trackChoice", choice); } catch (err) {}
     trackNotice.hidden = true;
